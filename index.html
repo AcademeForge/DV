@@ -1226,31 +1226,31 @@
         }).join('') + '</div></div>';
     }
 
-    document.getElementById('afdv-modal-content').innerHTML =
-      (a.cover_image ? '<img class="afdv-modal-cover" src="' + afdvEsc(a.cover_image) + '" alt="' + afdvEsc(a.title) + '" />' : '') +
-      '<div class="afdv-modal-body">' +
-      '<div class="afdv-modal-cat-label">' + afdvEsc(a.category || '') + '</div>' +
-      '<h2 class="afdv-modal-headline">' + afdvEsc(a.title) + '</h2>' +
-      <p class="afdv-modal-deck">' + afdvEsc(a.subtitle || '') + '</p>' +
-      '<div class="afdv-modal-byline">' +
-      (a.author_avatar ? '<img src="' + afdvEsc(a.author_avatar) + '" alt="' + afdvEsc(a.author || '') + '" />' : '') +
-      '<div><div class="afdv-modal-byline-name">' + afdvEsc(a.author || 'Anonymous') + '</div>' +
-      '<div class="afdv-modal-byline-meta">' + afdvEsc(dateStr) +
-      (updStr && updStr !== dateStr ? ' · Updated ' + afdvEsc(updStr) : '') +
-      ' · ' + afdvEsc(a.read_time || '') +
-      ' · 👁 ' + Number(a.view_count || 0).toLocaleString('en-IN') + ' views</div></div></div>' +
-      tocHtml +
-      '<div class="afdv-modal-prose">' + contentWithIds + '</div>' +
-      '<div class="afdv-share-bar">' +
-      '<span class="afdv-share-label">Share</span>' +
-      '<a class="afdv-share-btn" href="https://twitter.com/intent/tweet?text=' + shareTitle + '&url=' + shareUrl + '" target="_blank" rel="noopener">Twitter</a>' +
-      '<a class="afdv-share-btn" href="https://www.linkedin.com/shareArticle?mini=true&url=' + shareUrl + '&title=' + shareTitle + '" target="_blank" rel="noopener">LinkedIn</a>' +
-      '<a class="afdv-share-btn" href="https://wa.me/?text=' + shareTitle + '%20' + shareUrl + '" target="_blank" rel="noopener">WhatsApp</a>' +
-      '<button class="afdv-share-btn" id="afdv-copy-link-btn">Copy Link</button>' +
-      '</div>' +
-      relatedHtml +
-      '<div id="afdv-comments-area"></div>' +
-      '</div>';
+   document.getElementById('afdv-modal-content').innerHTML =
+  (a.cover_image ? '<img class="afdv-modal-cover" src="' + afdvEsc(a.cover_image) + '" alt="' + afdvEsc(a.title) + '" />' : '') +
+  '<div class="afdv-modal-body">' +
+  '<div class="afdv-modal-cat-label">' + afdvEsc(a.category || '') + '</div>' +
+  '<h2 class="afdv-modal-headline">' + afdvEsc(a.title) + '</h2>' +
+  '<p class="afdv-modal-deck">' + afdvEsc(a.subtitle || '') + '</p>' +
+  '<div class="afdv-modal-byline">' +
+  (a.author_avatar ? '<img src="' + afdvEsc(a.author_avatar) + '" alt="' + afdvEsc(a.author || '') + '" />' : '') +
+  '<div><div class="afdv-modal-byline-name">' + afdvEsc(a.author || 'Anonymous') + '</div>' +
+  '<div class="afdv-modal-byline-meta">' + afdvEsc(dateStr) +
+  (updStr && updStr !== dateStr ? ' · Updated ' + afdvEsc(updStr) : '') +
+  ' · ' + afdvEsc(a.read_time || '') +
+  ' · 👁 ' + Number(a.view_count || 0).toLocaleString('en-IN') + ' views</div></div></div>' +
+  tocHtml +
+  '<div class="afdv-modal-prose">' + contentWithIds + '</div>' +
+  '<div class="afdv-share-bar">' +
+  '<span class="afdv-share-label">Share</span>' +
+  '<a class="afdv-share-btn" href="https://twitter.com/intent/tweet?text=' + shareTitle + '&url=' + shareUrl + '" target="_blank" rel="noopener">Twitter</a>' +
+  '<a class="afdv-share-btn" href="https://www.linkedin.com/shareArticle?mini=true&url=' + shareUrl + '&title=' + shareTitle + '" target="_blank" rel="noopener">LinkedIn</a>' +
+  '<a class="afdv-share-btn" href="https://wa.me/?text=' + shareTitle + '%20' + shareUrl + '" target="_blank" rel="noopener">WhatsApp</a>' +
+  '<button class="afdv-share-btn" id="afdv-copy-link-btn">Copy Link</button>' +
+  '</div>' +
+  relatedHtml +
+  '<div id="afdv-comments-area"></div>' +
+  '</div>';
 
     var copyBtn = document.getElementById('afdv-copy-link-btn');
     if (copyBtn) {
