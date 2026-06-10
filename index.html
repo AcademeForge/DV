@@ -15,18 +15,18 @@
   <style>
     /* ── TOKENS ────────────────────────────────────── */
     :root {
-      --ink:       #0d0d0d;
-      --paper:     #f5f2eb;
-      --paper2:    #ede9e0;
-      --accent:    #c8392b;
-      --accent2:   #1a1a2e;
-      --muted:     #7a7060;
-      --border:    #d4cfc4;
-      --white:     #ffffff;
-      --serif:     'Playfair Display', Georgia, serif;
-      --sans:      'Inter', system-ui, sans-serif;
-      --mono:      'Space Mono', monospace;
-      --radius:    4px;
+      --ink:        #0d0d0d;
+      --paper:      #f5f2eb;
+      --paper2:     #ede9e0;
+      --accent:     #c8392b;
+      --accent2:    #1a1a2e;
+      --muted:      #7a7060;
+      --border:     #d4cfc4;
+      --white:      #ffffff;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', system-ui, sans-serif;
+      --mono:       'Space Mono', monospace;
+      --radius:     4px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -444,7 +444,7 @@
     }
     .ticker-inner {
       display: flex;
-      animation: ticker 30s linear infinite;
+      animation: ticker 60s linear infinite;
       white-space: nowrap;
     }
     .ticker-inner:hover { animation-play-state: paused; }
@@ -638,6 +638,68 @@
       border-radius: 12px;
     }
 
+    /* ── FOUNDERS SECTION ────────────────────────────── */
+    .founders-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .founders-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .founder-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .founder-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+      border-color: var(--accent);
+    }
+    .founder-role {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .founder-name {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .founder-brief {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .founder-action-text {
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .founder-action-text::after {
+      content: '→';
+      transition: transform var(--transition);
+    }
+    .founder-card:hover .founder-action-text::after {
+      transform: translateX(4px);
+    }
+
     /* ── LOADING / EMPTY ─────────────────────────────── */
     .articles-loading {
       max-width: 1200px; margin: 0 auto;
@@ -798,11 +860,22 @@
     .footer-links a:hover { color: var(--white); }
     .footer-bottom {
       max-width: 1200px; margin: 0 auto;
-      padding-top: 28px;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
     }
     .footer-bottom p { font-size: 0.8rem; }
+    .footer-credit {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .footer-credit span {
+      color: var(--accent);
+      font-weight: 700;
+    }
     .footer-counter {
       font-family: var(--mono);
       font-size: 0.72rem;
@@ -945,6 +1018,7 @@
       .hamburger { display: flex; }
       .articles-grid { grid-template-columns: 1fr 1fr; }
       .article-card.featured { grid-column: span 2; }
+      .founders-grid { grid-template-columns: 1fr; gap: 24px; }
       .footer-inner { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
@@ -955,7 +1029,7 @@
       .modal-body { padding: 24px 20px 36px; }
       .newsletter-form { flex-direction: column; }
       .footer-inner { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -965,7 +1039,6 @@
 </head>
 <body>
 
-<!-- ══ DOOR INTRO ══════════════════════════════════════════════ -->
 <div id="door-overlay" role="dialog" aria-label="Welcome to DéssentVerse">
   <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
     <div class="door-scene" id="door-scene">
@@ -985,10 +1058,8 @@
   </div>
 </div>
 
-<!-- ══ SITE ════════════════════════════════════════════════════ -->
 <div id="site">
 
-  <!-- HEADER -->
   <header class="site-header" id="site-header">
     <div class="header-inner">
       <a href="#" class="logo" onclick="showHome(event)">Dés<span>sent</span>Verse</a>
@@ -996,7 +1067,7 @@
       <nav>
         <a href="#articles" class="nav-link" onclick="scrollToArticles(event)">Articles</a>
         <a href="#about" class="nav-link" onclick="scrollToManifesto(event)">About</a>
-        <a href="#" class="nav-link">Categories</a>
+        <a href="#founders" class="nav-link" onclick="scrollToFounders(event)">Founders</a>
         <a href="#newsletter" class="nav-link" onclick="scrollToNewsletter(event)">Newsletter</a>
       </nav>
 
@@ -1012,22 +1083,18 @@
     </div>
   </header>
 
-  <!-- MOBILE NAV -->
   <div class="mobile-nav" id="mobile-nav">
     <a href="#articles" class="nav-link" onclick="closeMobileNav();scrollToArticles(event)">Articles</a>
-    <a href="#" class="nav-link" onclick="closeMobileNav()">About</a>
-    <a href="#" class="nav-link" onclick="closeMobileNav()">Categories</a>
+    <a href="#about" class="nav-link" onclick="closeMobileNav();scrollToManifesto(event)">About</a>
+    <a href="#founders" class="nav-link" onclick="closeMobileNav();scrollToFounders(event)">Founders</a>
     <a href="#newsletter" class="nav-link" onclick="closeMobileNav();scrollToNewsletter(event)">Newsletter</a>
   </div>
 
-  <!-- TICKER -->
   <div class="ticker-wrap">
     <div class="ticker-inner" id="ticker">
-      <!-- filled by JS -->
-    </div>
+      </div>
   </div>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-text">
       <div class="hero-eyebrow">Independent · Unfiltered · Necessary</div>
@@ -1068,22 +1135,17 @@
     </div>
   </section>
 
-  <!-- ARTICLES SECTION -->
   <a id="articles"></a>
   <div class="section-header">
     <h2 class="section-title">Latest <span>Voices</span></h2>
     <a href="#articles" class="section-link">All articles</a>
   </div>
 
-  <!-- FILTER TABS -->
   <div class="filter-tabs" id="filter-tabs">
     <button class="filter-tab active" data-cat="all" onclick="filterArticles('all', this)">All</button>
-    <!-- dynamic category tabs injected here -->
-  </div>
+    </div>
 
-  <!-- ARTICLES OUTPUT -->
   <div id="articles-output">
-    <!-- Skeleton loaders -->
     <div class="articles-loading" id="articles-skeleton">
       <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
       <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
@@ -1098,7 +1160,6 @@
     </div>
   </div>
 
-  <!-- MANIFESTO -->
   <a id="about"></a>
   <section class="manifesto">
     <div class="manifesto-inner">
@@ -1114,7 +1175,27 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
+  <a id="founders"></a>
+  <section class="founders-section">
+    <div class="section-header" style="padding: 0 0 16px 0;">
+      <h2 class="section-title">The <span>Minds</span> Behind the Verse</h2>
+    </div>
+    <div class="founders-grid">
+      <div class="founder-card" onclick="openFounderCard('palak')">
+        <div class="founder-role">Founder & Editor-in-Chief</div>
+        <div class="founder-name">Palak Kumari Jha</div>
+        <div class="founder-brief">Visionary investigative writer dedicated to amplifying narratives that run parallel to mainstream structural visibility.</div>
+        <div class="founder-action-text">Read background detail</div>
+      </div>
+      <div class="founder-card" onclick="openFounderCard('devraj')">
+        <div class="founder-role">Co-Founder & Director</div>
+        <div class="founder-name">Devraj Kumar</div>
+        <div class="founder-brief">Strategist focused on building dynamic architectural frameworks for unmonetized truth-telling and independent digital media layout design.</div>
+        <div class="founder-action-text">Read background detail</div>
+      </div>
+    </div>
+  </section>
+
   <a id="newsletter"></a>
   <section class="newsletter">
     <div class="newsletter-inner">
@@ -1129,7 +1210,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">
@@ -1150,7 +1230,7 @@
         <h4>About</h4>
         <div class="footer-links">
           <a href="#about" onclick="scrollToManifesto(event)">Manifesto</a>
-          <a href="#">Our Team</a>
+          <a href="#founders" onclick="scrollToFounders(event)">Our Team</a>
           <a href="#">Write For Us</a>
           <a href="#">Contact</a>
         </div>
@@ -1167,37 +1247,59 @@
     </div>
     <div class="footer-bottom">
       <p>© 2025 DéssentVerse. All rights reserved.</p>
+      <div class="footer-credit">Powered by <span>AcademeForge</span></div>
       <div class="footer-counter">
         Total visits: <strong id="footer-visits">loading…</strong>
       </div>
     </div>
   </footer>
 
-</div><!-- /site -->
-
-<!-- ARTICLE MODAL -->
-<div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
+</div><div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
   <div class="modal-inner" id="modal-inner">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close article">✕</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Close modal">✕</button>
     <div id="modal-content-area">
-      <div class="modal-loading">Loading article…</div>
+      <div class="modal-loading">Loading asset…</div>
     </div>
   </div>
 </div>
 
-<!-- SCROLL TO TOP -->
 <button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
 
 <script>
   // ── CONFIG ──────────────────────────────────────────────────
   const SUPABASE_URL  = 'https://nltmolhlwgsrxadknzzq.supabase.co';
   const ANON_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
-  // Edge function URL – update after deployment
   const API_BASE      = `${SUPABASE_URL}/functions/v1/api`;
 
   let allArticles   = [];
   let activeFilter  = 'all';
   let featuredSlug  = null;
+
+  // Demo dynamic founder content structure
+  const founderDetails = {
+    palak: {
+      title: "Founder & Editor-in-Chief",
+      name: "Palak Kumari Jha",
+      subtitle: "Journalist, Archivist, and Cultural Commentator",
+      bio: `
+        <p><strong>Palak Kumari Jha</strong> launched DéssentVerse out of a deep-seated commitment to structural storytelling. With years of groundwork investigating grassroots worker rights initiatives and institutional healthcare vacuums, she envisions this portal as a platform for communities missing from premium algorithms.</p>
+        <p>Her work emphasizes rigorous fact-verification and empathy-driven reports. As Editor-in-Chief, she shapes our narrative path, ensuring every piece meets uncompromising standards of independence.</p>
+        <h2>Editorial Pillars</h2>
+        <p>Palak works closely with global network groups to protect stringers reporting under difficult field constraints across remote sectors.</p>
+      `
+    },
+    devraj: {
+      title: "Co-Founder & Director",
+      name: "Devraj Kumar",
+      subtitle: "Systems Engineer & Media Infrastructure Lead",
+      bio: `
+        <p><strong>Devraj Kumar</strong> co-founded DéssentVerse to handle the technical implementation of independent speech systems. Believing that journalism needs specialized structural protection, he built this clean platform layout to run without trackers or high payload dependencies.</p>
+        <p>He manages our system architectures and open structural frameworks to keep alternative journalism responsive and accessible across varying mobile network speeds.</p>
+        <h2>Technical Architecture Blueprint</h2>
+        <p>Devraj maintains zero-tracker operations to safeguard reader privacy while optimizing content pipelines across our platform ecosystems.</p>
+      `
+    }
+  };
 
   // ── HELPERS ─────────────────────────────────────────────────
   async function callEdge(action, method = 'GET', body = null) {
@@ -1222,7 +1324,6 @@
     const overlay = document.getElementById('door-overlay');
     const site    = document.getElementById('site');
 
-    // Knock ripple effect on click
     function addRipple(e) {
       const r = document.createElement('div');
       r.className = 'knock-ripple';
@@ -1231,13 +1332,11 @@
     }
     scene.addEventListener('click', addRipple);
 
-    // Step 1: open doors after 600ms
     setTimeout(() => {
       scene.classList.add('open');
       welcome.classList.add('show');
     }, 600);
 
-    // Step 2: fade overlay & show site after 3s
     setTimeout(() => {
       overlay.classList.add('fade-out');
       site.classList.add('visible');
@@ -1266,6 +1365,7 @@
   // ── SCROLL HELPERS ──────────────────────────────────────────
   function scrollToArticles(e)   { e?.preventDefault(); document.getElementById('articles').scrollIntoView({behavior:'smooth'}); }
   function scrollToManifesto(e)  { e?.preventDefault(); document.getElementById('about').scrollIntoView({behavior:'smooth'}); }
+  function scrollToFounders(e)   { e?.preventDefault(); document.getElementById('founders').scrollIntoView({behavior:'smooth'}); }
   function scrollToNewsletter(e) { e?.preventDefault(); document.getElementById('newsletter').scrollIntoView({behavior:'smooth'}); }
   function showHome(e)           { e?.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
 
@@ -1275,7 +1375,7 @@
       ? articles.flatMap(a => a.tags || [a.category])
       : ['Mental Health','Labour Rights','Social Justice','Environment','Education','Gender Equity','Climate Change','Digital Rights'];
     const unique = [...new Set(topics)];
-    const set    = [...unique, ...unique]; // double for infinite scroll
+    const set    = [...unique, ...unique]; 
     const ticker = document.getElementById('ticker');
     ticker.innerHTML = set.map(t =>
       `<span class="ticker-item"><span>◆</span>${t}</span>`
@@ -1390,7 +1490,7 @@
     if (featuredSlug) openArticle(featuredSlug);
   }
 
-  // ── ARTICLE MODAL ───────────────────────────────────────────
+  // ── MODAL UTILITIES ───────────────────────────────────────────
   async function openArticle(slug) {
     const modal = document.getElementById('article-modal');
     const area  = document.getElementById('modal-content-area');
@@ -1405,6 +1505,24 @@
     } catch (err) {
       area.innerHTML = `<div class="modal-loading">Could not load article. Please try again.</div>`;
     }
+  }
+
+  function openFounderCard(key) {
+    const data = founderDetails[key];
+    if (!data) return;
+    
+    const modal = document.getElementById('article-modal');
+    const area  = document.getElementById('modal-content-area');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    area.innerHTML = `
+      <div class="modal-body">
+        <div class="modal-cat">${esc(data.title)}</div>
+        <h2 class="modal-title">${esc(data.name)}</h2>
+        <p class="modal-subtitle" style="margin-bottom:24px;">${esc(data.subtitle)}</p>
+        <div style="border-top:1px solid var(--border); padding-top:24px;" class="modal-content">${data.bio}</div>
+      </div>`;
   }
 
   function renderModal(a) {
@@ -1437,15 +1555,25 @@
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // ── VISITS ──────────────────────────────────────────────────
-  async function trackVisit() {
-    try {
-      const data = await callEdge('visit', 'POST');
-      if (data.success) updateVisitUI(data.visits);
-    } catch (e) { console.warn('Visit track failed', e); }
-  }
+  // ── TRAFFIC ANALYTICS CONTROLLER (1 VISIT / HOUR LIMIT) ──
+  async function handleVisits() {
+    const checkKey = 'dverse_last_hit';
+    const now = Date.now();
+    const oneHour = 60 * 60 * 1000;
+    const lastHit = localStorage.getItem(checkKey);
 
-  async function loadVisits() {
+    if (!lastHit || (now - parseInt(lastHit, 10)) > oneHour) {
+      try {
+        const data = await callEdge('visit', 'POST');
+        if (data.success) {
+          updateVisitUI(data.visits);
+          localStorage.setItem(checkKey, now.toString());
+          return;
+        }
+      } catch (e) { console.warn('Counter logging failure', e); }
+    }
+    
+    // Default fallback to keep frontend visual counter synced down
     try {
       const data = await callEdge('visits');
       if (data.success) updateVisitUI(data.visits);
@@ -1486,14 +1614,11 @@
   }
 
   // ── INIT ────────────────────────────────────────────────────
-  // Wait a moment for the door animation, then start fetching
   setTimeout(() => {
     loadArticles();
-    trackVisit();
-    loadVisits();
+    handleVisits();
   }, 500);
 
-  // Build initial ticker placeholder immediately
   buildTicker([]);
 </script>
 </body>
