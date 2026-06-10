@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DisséntVersé Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:       #0f1117;
+      --surface:  #171b27;
+      --surface2: #1f2434;
+      --border:   #2a2e42;
+      --text:     #e2e8f0;
+      --muted:    #7a8294;
+      --accent:   #c8392b;
+      --accent2:  #4f6ef7;
+      --green:    #22c55e;
+      --yellow:   #eab308;
+      --red:      #ef4444;
+      --serif:    'Playfair Display', Georgia, serif;
+      --sans:     'Inter', system-ui, sans-serif;
+      --mono:     'Space Mono', monospace;
+      --r:        6px;
+      --t:        0.22s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; color: inherit; }
+    input, select, textarea { font: inherit; color: inherit; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── LOGIN PAGE ─────────────────────────────────────────── */
+    #login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at 50% 0%, rgba(200,57,43,0.08) 0%, transparent 70%); padding: 20px; }
+    .login-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 44px 40px; width: 100%; max-width: 400px; }
+    .login-logo { font-family: var(--serif); font-size: 1.5rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+    .login-logo span { color: var(--accent); }
+    .login-label { font-size: 0.78rem; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 28px; }
+    .login-box h2 { font-size: 1.15rem; font-weight: 600; margin-bottom: 22px; }
+    .lf-group { margin-bottom: 16px; }
+    .lf-group label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+    .lf-input { width: 100%; padding: 10px 14px; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--r); font-size: 0.9rem; color: var(--text); outline: none; transition: border-color var(--t); }
+    .lf-input:focus { border-color: var(--accent); }
+    .login-btn { width: 100%; padding: 11px; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.9rem; border-radius: var(--r); transition: background var(--t); margin-top: 6px; letter-spacing: 0.02em; }
+    .login-btn:hover { background: #a52d21; }
+    .login-btn:disabled { opacity: 0.55; pointer-events: none; }
+    #login-error { font-size: 0.82rem; color: var(--red); margin-top: 10px; display: none; }
+    .login-note { font-size: 0.75rem; color: var(--muted); margin-top: 16px; text-align: center; }
+
+    /* ── ADMIN SHELL ────────────────────────────────────────── */
+    #admin-shell { display: none; min-height: 100vh; }
+    #admin-shell.active { display: flex; }
+
+    /* SIDEBAR */
+    .sidebar { width: 220px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; z-index: 50; }
+    .sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-brand .logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 900; color: var(--text); }
+    .sidebar-brand .logo span { color: var(--accent); }
+    .sidebar-brand p { font-size: 0.68rem; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; }
+    .sidebar-nav { padding: 16px 12px; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav-group { font-size: 0.62rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 12px 8px 6px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--r); font-size: 0.86rem; color: var(--muted); transition: all var(--t); cursor: pointer; }
+    .nav-item:hover { background: var(--surface2); color: var(--text); }
+    .nav-item.active { background: rgba(200,57,43,0.12); color: var(--accent); }
+    .nav-item .icon { font-size: 0.95rem; width: 18px; text-align: center; }
+    .nav-badge { margin-left: auto; background: var(--accent); color: #fff; font-size: 0.62rem; padding: 1px 6px; border-radius: 10px; font-family: var(--mono); }
+    .sidebar-footer { padding: 14px 16px; border-top: 1px solid var(--border); }
+    .sidebar-user { display: flex; align-items: center; gap: 10px; }
+    .sidebar-user-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #fff; }
+    .sidebar-user-info { min-width: 0; }
+    .sidebar-user-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .sidebar-user-role { font-size: 0.68rem; color: var(--muted); }
+    .logout-btn { margin-left: auto; font-size: 0.72rem; color: var(--muted); padding: 4px 8px; border-radius: var(--r); border: 1px solid var(--border); transition: all var(--t); }
+    .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+    /* MAIN CONTENT */
+    .admin-main { margin-left: 220px; flex: 1; min-height: 100vh; overflow-y: auto; }
+    .admin-header { padding: 20px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface); position: sticky; top: 0; z-index: 20; }
+    .admin-header h1 { font-family: var(--serif); font-size: 1.25rem; font-weight: 900; }
+    .admin-header .header-right { display: flex; align-items: center; gap: 10px; }
+    .view-site-btn { font-size: 0.78rem; padding: 6px 14px; border-radius: var(--r); border: 1.5px solid var(--border); color: var(--muted); transition: all var(--t); }
+    .view-site-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+    .admin-content { padding: 28px; }
+
+    /* ── COMPONENTS ─────────────────────────────────────────── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* STAT CARDS */
+    .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+    .stat-card-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--mono); margin-bottom: 8px; }
+    .stat-card-value { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--text); }
+    .stat-card-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+    /* TABLE */
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .table-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .table-title { font-size: 0.9rem; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--bg); }
+    th { padding: 11px 16px; font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; white-space: nowrap; }
+    td { padding: 12px 16px; font-size: 0.85rem; border-top: 1px solid var(--border); vertical-align: middle; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .td-title { max-width: 240px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .td-cat { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .td-actions { display: flex; gap: 6px; }
+
+    /* BADGES */
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: 0.68rem; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .badge-published { background: rgba(34,197,94,0.12); color: var(--green); }
+    .badge-draft { background: rgba(234,179,8,0.12); color: var(--yellow); }
+    .badge-scheduled { background: rgba(79,110,247,0.12); color: var(--accent2); }
+    .badge-pending { background: rgba(234,179,8,0.12); color: var(--yellow); }
+    .badge-approved { background: rgba(34,197,94,0.12); color: var(--green); }
+    .badge-rejected { background: rgba(239,68,68,0.12); color: var(--red); }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--r); font-size: 0.82rem; font-weight: 600; transition: all var(--t); }
+    .btn-sm { padding: 5px 12px; font-size: 0.78rem; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #a52d21; }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--muted); }
+    .btn-danger { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+    .btn-danger:hover { background: rgba(239,68,68,0.2); }
+    .btn-success { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+    .btn-success:hover { background: rgba(34,197,94,0.2); }
+    .btn:disabled { opacity: 0.5; pointer-events: none; }
+
+    /* FORM FIELDS */
+    .form-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+    .form-section-title { font-size: 0.82rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .field-group { margin-bottom: 16px; }
+    .field-group label { display: block; font-size: 0.78rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+    .field-input, .field-select, .field-textarea { width: 100%; padding: 9px 13px; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--r); font-size: 0.88rem; color: var(--text); outline: none; transition: border-color var(--t); }
+    .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--accent2); }
+    .field-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .field-textarea.tall { min-height: 320px; font-size: 0.84rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .field-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+
+    /* TAGS INPUT */
+    .tags-input-wrap { display: flex; flex-wrap: wrap; gap: 6px; padding: 7px 10px; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--r); min-height: 40px; cursor: text; transition: border-color var(--t); }
+    .tags-input-wrap:focus-within { border-color: var(--accent2); }
+    .tag-chip { display: flex; align-items: center; gap: 4px; padding: 2px 10px; background: rgba(79,110,247,0.15); border-radius: 12px; font-size: 0.75rem; color: var(--accent2); }
+    .tag-chip button { font-size: 0.8rem; color: var(--accent2); opacity: 0.7; line-height: 1; }
+    .tag-chip button:hover { opacity: 1; }
+    .tags-text-input { border: none; background: transparent; outline: none; font-size: 0.85rem; color: var(--text); min-width: 100px; flex: 1; padding: 2px; }
+
+    /* CATEGORY PRESETS */
+    .cat-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .cat-preset { padding: 4px 10px; border-radius: 14px; font-size: 0.72rem; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all var(--t); }
+    .cat-preset:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(79,110,247,0.08); }
+
+    /* ARTICLE EDITOR TOPBAR */
+    .editor-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+    .editor-topbar h2 { font-family: var(--serif); font-size: 1.1rem; font-weight: 900; }
+    .editor-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* TOAST */
+    #toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+    .toast-msg { padding: 11px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; color: #fff; transform: translateX(120%); transition: transform 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.35); max-width: 320px; }
+    .toast-msg.show { transform: translateX(0); }
+    .toast-msg.success { background: #16a34a; }
+    .toast-msg.error   { background: #dc2626; }
+    .toast-msg.info    { background: #2563eb; }
+
+    /* PAGINATION */
+    .pagination { display: flex; align-items: center; gap: 6px; padding: 14px 18px; border-top: 1px solid var(--border); }
+    .page-btn { padding: 5px 11px; border-radius: var(--r); border: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); transition: all var(--t); }
+    .page-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+    .page-btn.active { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+    .page-info { font-size: 0.78rem; color: var(--muted); margin-left: auto; font-family: var(--mono); }
+
+    /* APP DETAIL PANEL */
+    .detail-panel { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin-top: 14px; display: none; }
+    .detail-panel.open { display: block; }
+    .detail-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-key { font-size: 0.75rem; color: var(--muted); min-width: 130px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+    .detail-val { font-size: 0.88rem; color: var(--text); flex: 1; word-break: break-word; }
+
+    /* SEARCH BAR */
+    .search-bar { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--r); padding: 7px 12px; flex: 1; max-width: 280px; }
+    .search-bar input { border: none; background: transparent; outline: none; font-size: 0.85rem; color: var(--text); width: 100%; }
+    .search-bar input::placeholder { color: var(--muted); }
+    .search-bar span { color: var(--muted); font-size: 0.85rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); transition: transform var(--t); }
+      .sidebar.open { transform: translateX(0); }
+      .admin-main { margin-left: 0; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) { .stat-grid { grid-template-columns: 1fr; } }
+
+    .loading-spinner { text-align: center; padding: 40px; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
+    .empty-row td { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 32px; }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="login-page">
+  <div class="login-box">
+    <div class="login-logo">Dis<span>sent</span>Verse</div>
+    <div class="login-label">Admin Console</div>
+    <h2>Sign in to continue</h2>
+    <div class="lf-group">
+      <label>Username</label>
+      <input type="text" class="lf-input" id="l-user" placeholder="admin username" autocomplete="username" />
+    </div>
+    <div class="lf-group">
+      <label>Password</label>
+      <input type="password" class="lf-input" id="l-pass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In →</button>
+    <div id="login-error">Invalid username or password. Please try again.</div>
+    <p class="login-note">Access restricted. No self-registration allowed.</p>
+  </div>
+</div>
+
+<!-- ADMIN SHELL -->
+<div id="admin-shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">Dis<span>sent</span>Verse</div>
+      <p>Admin Console</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-nav-group">Overview</div>
+      <div class="nav-item active" data-page="dashboard" onclick="switchPage('dashboard',this)"><span class="icon">📊</span>Dashboard</div>
+      <div class="sidebar-nav-group">Content</div>
+      <div class="nav-item" data-page="articles" onclick="switchPage('articles',this)"><span class="icon">📰</span>Articles</div>
+      <div class="nav-item" data-page="new-article" onclick="switchPage('new-article',this)"><span class="icon">✍️</span>New Article</div>
+      <div class="sidebar-nav-group">Community</div>
+      <div class="nav-item" data-page="comments" onclick="switchPage('comments',this)"><span class="icon">💬</span>Comments<span class="nav-badge" id="pending-badge" style="display:none">0</span></div>
+      <div class="nav-item" data-page="applications" onclick="switchPage('applications',this)"><span class="icon">📋</span>Applications<span class="nav-badge" id="app-badge" style="display:none">0</span></div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar" id="user-initial">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-display-name">Admin</div>
+          <div class="sidebar-user-role" id="user-role-badge">admin</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1 id="page-title">Dashboard</h1>
+      <div class="header-right">
+        <a href="index.html" target="_blank" class="view-site-btn">↗ View Site</a>
+      </div>
+    </div>
+    <div class="admin-content">
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <div class="stat-grid" id="stat-grid">
+          <div class="stat-card"><div class="stat-card-label">Total Articles</div><div class="stat-card-value" id="st-articles">—</div><div class="stat-card-sub">Published content</div></div>
+          <div class="stat-card"><div class="stat-card-label">Total Visits</div><div class="stat-card-value" id="st-visits">—</div><div class="stat-card-sub">All time</div></div>
+          <div class="stat-card"><div class="stat-card-label">Comments</div><div class="stat-card-value" id="st-comments">—</div><div class="stat-card-sub">All articles</div></div>
+          <div class="stat-card"><div class="stat-card-label">Applications</div><div class="stat-card-value" id="st-apps">—</div><div class="stat-card-sub">Pending review</div></div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-header"><span class="table-title">Recent Articles</span><button class="btn btn-sm btn-primary" onclick="switchPage('new-article',null)">+ New Article</button></div>
+          <table><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Published</th><th>Actions</th></tr></thead>
+          <tbody id="recent-articles-tbody"><tr><td colspan="6" style="text-align:center;padding:28px;color:var(--muted);">Loading…</td></tr></tbody></table>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" id="cat-chart-wrap">
+          <div class="table-wrap" style="padding:20px;">
+            <div class="form-section-title" style="margin-bottom:14px;">Articles by Category</div>
+            <div id="cat-bar-chart"></div>
+          </div>
+          <div class="table-wrap" style="padding:20px;">
+            <div class="form-section-title" style="margin-bottom:14px;">Quick Actions</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <button class="btn btn-primary" onclick="switchPage('new-article',null)" style="justify-content:flex-start;">✍️  Write New Article</button>
+              <button class="btn btn-secondary" onclick="switchPage('applications',null)" style="justify-content:flex-start;">📋  Review Applications</button>
+              <button class="btn btn-secondary" onclick="switchPage('comments',null)" style="justify-content:flex-start;">💬  Moderate Comments</button>
+              <button class="btn btn-secondary" onclick="switchPage('articles',null)" style="justify-content:flex-start;">📰  Manage All Articles</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTICLES LIST PAGE -->
+      <div class="page" id="page-articles">
+        <div class="table-wrap">
+          <div class="table-header">
+            <span class="table-title">All Articles</span>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <select class="field-select" id="art-status-filter" onchange="loadAdminArticles(1)" style="width:auto;padding:6px 10px;font-size:0.82rem;">
+                <option value="">All Status</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+                <option value="scheduled">Scheduled</option>
+              </select>
+              <button class="btn btn-sm btn-primary" onclick="switchPage('new-article',null)">+ New Article</button>
+            </div>
+          </div>
+          <div id="articles-table-wrap"><div class="loading-spinner">Loading…</div></div>
+          <div class="pagination" id="articles-pagination" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- NEW / EDIT ARTICLE PAGE -->
+      <div class="page" id="page-new-article">
+        <div class="editor-topbar">
+          <h2 id="editor-heading">New Article</h2>
+          <div class="editor-actions">
+            <button class="btn btn-secondary" onclick="resetArticleForm()">Reset</button>
+            <button class="btn btn-secondary" onclick="saveArticle('draft')">Save Draft</button>
+            <button class="btn btn-primary" id="publish-btn" onclick="saveArticle('published')">Publish →</button>
+          </div>
+        </div>
+
+        <input type="hidden" id="art-id" value="" />
+
+        <div class="form-section">
+          <div class="form-section-title">Basic Information</div>
+          <div class="field-group">
+            <label>Title *</label>
+            <input type="text" class="field-input" id="art-title" placeholder="Write a compelling headline…" oninput="autoSlug(this.value)" />
+          </div>
+          <div class="field-group">
+            <label>Subtitle / Excerpt</label>
+            <input type="text" class="field-input" id="art-subtitle" placeholder="One-sentence description…" />
+          </div>
+          <div class="two-col">
+            <div class="field-group">
+              <label>Category *</label>
+              <select class="field-select" id="art-category">
+                <option value="">— Select Category —</option>
+                <option>Mental Health</option>
+                <option>Labour Rights</option>
+                <option>Social Justice</option>
+                <option>Environment</option>
+                <option>Education</option>
+                <option>Gender & Equality</option>
+                <option>Digital Rights</option>
+                <option>Healthcare</option>
+                <option>Politics</option>
+                <option>Economics</option>
+                <option>Climate Change</option>
+                <option>Rural India</option>
+                <option>LGBTQ+</option>
+                <option>Caste & Discrimination</option>
+                <option>Child Rights</option>
+                <option>Disability Rights</option>
+                <option>Media Critique</option>
+                <option>Science & Society</option>
+                <option>Law & Justice</option>
+                <option>Urban Issues</option>
+              </select>
+              <div class="cat-presets" id="cat-quick">
+                <span style="font-size:0.7rem;color:var(--muted);margin-right:2px;">Quick:</span>
+                <span class="cat-preset" onclick="setCategory('Mental Health')">Mental Health</span>
+                <span class="cat-preset" onclick="setCategory('Labour Rights')">Labour Rights</span>
+                <span class="cat-preset" onclick="setCategory('Environment')">Environment</span>
+                <span class="cat-preset" onclick="setCategory('Social Justice')">Social Justice</span>
+                <span class="cat-preset" onclick="setCategory('Education')">Education</span>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Status</label>
+              <select class="field-select" id="art-status">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+                <option value="scheduled">Scheduled</option>
+              </select>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field-group">
+              <label>Slug (auto-generated)</label>
+              <input type="text" class="field-input" id="art-slug" placeholder="url-friendly-title" />
+            </div>
+            <div class="field-group">
+              <label>Reading Time</label>
+              <input type="text" class="field-input" id="art-readtime" placeholder="e.g. 6 min read" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Author</div>
+          <div class="two-col">
+            <div class="field-group">
+              <label>Author Name</label>
+              <input type="text" class="field-input" id="art-author" placeholder="Author full name" />
+            </div>
+            <div class="field-group">
+              <label>Author Avatar URL</label>
+              <input type="url" class="field-input" id="art-avatar" placeholder="https://…" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Media</div>
+          <div class="field-group">
+            <label>Cover Image URL</label>
+            <input type="url" class="field-input" id="art-cover" placeholder="https://images.unsplash.com/…" />
+            <div class="field-hint">Use Unsplash, Cloudinary, or any direct image URL</div>
+          </div>
+          <div id="cover-preview" style="margin-top:10px;display:none;"><img id="cover-img-preview" src="" alt="cover preview" style="width:100%;max-height:160px;object-fit:cover;border-radius:6px;" /></div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Tags</div>
+          <div class="field-group">
+            <label>Tags (press Enter or comma to add)</label>
+            <div class="tags-input-wrap" id="tags-wrap" onclick="document.getElementById('tag-text').focus()">
+              <input type="text" class="tags-text-input" id="tag-text" placeholder="Add a tag…" onkeydown="handleTagKey(event)" />
+            </div>
+            <div class="field-hint">Max 8 tags. Helps readers find your article.</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Content (HTML)</div>
+          <div class="field-group">
+            <textarea class="field-textarea tall" id="art-content" placeholder="Write your article HTML here. Use &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, etc."></textarea>
+            <div class="field-hint">Supports full HTML. For new sections use &lt;h2&gt;Heading&lt;/h2&gt;. For emphasis use &lt;strong&gt;bold&lt;/strong&gt;.</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">SEO Settings</div>
+          <div class="field-group">
+            <label>Meta Title (leave blank to use article title)</label>
+            <input type="text" class="field-input" id="art-meta-title" placeholder="SEO-optimised title…" maxlength="60" />
+          </div>
+          <div class="field-group">
+            <label>Meta Description</label>
+            <textarea class="field-textarea" id="art-meta-desc" placeholder="150–160 character summary for search engines…" rows="3" maxlength="160"></textarea>
+          </div>
+          <div class="field-group" style="margin-top:6px;">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <input type="checkbox" id="art-featured" /> Mark as Featured Article
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px;">
+          <button class="btn btn-secondary" onclick="saveArticle('draft')">Save as Draft</button>
+          <button class="btn btn-primary" onclick="saveArticle('published')">Publish Article →</button>
+        </div>
+
+        <div id="article-save-msg" style="margin-top:12px;font-size:0.85rem;display:none;padding:10px 14px;border-radius:var(--r);"></div>
+      </div>
+
+      <!-- COMMENTS PAGE -->
+      <div class="page" id="page-comments">
+        <div class="table-wrap">
+          <div class="table-header">
+            <span class="table-title">Comment Moderation</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-secondary" id="f-all" onclick="loadAdminComments('all',this)">All</button>
+              <button class="btn btn-sm btn-secondary" id="f-pending" onclick="loadAdminComments('pending',this)">Pending</button>
+              <button class="btn btn-sm btn-secondary" id="f-spam" onclick="loadAdminComments('spam',this)">Spam</button>
+            </div>
+          </div>
+          <div id="comments-table-wrap"><div class="loading-spinner">Loading…</div></div>
+          <div class="pagination" id="comments-pagination" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- APPLICATIONS PAGE -->
+      <div class="page" id="page-applications">
+        <div class="table-wrap">
+          <div class="table-header">
+            <span class="table-title">Editor Applications</span>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-secondary" onclick="loadApplications('',this)">All</button>
+              <button class="btn btn-sm btn-secondary" onclick="loadApplications('pending',this)">Pending</button>
+              <button class="btn btn-sm btn-secondary" onclick="loadApplications('approved',this)">Approved</button>
+              <button class="btn btn-sm btn-secondary" onclick="loadApplications('rejected',this)">Rejected</button>
+            </div>
+          </div>
+          <div id="apps-table-wrap"><div class="loading-spinner">Loading…</div></div>
+          <div id="app-detail-area"></div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </main>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast"></div>
+
+<script>
+  // ── CONFIG ────────────────────────────────────────────────
+  const SUPABASE_URL = 'https://nltmolhlwgsrxadknzzq.supabase.co';
+  const ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
+  const ADMIN_API    = `${SUPABASE_URL}/functions/v1/admin-api`;
+
+  let adminToken = null;
+  let currentPage = 'dashboard';
+  let articlePage = 1;
+  let commentPage = 1;
+  let appPage = 1;
+  let articleTags = [];
+
+  // ── AUTH HELPERS ─────────────────────────────────────────
+  async function adminApi(action, method = 'GET', body = null, extra = '') {
+    const res = await fetch(`${ADMIN_API}?action=${action}${extra}`, {
+      method,
+      headers: {
+        'Content-Type':'application/json',
+        'Authorization':`Bearer ${ANON_KEY}`,
+        'apikey': ANON_KEY,
+        'x-admin-token': adminToken || '',
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+    return res.json();
+  }
+
+  // ── LOGIN ─────────────────────────────────────────────────
+  async function doLogin() {
+    const user = document.getElementById('l-user').value.trim();
+    const pass = document.getElementById('l-pass').value;
+    const btn  = document.getElementById('login-btn');
+    const err  = document.getElementById('login-error');
+    if (!user||!pass) { err.style.display='block'; err.textContent='Please enter username and password.'; return; }
+    btn.disabled = true; btn.textContent = 'Signing in…'; err.style.display='none';
+    try {
+      const data = await adminApi('login','POST',{username:user,password:pass});
+      if (!data.success) throw new Error(data.error||'Invalid credentials');
+      adminToken = data.token;
+      localStorage.setItem('dv_admin_token', adminToken);
+      localStorage.setItem('dv_admin_user', JSON.stringify(data.admin));
+      showAdminShell(data.admin);
+    } catch(e) {
+      err.textContent = e.message; err.style.display='block';
+      btn.disabled=false; btn.textContent='Sign In →';
+    }
+  }
+
+  function showAdminShell(admin) {
+    document.getElementById('login-page').style.display='none';
+    document.getElementById('admin-shell').classList.add('active');
+    document.getElementById('user-display-name').textContent = admin.display_name||admin.username;
+    document.getElementById('user-role-badge').textContent = admin.role;
+    document.getElementById('user-initial').textContent = (admin.display_name||admin.username||'A').charAt(0).toUpperCase();
+    loadDashboard();
+  }
+
+  function doLogout() {
+    localStorage.removeItem('dv_admin_token'); localStorage.removeItem('dv_admin_user');
+    adminToken = null;
+    document.getElementById('admin-shell').classList.remove('active');
+    document.getElementById('login-page').style.display='flex';
+    document.getElementById('l-pass').value='';
+  }
+
+  // Auto-login from stored token
+  (function() {
+    const tok = localStorage.getItem('dv_admin_token');
+    const usr = localStorage.getItem('dv_admin_user');
+    if (tok && usr) {
+      try { adminToken = tok; showAdminShell(JSON.parse(usr)); } catch {}
+    }
+  })();
+
+  document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+
+  // ── PAGE SWITCHING ────────────────────────────────────────
+  const pageTitles = { dashboard:'Dashboard', articles:'Articles', 'new-article':'New Article', comments:'Comment Moderation', applications:'Editor Applications' };
+
+  function switchPage(pageId, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-'+pageId)?.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (navEl) navEl.classList.add('active');
+    else { const ni = document.querySelector(`.nav-item[data-page="${pageId}"]`); if (ni) ni.classList.add('active'); }
+    document.getElementById('page-title').textContent = pageTitles[pageId]||pageId;
+    currentPage = pageId;
+
+    if (pageId==='dashboard')    loadDashboard();
+    if (pageId==='articles')     loadAdminArticles(1);
+    if (pageId==='comments')     loadAdminComments('all', document.getElementById('f-all'));
+    if (pageId==='applications') loadApplications('', null);
+    if (pageId==='new-article')  resetArticleForm();
+  }
+
+  // ── DASHBOARD ────────────────────────────────────────────
+  async function loadDashboard() {
+    try {
+      const data = await adminApi('stats');
+      if (!data.success) return;
+      const s = data.stats;
+      document.getElementById('st-articles').textContent = s.articles?.toLocaleString('en-IN')||'0';
+      document.getElementById('st-visits').textContent   = s.visits?.toLocaleString('en-IN')||'0';
+      document.getElementById('st-comments').textContent = s.comments?.toLocaleString('en-IN')||'0';
+      document.getElementById('st-apps').textContent     = s.applications?.toLocaleString('en-IN')||'0';
+
+      // Recent articles
+      const tbody = document.getElementById('recent-articles-tbody');
+      if (!s.recent_articles?.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="6">No articles yet.</td></tr>'; }
+      else tbody.innerHTML = s.recent_articles.map(a => `
+        <tr>
+          <td class="td-title" title="${esc(a.title)}">${esc(a.title)}</td>
+          <td class="td-cat">${esc(a.category||'—')}</td>
+          <td><span class="badge badge-${a.status}">${a.status}</span></td>
+          <td style="font-family:var(--mono);font-size:0.78rem;">${(a.view_count||0).toLocaleString('en-IN')}</td>
+          <td style="font-size:0.78rem;color:var(--muted);">${a.published_at?new Date(a.published_at).toLocaleDateString('en-IN'):'—'}</td>
+          <td class="td-actions">
+            <button class="btn btn-sm btn-secondary" onclick="editArticle('${a.slug}')">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteArticle(${a.id??0})">Delete</button>
+          </td>
+        </tr>`).join('');
+
+      // Category bar chart
+      const catChart = document.getElementById('cat-bar-chart');
+      const cats = Object.entries(s.categories||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
+      const max  = cats[0]?.[1]||1;
+      catChart.innerHTML = cats.map(([cat,count]) => `
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);margin-bottom:4px;">
+            <span>${esc(cat)}</span><span style="font-family:var(--mono);">${count}</span>
+          </div>
+          <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;">
+            <div style="width:${(count/max*100).toFixed(1)}%;height:100%;background:var(--accent);border-radius:4px;transition:width 0.6s;"></div>
+          </div>
+        </div>`).join('');
+    } catch(e) { console.error(e); }
+  }
+
+  // ── ARTICLES LIST ─────────────────────────────────────────
+  async function loadAdminArticles(page=1) {
+    articlePage = page;
+    const status = document.getElementById('art-status-filter')?.value||'';
+    document.getElementById('articles-table-wrap').innerHTML = '<div class="loading-spinner">Loading…</div>';
+    try {
+      const data = await adminApi(`admin_articles&page=${page}&limit=15${status?'&status='+status:''}`);
+      if (!data.success) throw new Error('failed');
+      const wrap = document.getElementById('articles-table-wrap');
+      if (!data.articles?.length) { wrap.innerHTML='<div class="loading-spinner">No articles found.</div>'; return; }
+      wrap.innerHTML = `<table><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Featured</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead>
+        <tbody>${data.articles.map(a=>`
+        <tr>
+          <td class="td-title" title="${esc(a.title)}">${esc(a.title)}</td>
+          <td class="td-cat">${esc(a.category||'—')}</td>
+          <td><span class="badge badge-${a.status}">${a.status}</span></td>
+          <td style="text-align:center;">${a.is_featured?'⭐':''}</td>
+          <td style="font-family:var(--mono);font-size:0.78rem;">${(a.view_count||0).toLocaleString('en-IN')}</td>
+          <td style="font-size:0.78rem;color:var(--muted);">${a.updated_at?new Date(a.updated_at).toLocaleDateString('en-IN'):'—'}</td>
+          <td class="td-actions">
+            <button class="btn btn-sm btn-secondary" onclick="editArticle('${a.slug}')">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteArticle(${a.id})">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody></table>`;
+
+      buildPagination('articles-pagination', page, Math.ceil((data.total||0)/15), (p)=>loadAdminArticles(p), data.total||0);
+    } catch(e) { document.getElementById('articles-table-wrap').innerHTML='<div class="loading-spinner">Error loading articles.</div>'; }
+  }
+
+  // ── ARTICLE FORM ──────────────────────────────────────────
+  function setCategory(cat) { document.getElementById('art-category').value = cat; }
+
+  function autoSlug(title) {
+    if (document.getElementById('art-id').value) return; // don't auto-update existing
+    const slug = title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
+    document.getElementById('art-slug').value = slug;
+  }
+
+  document.getElementById('art-cover').addEventListener('input', function() {
+    const preview = document.getElementById('cover-preview');
+    const img = document.getElementById('cover-img-preview');
+    if (this.value.trim()) { img.src=this.value.trim(); preview.style.display='block'; } else { preview.style.display='none'; }
+  });
+
+  // TAGS
+  function handleTagKey(e) {
+    if (e.key==='Enter'||e.key===',') { e.preventDefault(); addTag(e.target.value.trim()); e.target.value=''; }
+    if (e.key==='Backspace'&&!e.target.value&&articleTags.length) { articleTags.pop(); renderTags(); }
+  }
+  function addTag(val) { if (!val||articleTags.length>=8||articleTags.includes(val)) return; articleTags.push(val); renderTags(); }
+  function removeTag(i) { articleTags.splice(i,1); renderTags(); }
+  function renderTags() {
+    const wrap = document.getElementById('tags-wrap');
+    const input = document.getElementById('tag-text');
+    wrap.innerHTML = '';
+    articleTags.forEach((t,i) => {
+      const chip = document.createElement('span'); chip.className='tag-chip';
+      chip.innerHTML = `${esc(t)} <button onclick="removeTag(${i})">×</button>`;
+      wrap.appendChild(chip);
+    });
+    wrap.appendChild(input);
+  }
+
+  function resetArticleForm() {
+    document.getElementById('art-id').value='';
+    ['art-title','art-subtitle','art-slug','art-readtime','art-author','art-avatar','art-cover','art-content','art-meta-title','art-meta-desc'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.value='';
+    });
+    document.getElementById('art-category').value='';
+    document.getElementById('art-status').value='draft';
+    document.getElementById('art-featured').checked=false;
+    articleTags=[];
+    const wrap=document.getElementById('tags-wrap');
+    const input=document.getElementById('tag-text');
+    wrap.innerHTML=''; wrap.appendChild(input); input.value='';
+    document.getElementById('cover-preview').style.display='none';
+    document.getElementById('editor-heading').textContent='New Article';
+    document.getElementById('article-save-msg').style.display='none';
+  }
+
+  async function editArticle(slug) {
+    switchPage('new-article', null);
+    toast('Loading article…','info');
+    try {
+      const data = await adminApi(`admin_article&slug=${slug}`);
+      if (!data.success||!data.article) throw new Error('Not found');
+      const a = data.article;
+      document.getElementById('art-id').value      = a.id||'';
+      document.getElementById('art-title').value   = a.title||'';
+      document.getElementById('art-subtitle').value= a.subtitle||'';
+      document.getElementById('art-slug').value    = a.slug||'';
+      document.getElementById('art-readtime').value= a.read_time||'';
+      document.getElementById('art-author').value  = a.author||'';
+      document.getElementById('art-avatar').value  = a.author_avatar||'';
+      document.getElementById('art-cover').value   = a.cover_image||'';
+      document.getElementById('art-content').value = a.content||'';
+      document.getElementById('art-meta-title').value= a.meta_title||'';
+      document.getElementById('art-meta-desc').value = a.meta_desc||'';
+      document.getElementById('art-category').value= a.category||'';
+      document.getElementById('art-status').value  = a.status||'draft';
+      document.getElementById('art-featured').checked= !!a.is_featured;
+      articleTags = a.tags||[]; renderTags();
+      if (a.cover_image) { document.getElementById('cover-img-preview').src=a.cover_image; document.getElementById('cover-preview').style.display='block'; }
+      document.getElementById('editor-heading').textContent='Edit Article';
+    } catch(e) { toast('Error loading article: '+e.message,'error'); }
+  }
+
+  async function saveArticle(statusVal) {
+    const id       = document.getElementById('art-id').value;
+    const title    = document.getElementById('art-title').value.trim();
+    const category = document.getElementById('art-category').value;
+    if (!title) { toast('Title is required','error'); return; }
+    if (!category) { toast('Category is required','error'); return; }
+
+    const payload = {
+      title,
+      subtitle:     document.getElementById('art-subtitle').value.trim()||null,
+      category,
+      cover_image:  document.getElementById('art-cover').value.trim()||null,
+      author:       document.getElementById('art-author').value.trim()||null,
+      author_avatar:document.getElementById('art-avatar').value.trim()||null,
+      read_time:    document.getElementById('art-readtime').value.trim()||null,
+      content:      document.getElementById('art-content').value||null,
+      tags:         articleTags,
+      is_featured:  document.getElementById('art-featured').checked,
+      status:       statusVal||document.getElementById('art-status').value,
+      meta_title:   document.getElementById('art-meta-title').value.trim()||null,
+      meta_desc:    document.getElementById('art-meta-desc').value.trim()||null,
+    };
+
+    const btn = document.getElementById('publish-btn');
+    btn.disabled=true; btn.textContent='Saving…';
+
+    try {
+      let data;
+      if (id) {
+        data = await adminApi(`update_article&id=${id}`,'PUT',payload);
+      } else {
+        payload.slug = document.getElementById('art-slug').value.trim()||null;
+        data = await adminApi('create_article','POST',payload);
+      }
+      if (!data.success) throw new Error(data.error||'Save failed');
+      toast(id?'Article updated!':'Article created!','success');
+      if (!id && data.article?.id) document.getElementById('art-id').value=data.article.id;
+      document.getElementById('editor-heading').textContent='Edit Article';
+    } catch(e) { toast('Error: '+e.message,'error'); }
+    finally { btn.disabled=false; btn.textContent='Publish →'; }
+  }
+
+  async function deleteArticle(id) {
+    if (!confirm('Move this article to trash?')) return;
+    try {
+      const data = await adminApi(`delete_article&id=${id}`,'DELETE');
+      if (!data.success) throw new Error(data.error);
+      toast('Article deleted','success');
+      loadAdminArticles(articlePage);
+      loadDashboard();
+    } catch(e) { toast('Error: '+e.message,'error'); }
+  }
+
+  // ── COMMENTS ─────────────────────────────────────────────
+  async function loadAdminComments(filter='all', btn=null) {
+    if (btn) {
+      document.querySelectorAll('#f-all,#f-pending,#f-spam').forEach(b=>b.classList.remove('btn-primary'));
+      btn.classList.add('btn-primary');
+    }
+    commentPage = 1;
+    document.getElementById('comments-table-wrap').innerHTML='<div class="loading-spinner">Loading…</div>';
+    try {
+      const data = await adminApi(`admin_comments&filter=${filter}&page=1&limit=20`);
+      if (!data.success) throw new Error('failed');
+      const wrap = document.getElementById('comments-table-wrap');
+      if (!data.comments?.length) { wrap.innerHTML='<div class="loading-spinner">No comments found.</div>'; return; }
+      wrap.innerHTML = `<table><thead><tr><th>Author</th><th>Article</th><th>Comment</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${data.comments.map(c=>`
+        <tr>
+          <td style="font-weight:500;">${esc(c.author_name)}</td>
+          <td style="font-size:0.78rem;color:var(--muted);font-family:var(--mono);">${esc(c.article_slug)}</td>
+          <td style="max-width:260px;font-size:0.83rem;color:var(--muted);">${esc((c.content||'').slice(0,90))}${c.content?.length>90?'…':''}</td>
+          <td style="font-size:0.75rem;color:var(--muted);">${new Date(c.created_at).toLocaleDateString('en-IN')}</td>
+          <td><span class="badge ${c.is_spam?'badge-rejected':c.is_approved?'badge-approved':'badge-pending'}">${c.is_spam?'spam':c.is_approved?'approved':'pending'}</span></td>
+          <td class="td-actions">
+            ${!c.is_approved&&!c.is_spam?`<button class="btn btn-sm btn-success" onclick="moderateComment(${c.id},true,false)">Approve</button>`:''}
+            ${!c.is_spam?`<button class="btn btn-sm btn-secondary" onclick="moderateComment(${c.id},false,true)">Spam</button>`:''}
+            <button class="btn btn-sm btn-danger" onclick="deleteComment(${c.id})">Delete</button>
+          </td>
+        </tr>`).join('')}</tbody></table>`;
+    } catch { document.getElementById('comments-table-wrap').innerHTML='<div class="loading-spinner">Error loading comments.</div>'; }
+  }
+
+  async function moderateComment(id, is_approved, is_spam) {
+    try {
+      const data = await adminApi(`moderate_comment&id=${id}`,'PUT',{is_approved,is_spam});
+      if (!data.success) throw new Error(data.error);
+      toast('Comment updated','success');
+      loadAdminComments('all');
+    } catch(e) { toast('Error: '+e.message,'error'); }
+  }
+
+  async function deleteComment(id) {
+    if (!confirm('Delete this comment permanently?')) return;
+    try {
+      const data = await adminApi(`delete_comment&id=${id}`,'DELETE');
+      if (!data.success) throw new Error(data.error);
+      toast('Comment deleted','success');
+      loadAdminComments('all');
+    } catch(e) { toast('Error: '+e.message,'error'); }
+  }
+
+  // ── APPLICATIONS ──────────────────────────────────────────
+  async function loadApplications(status='', btn=null) {
+    document.getElementById('apps-table-wrap').innerHTML='<div class="loading-spinner">Loading…</div>';
+    document.getElementById('app-detail-area').innerHTML='';
+    try {
+      const data = await adminApi(`applications&page=1&limit=30${status?'&status='+status:''}`);
+      if (!data.success) throw new Error('failed');
+      const wrap = document.getElementById('apps-table-wrap');
+      if (!data.applications?.length) { wrap.innerHTML='<div class="loading-spinner">No applications found.</div>'; return; }
+      wrap.innerHTML = `<table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>City</th><th>Experience</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody>${data.applications.map((a,i)=>`
+        <tr>
+          <td style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);">${a.id}</td>
+          <td style="font-weight:600;">${esc(a.full_name)}</td>
+          <td style="font-size:0.82rem;color:var(--muted);">${esc(a.email)}</td>
+          <td style="font-size:0.82rem;color:var(--muted);">${esc(a.city||'—')}</td>
+          <td style="font-size:0.78rem;color:var(--muted);">${esc(a.writing_exp||'—')}</td>
+          <td><span class="badge badge-${a.status}">${a.status}</span></td>
+          <td style="font-size:0.75rem;color:var(--muted);">${new Date(a.created_at).toLocaleDateString('en-IN')}</td>
+          <td class="td-actions">
+            <button class="btn btn-sm btn-secondary" onclick="viewApplication(${a.id})">View</button>
+            ${a.status!=='approved'?`<button class="btn btn-sm btn-success" onclick="updateAppStatus(${a.id},'approved')">Approve</button>`:''}
+            ${a.status!=='rejected'?`<button class="btn btn-sm btn-danger" onclick="updateAppStatus(${a.id},'rejected')">Reject</button>`:''}
+          </td>
+        </tr>`).join('')}</tbody></table>`;
+    } catch { document.getElementById('apps-table-wrap').innerHTML='<div class="loading-spinner">Error loading applications.</div>'; }
+  }
+
+  async function viewApplication(id) {
+    const area = document.getElementById('app-detail-area');
+    area.innerHTML='<div class="loading-spinner">Loading…</div>';
+    try {
+      const data = await adminApi(`applications&page=1&limit=100`);
+      const app  = data.applications?.find(a=>a.id===id);
+      if (!app) throw new Error('Not found');
+      area.innerHTML = `
+        <div class="detail-panel open" style="margin-top:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <strong style="font-size:1rem;">${esc(app.full_name)}</strong>
+            <span class="badge badge-${app.status}">${app.status}</span>
+          </div>
+          ${[
+            ['Full Name',app.full_name],['Email',app.email],['Phone',app.phone||'—'],['City',app.city||'—'],
+            ['Qualification',app.qualification||'—'],['Experience',app.writing_exp||'—'],
+            ['Expertise',(app.expertise||[]).join(', ')||'—'],
+            ['Portfolio',app.sample_link?`<a href="${esc(app.sample_link)}" target="_blank" style="color:var(--accent2);">${esc(app.sample_link)}</a>`:'—'],
+            ['LinkedIn',app.linkedin?`<a href="${esc(app.linkedin)}" target="_blank" style="color:var(--accent2);">${esc(app.linkedin)}</a>`:'—'],
+            ['Why Join',app.why_join||'—'],['Applied',new Date(app.created_at).toLocaleString('en-IN')],
+          ].map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}
+          <div style="margin-top:16px;display:flex;gap:8px;">
+            ${app.status!=='approved'?`<button class="btn btn-success" onclick="updateAppStatus(${app.id},'approved')">Approve</button>`:''}
+            ${app.status!=='rejected'?`<button class="btn btn-danger" onclick="updateAppStatus(${app.id},'rejected')">Reject</button>`:''}
+            <button class="btn btn-secondary" onclick="document.getElementById('app-detail-area').innerHTML=''">Close</button>
+          </div>
+        </div>`;
+    } catch(e) { area.innerHTML=''; }
+  }
+
+  async function updateAppStatus(id, status) {
+    try {
+      const data = await adminApi(`update_application&id=${id}`,'PUT',{status});
+      if (!data.success) throw new Error(data.error);
+      toast(`Application ${status}`,'success');
+      loadApplications('',null);
+    } catch(e) { toast('Error: '+e.message,'error'); }
+  }
+
+  // ── PAGINATION ────────────────────────────────────────────
+  function buildPagination(containerId, current, total, onPageClick, totalItems) {
+    const container = document.getElementById(containerId);
+    if (total<=1) { container.style.display='none'; return; }
+    container.style.display='flex';
+    let html = '';
+    if (current>1) html+=`<button class="page-btn" onclick="(${onPageClick.toString()})(${current-1})">‹</button>`;
+    for (let i=1;i<=total;i++) {
+      if (i===1||i===total||Math.abs(i-current)<=1) html+=`<button class="page-btn${i===current?' active':''}" onclick="(${onPageClick.toString()})(${i})">${i}</button>`;
+      else if (Math.abs(i-current)===2) html+=`<span style="color:var(--muted);padding:0 4px;">…</span>`;
+    }
+    if (current<total) html+=`<button class="page-btn" onclick="(${onPageClick.toString()})(${current+1})">›</button>`;
+    html+=`<span class="page-info">${totalItems} total</span>`;
+    container.innerHTML=html;
+  }
+
+  // ── TOAST ─────────────────────────────────────────────────
+  function toast(msg, type='info') {
+    const container = document.getElementById('toast');
+    const el = document.createElement('div');
+    el.className = `toast-msg ${type}`;
+    el.textContent = msg;
+    container.appendChild(el);
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ el.classList.add('show'); }); });
+    setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),300); },3000);
+  }
+
+  // ── ESCAPE HELPER ─────────────────────────────────────────
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+</script>
+</body>
+</html>
