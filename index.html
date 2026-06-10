@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DéssentVerse — Voices That Matter</title>
+  <meta name="description" content="DéssentVerse — a space for honest journalism on social issues, mental health, inequality, and the stories that don't make the front page." />
+  <meta property="og:title" content="DéssentVerse — Voices That Matter" />
+  <meta property="og:description" content="Honest writing on social issues, mental health, labour rights, and the world as it actually is." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ────────────────────────────────────── */
+    :root {
+      --ink:       #0d0d0d;
+      --paper:     #f5f2eb;
+      --paper2:    #ede9e0;
+      --accent:    #c8392b;
+      --accent2:   #1a1a2e;
+      --muted:     #7a7060;
+      --border:    #d4cfc4;
+      --white:     #ffffff;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
+      --mono:      'Space Mono', monospace;
+      --radius:    4px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── RESET ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ── DOOR INTRO ─────────────────────────────────── */
+    #door-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent2);
+      overflow: hidden;
+    }
+    .door-scene {
+      position: relative;
+      width: min(520px, 90vw);
+      height: min(680px, 90vh);
+    }
+    /* Door frame */
+    .door-frame {
+      position: absolute; inset: 0;
+      border: 6px solid #3a3a5c;
+      border-radius: 8px 8px 2px 2px;
+      background: #12122a;
+    }
+    /* Door arch top */
+    .door-frame::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: -6px; right: -6px;
+      height: 80px;
+      background: #12122a;
+      border: 6px solid #3a3a5c;
+      border-bottom: none;
+      border-radius: 100px 100px 0 0;
+    }
+    /* Left door panel */
+    .door-left {
+      position: absolute;
+      top: 0; left: 0;
+      width: 50%; height: 100%;
+      background: linear-gradient(135deg, #2a2a4a 0%, #1e1e38 50%, #2a2a4a 100%);
+      transform-origin: left center;
+      transform: perspective(1200px) rotateY(0deg);
+      transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+      border-right: 3px solid #3a3a5c;
+      overflow: hidden;
+    }
+    /* Right door panel */
+    .door-right {
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%; height: 100%;
+      background: linear-gradient(225deg, #2a2a4a 0%, #1e1e38 50%, #2a2a4a 100%);
+      transform-origin: right center;
+      transform: perspective(1200px) rotateY(0deg);
+      transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+      border-left: 3px solid #3a3a5c;
+      overflow: hidden;
+    }
+    /* Door panels decorative */
+    .door-left::before, .door-right::before {
+      content: '';
+      position: absolute;
+      top: 15%; left: 15%; right: 15%; bottom: 15%;
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+    }
+    .door-left::after, .door-right::after {
+      content: '';
+      position: absolute;
+      top: 30%; left: 20%; right: 20%; bottom: 30%;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    /* Door knobs */
+    .knob-left {
+      position: absolute; top: 50%; right: 12px;
+      transform: translateY(-50%);
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #d4af37, #8b6914);
+      box-shadow: 0 0 8px rgba(212,175,55,0.4);
+    }
+    .knob-right {
+      position: absolute; top: 50%; left: 12px;
+      transform: translateY(-50%);
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #d4af37, #8b6914);
+      box-shadow: 0 0 8px rgba(212,175,55,0.4);
+    }
+    /* Light spill behind door */
+    .door-light {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(200,57,43,0.15) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.8s ease 0.8s;
+    }
+
+    /* Open state */
+    .door-scene.open .door-left {
+      transform: perspective(1200px) rotateY(-110deg);
+    }
+    .door-scene.open .door-right {
+      transform: perspective(1200px) rotateY(110deg);
+    }
+    .door-scene.open .door-light { opacity: 1; }
+
+    /* Welcome text on overlay */
+    .door-welcome {
+      position: absolute;
+      bottom: -140px; left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .door-welcome h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease 1.6s, transform 0.8s ease 1.6s;
+    }
+    .door-welcome h1 span { color: var(--accent); }
+    .door-welcome p {
+      margin-top: 12px;
+      font-family: var(--mono);
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease 2.2s, transform 0.6s ease 2.2s;
+    }
+    .door-scene.open ~ .door-welcome h1,
+    .door-welcome.show h1 { opacity: 1; transform: translateY(0); }
+    .door-scene.open ~ .door-welcome p,
+    .door-welcome.show p { opacity: 1; transform: translateY(0); }
+
+    /* Overlay fade */
+    #door-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+    #door-overlay.gone { display: none; }
+
+    /* Knock particles */
+    .knock-ripple {
+      position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(212,175,55,0.6);
+      transform: translate(-50%, -50%);
+      animation: ripple 0.8s ease-out forwards;
+    }
+    @keyframes ripple {
+      to { width: 200px; height: 200px; opacity: 0; }
+    }
+
+    /* ── SITE SHELL ─────────────────────────────────── */
+    #site { opacity: 0; transition: opacity 0.6s ease; }
+    #site.visible { opacity: 1; }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,242,235,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+    .site-header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; align-items: center; gap: 8px; }
+    .nav-link {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-link:hover { color: var(--ink); background: var(--paper2); }
+    .nav-link.active { color: var(--ink); }
+
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .visit-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--paper2);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .visit-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ── MOBILE NAV ─────────────────────────────────── */
+    .mobile-nav {
+      display: none;
+      position: fixed; inset: 0; top: 68px; z-index: 99;
+      background: var(--paper);
+      padding: 32px 24px;
+      flex-direction: column; gap: 8px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav .nav-link { font-size: 1.2rem; padding: 12px 16px; }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      max-width: 1200px; margin: 0 auto;
+      padding: 80px 24px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-text { }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 24px; height: 2px;
+      background: var(--accent);
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 440px;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-primary:hover { background: #a52d21; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .btn-ghost:hover { border-color: var(--ink); background: var(--paper2); }
+
+    .hero-visual {
+      position: relative;
+    }
+    .hero-card-stack {
+      position: relative;
+      height: 400px;
+    }
+    .hero-card {
+      position: absolute;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    .hero-card:nth-child(1) {
+      top: 0; left: 0; right: 0; bottom: 60px;
+      background: var(--ink);
+    }
+    .hero-card:nth-child(2) {
+      bottom: 0; left: 20px; right: 20px; height: 90px;
+      background: var(--white);
+      display: flex; align-items: center; padding: 0 20px;
+      gap: 16px;
+    }
+    .hero-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+    .hero-card-meta { min-width: 0; }
+    .hero-card-cat {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .hero-card-title {
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hero-card-thumb {
+      width: 54px; height: 54px;
+      border-radius: 4px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .hero-card-thumb img { opacity: 1; }
+    .hero-stat-bar {
+      position: absolute;
+      top: 20px; right: -20px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column; gap: 4px;
+      min-width: 130px;
+    }
+    .hero-stat-num {
+      font-family: var(--mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── DIVIDER ─────────────────────────────────────── */
+    .divider {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── TICKER ──────────────────────────────────────── */
+    .ticker-wrap {
+      background: var(--accent2);
+      overflow: hidden;
+      padding: 10px 0;
+    }
+    .ticker-inner {
+      display: flex;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-inner:hover { animation-play-state: paused; }
+    .ticker-item {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      padding: 0 40px;
+    }
+    .ticker-item span { color: var(--accent); margin-right: 12px; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION HEADER ──────────────────────────────── */
+    .section-header {
+      max-width: 1200px; margin: 0 auto;
+      padding: 64px 24px 32px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 16px;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .section-title span { color: var(--accent); }
+    .section-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+      transition: color var(--transition);
+    }
+    .section-link:hover { color: var(--accent); }
+    .section-link::after { content: '→'; }
+
+    /* ── FILTER TABS ─────────────────────────────────── */
+    .filter-tabs {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px 32px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .filter-tab {
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      color: var(--muted);
+      transition: all var(--transition);
+    }
+    .filter-tab:hover { border-color: var(--ink); color: var(--ink); }
+    .filter-tab.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--white);
+    }
+
+    /* ── ARTICLES GRID ───────────────────────────────── */
+    .articles-grid {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    /* Featured article spans 2 cols */
+    .article-card.featured {
+      grid-column: span 2;
+    }
+
+    .article-card {
+      display: flex; flex-direction: column;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    }
+
+    .card-image {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--paper2);
+    }
+    .article-card.featured .card-image { aspect-ratio: 21 / 9; }
+    .card-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .article-card:hover .card-image img { transform: scale(1.04); }
+
+    .card-cat {
+      position: absolute; top: 14px; left: 14px;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      background: var(--accent);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 10px;
+      transition: color var(--transition);
+    }
+    .article-card.featured .card-title { font-size: 1.55rem; }
+    .article-card:hover .card-title { color: var(--accent); }
+    .card-subtitle {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--paper2);
+    }
+    .card-author {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-author img {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--paper2);
+    }
+    .card-author-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .card-meta-right {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .card-read-time {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .card-arrow {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      transition: all var(--transition);
+    }
+    .article-card:hover .card-arrow {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    /* ── TAGS ────────────────────────────────────────── */
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .card-tag {
+      font-size: 0.68rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    /* ── LOADING / EMPTY ─────────────────────────────── */
+    .articles-loading {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .skeleton {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .skeleton-img {
+      aspect-ratio: 16/9;
+      background: linear-gradient(90deg, var(--paper2) 25%, var(--border) 50%, var(--paper2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    .skeleton-body { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+    .skeleton-line {
+      height: 12px; border-radius: 4px;
+      background: linear-gradient(90deg, var(--paper2) 25%, var(--border) 50%, var(--paper2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.medium { width: 80%; }
+    @keyframes shimmer {
+      to { background-position: -200% 0; }
+    }
+
+    .error-state, .empty-state {
+      max-width: 1200px; margin: 0 auto;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .error-state p, .empty-state p {
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    /* ── MANIFESTO SECTION ────────────────────────────── */
+    .manifesto {
+      background: var(--accent2);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .manifesto-inner { max-width: 720px; margin: 0 auto; }
+    .manifesto-quote {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.35;
+      margin-bottom: 28px;
+    }
+    .manifesto-quote span { color: var(--accent); }
+    .manifesto-text {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+
+    /* ── NEWSLETTER ───────────────────────────────────── */
+    .newsletter {
+      background: var(--paper2);
+      border-top: 1px solid var(--border);
+      padding: 64px 24px;
+    }
+    .newsletter-inner {
+      max-width: 560px; margin: 0 auto;
+      text-align: center;
+    }
+    .newsletter-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .newsletter-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .newsletter-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .newsletter-form {
+      display: flex; gap: 8px;
+    }
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--white);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .newsletter-input:focus { border-color: var(--ink); }
+    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-btn {
+      padding: 12px 20px;
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      transition: background var(--transition);
+      white-space: nowrap;
+    }
+    .newsletter-btn:hover { background: var(--accent); }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 48px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand .logo { color: var(--white); margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 16px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .footer-bottom p { font-size: 0.8rem; }
+    .footer-counter {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-counter strong { color: rgba(255,255,255,0.7); }
+
+    /* ── ARTICLE MODAL / READER ───────────────────────── */
+    #article-modal {
+      position: fixed; inset: 0; z-index: 200;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 40px 20px;
+      background: rgba(13,13,13,0.7);
+      backdrop-filter: blur(6px);
+      overflow-y: auto;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #article-modal.open { opacity: 1; pointer-events: all; }
+    .modal-inner {
+      background: var(--white);
+      border-radius: 12px;
+      max-width: 760px; width: 100%;
+      min-height: 200px;
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    #article-modal.open .modal-inner { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px; z-index: 10;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--ink);
+      transition: background var(--transition);
+    }
+    .modal-close:hover { background: rgba(0,0,0,0.2); }
+    .modal-cover {
+      width: 100%;
+      aspect-ratio: 21 / 9;
+      object-fit: cover;
+    }
+    .modal-body { padding: 36px 44px 52px; }
+    .modal-cat {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .modal-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .modal-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .modal-byline {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 0;
+      border-top: 1px solid var(--paper2);
+      border-bottom: 1px solid var(--paper2);
+      margin-bottom: 36px;
+    }
+    .modal-byline img {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+    }
+    .modal-byline-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .modal-byline-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .modal-content {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #2a2a2a;
+    }
+    .modal-content p { margin-bottom: 1.4em; }
+    .modal-content h2 {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 2em 0 0.6em;
+    }
+    .modal-content h3 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 1.6em 0 0.5em;
+    }
+    .modal-content strong { color: var(--ink); font-weight: 600; }
+
+    .modal-loading {
+      padding: 60px;
+      text-align: center;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+    }
+
+    /* ── SCROLL TO TOP ────────────────────────────────── */
+    #scroll-top {
+      position: fixed; bottom: 28px; right: 28px; z-index: 50;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      opacity: 0; pointer-events: none;
+      transition: all var(--transition);
+    }
+    #scroll-top.show { opacity: 1; pointer-events: all; }
+    #scroll-top:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 40px; }
+      .hero-visual { display: none; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .articles-grid { grid-template-columns: 1fr 1fr; }
+      .article-card.featured { grid-column: span 2; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .articles-grid { grid-template-columns: 1fr; }
+      .article-card.featured { grid-column: span 1; }
+      .articles-loading { grid-template-columns: 1fr; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+      .modal-body { padding: 24px 20px 36px; }
+      .newsletter-form { flex-direction: column; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ DOOR INTRO ══════════════════════════════════════════════ -->
+<div id="door-overlay" role="dialog" aria-label="Welcome to DéssentVerse">
+  <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+    <div class="door-scene" id="door-scene">
+      <div class="door-frame"></div>
+      <div class="door-left" id="door-left">
+        <div class="knob-left"></div>
+      </div>
+      <div class="door-right" id="door-right">
+        <div class="knob-right"></div>
+      </div>
+      <div class="door-light"></div>
+    </div>
+    <div class="door-welcome" id="door-welcome">
+      <h1>Welcome to <span>Dés</span>sentVerse</h1>
+      <p>Voices that refuse to be silent</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SITE ════════════════════════════════════════════════════ -->
+<div id="site">
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo" onclick="showHome(event)">Dés<span>sent</span>Verse</a>
+
+      <nav>
+        <a href="#articles" class="nav-link" onclick="scrollToArticles(event)">Articles</a>
+        <a href="#about" class="nav-link" onclick="scrollToManifesto(event)">About</a>
+        <a href="#" class="nav-link">Categories</a>
+        <a href="#newsletter" class="nav-link" onclick="scrollToNewsletter(event)">Newsletter</a>
+      </nav>
+
+      <div class="header-right">
+        <div class="visit-badge">
+          <div class="dot"></div>
+          <span id="header-visits">— visits</span>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#articles" class="nav-link" onclick="closeMobileNav();scrollToArticles(event)">Articles</a>
+    <a href="#" class="nav-link" onclick="closeMobileNav()">About</a>
+    <a href="#" class="nav-link" onclick="closeMobileNav()">Categories</a>
+    <a href="#newsletter" class="nav-link" onclick="closeMobileNav();scrollToNewsletter(event)">Newsletter</a>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Independent · Unfiltered · Necessary</div>
+      <h1 class="hero-title">
+        Stories the<br /><em>world needs</em><br />to hear.
+      </h1>
+      <p class="hero-desc">
+        DéssentVerse is a space for honest, uncompromising journalism on social issues, mental health, labour rights, and the realities that mainstream media looks past.
+      </p>
+      <div class="hero-actions">
+        <a href="#articles" class="btn-primary" onclick="scrollToArticles(event)">
+          Start Reading ↓
+        </a>
+        <a href="#about" class="btn-ghost" onclick="scrollToManifesto(event)">
+          Our Manifesto
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="hero-card" id="hero-main-card">
+          <img src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=800&q=80" alt="" id="hero-main-img" />
+        </div>
+        <div class="hero-card" id="hero-preview-card" onclick="openFeaturedArticle()">
+          <div class="hero-card-thumb">
+            <img src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=200&q=80" alt="" id="hero-thumb" />
+          </div>
+          <div class="hero-card-meta">
+            <div class="hero-card-cat" id="hero-cat">Loading…</div>
+            <div class="hero-card-title" id="hero-preview-title">Fetching latest article…</div>
+          </div>
+        </div>
+        <div class="hero-stat-bar">
+          <div class="hero-stat-num" id="hero-stat-count">—</div>
+          <div class="hero-stat-label">Total Visits</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLES SECTION -->
+  <a id="articles"></a>
+  <div class="section-header">
+    <h2 class="section-title">Latest <span>Voices</span></h2>
+    <a href="#articles" class="section-link">All articles</a>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs" id="filter-tabs">
+    <button class="filter-tab active" data-cat="all" onclick="filterArticles('all', this)">All</button>
+    <!-- dynamic category tabs injected here -->
+  </div>
+
+  <!-- ARTICLES OUTPUT -->
+  <div id="articles-output">
+    <!-- Skeleton loaders -->
+    <div class="articles-loading" id="articles-skeleton">
+      <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+      <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+      <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+    </div>
+    <div class="articles-grid" id="articles-grid" style="display:none;"></div>
+    <div class="error-state" id="articles-error" style="display:none;">
+      <p>Could not load articles. Please check your connection and refresh.</p>
+    </div>
+    <div class="empty-state" id="articles-empty" style="display:none;">
+      <p>No articles in this category yet. Check back soon.</p>
+    </div>
+  </div>
+
+  <!-- MANIFESTO -->
+  <a id="about"></a>
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <p class="manifesto-quote">
+        "The <span>truth</span> does not comfort. It does not flatter. But it is the only thing that moves the world forward."
+      </p>
+      <p class="manifesto-text">
+        DéssentVerse was built out of frustration — frustration at the stories that go untold, the voices that get drowned out, the issues that are too inconvenient for prime time. We write about the world as it is, not as we wish it were. We believe awareness is the first act of change.
+      </p>
+      <a href="#articles" class="btn-primary" onclick="scrollToArticles(event)" style="display:inline-flex;">
+        Read Our Work
+      </a>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <a id="newsletter"></a>
+  <section class="newsletter">
+    <div class="newsletter-inner">
+      <p class="newsletter-eyebrow">Stay Informed</p>
+      <h2 class="newsletter-title">Don't miss a word.</h2>
+      <p class="newsletter-desc">Get new articles delivered straight to your inbox. No spam. No noise. Just writing that matters.</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="your@email.com" id="email-input" />
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Subscribe</button>
+      </div>
+      <p id="newsletter-msg" style="margin-top:12px;font-size:0.82rem;color:var(--accent);display:none;"></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Dés<span>sent</span>Verse</div>
+        <p>Honest writing on the issues that define our time. Independent. Unsponsored. Necessary.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Read</h4>
+        <div class="footer-links">
+          <a href="#articles" onclick="scrollToArticles(event)">All Articles</a>
+          <a href="#">Mental Health</a>
+          <a href="#">Labour Rights</a>
+          <a href="#">Environment</a>
+          <a href="#">Education</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <div class="footer-links">
+          <a href="#about" onclick="scrollToManifesto(event)">Manifesto</a>
+          <a href="#">Our Team</a>
+          <a href="#">Write For Us</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <div class="footer-links">
+          <a href="#">Twitter / X</a>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">RSS Feed</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 DéssentVerse. All rights reserved.</p>
+      <div class="footer-counter">
+        Total visits: <strong id="footer-visits">loading…</strong>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /site -->
+
+<!-- ARTICLE MODAL -->
+<div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
+  <div class="modal-inner" id="modal-inner">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close article">✕</button>
+    <div id="modal-content-area">
+      <div class="modal-loading">Loading article…</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL  = 'https://nltmolhlwgsrxadknzzq.supabase.co';
+  const ANON_KEY      = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
+  // Edge function URL – update after deployment
+  const API_BASE      = `${SUPABASE_URL}/functions/v1/api`;
+
+  let allArticles   = [];
+  let activeFilter  = 'all';
+  let featuredSlug  = null;
+
+  // ── HELPERS ─────────────────────────────────────────────────
+  async function callEdge(action, method = 'GET', body = null) {
+    const url  = `${API_BASE}?action=${action}`;
+    const opts = {
+      method,
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${ANON_KEY}`,
+        'apikey':        ANON_KEY,
+      },
+    };
+    if (body) opts.body = JSON.stringify(body);
+    const res  = await fetch(url, opts);
+    return res.json();
+  }
+
+  // ── DOOR ANIMATION ──────────────────────────────────────────
+  (function initDoor() {
+    const scene   = document.getElementById('door-scene');
+    const welcome = document.getElementById('door-welcome');
+    const overlay = document.getElementById('door-overlay');
+    const site    = document.getElementById('site');
+
+    // Knock ripple effect on click
+    function addRipple(e) {
+      const r = document.createElement('div');
+      r.className = 'knock-ripple';
+      scene.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+    }
+    scene.addEventListener('click', addRipple);
+
+    // Step 1: open doors after 600ms
+    setTimeout(() => {
+      scene.classList.add('open');
+      welcome.classList.add('show');
+    }, 600);
+
+    // Step 2: fade overlay & show site after 3s
+    setTimeout(() => {
+      overlay.classList.add('fade-out');
+      site.classList.add('visible');
+    }, 3200);
+
+    setTimeout(() => {
+      overlay.classList.add('gone');
+    }, 3900);
+  })();
+
+  // ── HEADER SCROLL ───────────────────────────────────────────
+  window.addEventListener('scroll', () => {
+    const hdr = document.getElementById('site-header');
+    hdr.classList.toggle('scrolled', window.scrollY > 10);
+    document.getElementById('scroll-top').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // ── HAMBURGER ───────────────────────────────────────────────
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+  });
+  function closeMobileNav() {
+    document.getElementById('mobile-nav').classList.remove('open');
+  }
+
+  // ── SCROLL HELPERS ──────────────────────────────────────────
+  function scrollToArticles(e)   { e?.preventDefault(); document.getElementById('articles').scrollIntoView({behavior:'smooth'}); }
+  function scrollToManifesto(e)  { e?.preventDefault(); document.getElementById('about').scrollIntoView({behavior:'smooth'}); }
+  function scrollToNewsletter(e) { e?.preventDefault(); document.getElementById('newsletter').scrollIntoView({behavior:'smooth'}); }
+  function showHome(e)           { e?.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+  // ── TICKER ──────────────────────────────────────────────────
+  function buildTicker(articles) {
+    const topics = articles.length
+      ? articles.flatMap(a => a.tags || [a.category])
+      : ['Mental Health','Labour Rights','Social Justice','Environment','Education','Gender Equity','Climate Change','Digital Rights'];
+    const unique = [...new Set(topics)];
+    const set    = [...unique, ...unique]; // double for infinite scroll
+    const ticker = document.getElementById('ticker');
+    ticker.innerHTML = set.map(t =>
+      `<span class="ticker-item"><span>◆</span>${t}</span>`
+    ).join('');
+  }
+
+  // ── FETCH + RENDER ARTICLES ─────────────────────────────────
+  async function loadArticles() {
+    try {
+      const data = await callEdge('articles');
+      if (!data.success) throw new Error(data.error || 'API error');
+
+      allArticles = data.articles || [];
+      document.getElementById('articles-skeleton').style.display = 'none';
+
+      if (!allArticles.length) {
+        document.getElementById('articles-empty').style.display = 'block';
+        return;
+      }
+
+      buildTicker(allArticles);
+      buildFilterTabs(allArticles);
+      renderArticles(allArticles);
+      populateHeroPreview(allArticles);
+
+    } catch (err) {
+      console.error('Articles load error:', err);
+      document.getElementById('articles-skeleton').style.display = 'none';
+      document.getElementById('articles-error').style.display   = 'block';
+      buildTicker([]);
+    }
+  }
+
+  function buildFilterTabs(articles) {
+    const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
+    const tabs  = document.getElementById('filter-tabs');
+    cats.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tab';
+      btn.dataset.cat = cat;
+      btn.textContent = cat;
+      btn.onclick = () => filterArticles(cat, btn);
+      tabs.appendChild(btn);
+    });
+  }
+
+  function filterArticles(cat, btn) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat);
+    if (!filtered.length) {
+      document.getElementById('articles-grid').style.display = 'none';
+      document.getElementById('articles-empty').style.display = 'block';
+    } else {
+      document.getElementById('articles-empty').style.display = 'none';
+      renderArticles(filtered);
+    }
+  }
+
+  function renderArticles(list) {
+    const grid = document.getElementById('articles-grid');
+    grid.style.display = 'grid';
+    grid.innerHTML = list.map((a, i) => articleCard(a, i === 0 && activeFilter === 'all')).join('');
+  }
+
+  function articleCard(a, featured) {
+    const date = a.published_at
+      ? new Date(a.published_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })
+      : '';
+    const tags = (a.tags || []).slice(0,3).map(t =>
+      `<span class="card-tag">${t}</span>`
+    ).join('');
+
+    return `
+      <article class="article-card ${featured ? 'featured' : ''}" onclick="openArticle('${a.slug}')">
+        <div class="card-image">
+          ${a.cover_image ? `<img src="${a.cover_image}" alt="${esc(a.title)}" loading="lazy" />` : ''}
+          <span class="card-cat">${esc(a.category || 'Uncategorised')}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${esc(a.title)}</h3>
+          <p class="card-subtitle">${esc(a.subtitle || '')}</p>
+          ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+          <div class="card-footer">
+            <div class="card-author">
+              <img src="${a.author_avatar || ''}" alt="${esc(a.author || '')}" />
+              <span class="card-author-name">${esc(a.author || 'Anonymous')}</span>
+            </div>
+            <div class="card-meta-right">
+              <span class="card-read-time">${esc(a.read_time || '')}</span>
+              <div class="card-arrow">→</div>
+            </div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function populateHeroPreview(articles) {
+    const featured = articles.find(a => a.is_featured) || articles[0];
+    if (!featured) return;
+    featuredSlug = featured.slug;
+    document.getElementById('hero-cat').textContent            = featured.category || '';
+    document.getElementById('hero-preview-title').textContent = featured.title || '';
+    if (featured.cover_image) {
+      document.getElementById('hero-main-img').src = featured.cover_image;
+      document.getElementById('hero-thumb').src    = featured.cover_image;
+    }
+  }
+
+  function openFeaturedArticle() {
+    if (featuredSlug) openArticle(featuredSlug);
+  }
+
+  // ── ARTICLE MODAL ───────────────────────────────────────────
+  async function openArticle(slug) {
+    const modal = document.getElementById('article-modal');
+    const area  = document.getElementById('modal-content-area');
+    area.innerHTML = '<div class="modal-loading">Loading article…</div>';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    try {
+      const data = await callEdge(`article&slug=${slug}`);
+      if (!data.success || !data.article) throw new Error('Not found');
+      renderModal(data.article);
+    } catch (err) {
+      area.innerHTML = `<div class="modal-loading">Could not load article. Please try again.</div>`;
+    }
+  }
+
+  function renderModal(a) {
+    const date = a.published_at
+      ? new Date(a.published_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
+      : '';
+    document.getElementById('modal-content-area').innerHTML = `
+      ${a.cover_image ? `<img class="modal-cover" src="${a.cover_image}" alt="${esc(a.title)}" />` : ''}
+      <div class="modal-body">
+        <div class="modal-cat">${esc(a.category || '')}</div>
+        <h2 class="modal-title">${esc(a.title)}</h2>
+        <p class="modal-subtitle">${esc(a.subtitle || '')}</p>
+        <div class="modal-byline">
+          <img src="${a.author_avatar || ''}" alt="${esc(a.author || '')}" />
+          <div>
+            <div class="modal-byline-name">${esc(a.author || 'Anonymous')}</div>
+            <div class="modal-byline-meta">${date} · ${esc(a.read_time || '')}</div>
+          </div>
+        </div>
+        <div class="modal-content">${a.content || ''}</div>
+      </div>`;
+  }
+
+  function closeModal() {
+    document.getElementById('article-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeModalOnBackdrop(e) {
+    if (e.target === document.getElementById('article-modal')) closeModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── VISITS ──────────────────────────────────────────────────
+  async function trackVisit() {
+    try {
+      const data = await callEdge('visit', 'POST');
+      if (data.success) updateVisitUI(data.visits);
+    } catch (e) { console.warn('Visit track failed', e); }
+  }
+
+  async function loadVisits() {
+    try {
+      const data = await callEdge('visits');
+      if (data.success) updateVisitUI(data.visits);
+    } catch (e) {}
+  }
+
+  function updateVisitUI(n) {
+    const fmt = n?.toLocaleString('en-IN') || '—';
+    document.getElementById('header-visits').textContent  = `${fmt} visits`;
+    document.getElementById('footer-visits').textContent  = fmt;
+    document.getElementById('hero-stat-count').textContent = fmt;
+  }
+
+  // ── NEWSLETTER ──────────────────────────────────────────────
+  function subscribeNewsletter() {
+    const email = document.getElementById('email-input').value.trim();
+    const msg   = document.getElementById('newsletter-msg');
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      msg.textContent = 'Please enter a valid email address.';
+      msg.style.display = 'block';
+      return;
+    }
+    msg.textContent = '✓ You\'re on the list. Welcome to the Verse.';
+    msg.style.color = 'var(--accent)';
+    msg.style.display = 'block';
+    document.getElementById('email-input').value = '';
+  }
+
+  // ── ESCAPE HELPER ───────────────────────────────────────────
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  // ── INIT ────────────────────────────────────────────────────
+  // Wait a moment for the door animation, then start fetching
+  setTimeout(() => {
+    loadArticles();
+    trackVisit();
+    loadVisits();
+  }, 500);
+
+  // Build initial ticker placeholder immediately
+  buildTicker([]);
+</script>
+</body>
+</html>
