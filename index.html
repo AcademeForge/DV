@@ -10,6 +10,7 @@
   <meta property="og:type" content="website" />
   <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" type="image/jpeg" href="/IMG/DV.webp">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
@@ -84,6 +85,364 @@
     body.dv-dark .dv-write-input,
     body.dv-dark .dv-write-textarea { background: var(--paper); }
     body.dv-dark .dv-manifesto      { background: #080c14; }
+
+    /* ════════════════════════════════════════════════════════
+       DARK MODE CONTRAST & READABILITY FIXES
+       Replacing hardcoded rgba/hex colors with theme variables
+       or raised-opacity equivalents for dark backgrounds.
+    ════════════════════════════════════════════════════════ */
+
+    /* ── TOPBAR ──
+       rgba(255,255,255,0.55) → 0.80 for legibility on dark --ink bg */
+    body.dv-dark .dv-topbar {
+      color: rgba(255, 255, 255, 0.80);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* ── TICKER ──
+       rgba(255,255,255,0.4) → 0.65 */
+    body.dv-dark .dv-ticker-item {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ── HERO STAT CARD ──
+       var(--white) = #161b22 in dark mode; text must use var(--ink) */
+    body.dv-dark .dv-hero-stat {
+      background: var(--white);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-hero-stat-num   { color: var(--ink); }
+    body.dv-dark .dv-hero-stat-label { color: var(--muted); }
+
+    /* ── HERO PREVIEW CARD ── */
+    body.dv-dark .dv-hero-preview {
+      background: var(--white);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-hero-preview-title { color: var(--ink); }
+
+    /* ── TRENDING SECTION ──
+       Section stays on a dark background in both modes.
+       Raise opacity for all dim text so it clears WCAG AA at ~4.5:1. */
+    body.dv-dark .dv-trending-num   { color: rgba(255, 255, 255, 0.18); }
+    body.dv-dark .dv-trending-title { color: rgba(255, 255, 255, 0.92); }
+    body.dv-dark .dv-trending-views { color: rgba(255, 255, 255, 0.55); }
+    body.dv-dark .dv-trending-card  {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+    body.dv-dark .dv-trending-card:hover {
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    /* ── MANIFESTO (always dark bg) ──
+       Copy: rgba(255,255,255,0.5) → 0.72 */
+    body.dv-dark .dv-manifesto-copy {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    /* ── EDITOR CTA SECTION (always dark gradient bg) ──
+       Desc + perk labels were far too faint */
+    body.dv-dark .dv-editor-cta-desc {
+      color: rgba(255, 255, 255, 0.72);
+    }
+    body.dv-dark .dv-editor-perk-label {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ── FOOTER ──
+       Critical fix: in dark mode var(--ink) flips to #e6edf3 (light).
+       Without overrides the footer renders light-on-light.
+       Force footer to always stay on a near-black canvas. */
+    body.dv-dark .dv-footer {
+      background: #080c14;
+      color: rgba(255, 255, 255, 0.60);
+    }
+    body.dv-dark .dv-footer-grid {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+    body.dv-dark .dv-footer-brand p {
+      color: rgba(255, 255, 255, 0.60);
+    }
+    body.dv-dark .dv-footer-brand .dv-logo-text {
+      color: #ffffff;
+    }
+    body.dv-dark .dv-footer-col h4 {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    body.dv-dark .dv-footer-links a {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    body.dv-dark .dv-footer-links a:hover {
+      color: #ffffff;
+    }
+    body.dv-dark .dv-footer-bottom p {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    body.dv-dark .dv-footer-visits {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    body.dv-dark .dv-footer-visits strong {
+      color: rgba(255, 255, 255, 0.88);
+    }
+    body.dv-dark .dv-footer-credit {
+      color: rgba(255, 255, 255, 0.48);
+    }
+    body.dv-dark .dv-footer-credit:hover {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* ── ARTICLE MODAL ── */
+    body.dv-dark .dv-modal-close-btn {
+      background: rgba(0, 0, 0, 0.62);
+      color: #ffffff;
+    }
+    body.dv-dark .dv-modal-headline     { color: var(--ink); }
+    body.dv-dark .dv-modal-deck         { color: var(--muted); }
+    body.dv-dark .dv-modal-cat-label    { color: var(--accent); }
+    body.dv-dark .dv-modal-byline-name  { color: var(--ink); }
+    body.dv-dark .dv-modal-byline-meta  { color: var(--muted); }
+    body.dv-dark .dv-modal-byline {
+      border-top-color: var(--border-soft);
+      border-bottom-color: var(--border-soft);
+    }
+    body.dv-dark .dv-modal-prose        { color: var(--ink2); }
+    body.dv-dark .dv-modal-prose strong { color: var(--ink); }
+    body.dv-dark .dv-modal-prose h2,
+    body.dv-dark .dv-modal-prose h3     { color: var(--ink); }
+
+    /* Modal TOC box */
+    body.dv-dark .dv-toc-box {
+      background: var(--paper3);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-toc-box h4 { color: var(--muted); }
+
+    /* Modal share bar */
+    body.dv-dark .dv-share-label { color: var(--muted); }
+    body.dv-dark .dv-share-btn {
+      color: var(--ink);
+      border-color: var(--border);
+      background: transparent;
+    }
+    body.dv-dark .dv-share-btn:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* Related articles */
+    body.dv-dark .dv-related-title      { color: var(--ink); }
+    body.dv-dark .dv-related-card-title { color: var(--ink); }
+    body.dv-dark .dv-related-section    { border-top-color: var(--border-soft); }
+
+    /* ── SEARCH OVERLAY ── */
+    body.dv-dark .dv-search-overlay-box { border-color: var(--border); }
+    body.dv-dark #dv-search-input       { color: var(--ink); }
+    body.dv-dark .dv-search-result-title { color: var(--ink); }
+    body.dv-dark .dv-search-hint         { color: var(--muted); }
+    body.dv-dark .dv-search-result-item:hover { background: var(--paper3); }
+    body.dv-dark .dv-search-ovl-close {
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-search-ovl-close:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+      background: var(--paper3);
+    }
+
+    /* ── DARK MODE TOGGLE KNOB ──
+       Hardcoded #fff background is correct; ensure emoji contrast. */
+    body.dv-dark .dv-toggle-knob {
+      background: #ffffff;
+    }
+
+    /* ── VISIT BADGE ── */
+    body.dv-dark .dv-visit-badge {
+      background: var(--paper3);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    /* ── FILTER BUTTONS ── */
+    body.dv-dark .dv-filter-btn {
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-filter-btn:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+      background: var(--paper3);
+    }
+
+    /* ── CATEGORY PILLS ── */
+    body.dv-dark .dv-cat-count {
+      background: var(--paper3);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    /* ── ARTICLE CARDS ── */
+    body.dv-dark .dv-card-tag {
+      background: var(--paper3);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    body.dv-dark .dv-card-read-time,
+    body.dv-dark .dv-card-views { color: var(--muted2); }
+    body.dv-dark .dv-card-arrow {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    body.dv-dark .dv-card-footer {
+      border-top-color: var(--border-soft);
+    }
+
+    /* ── FOUNDERS SECTION ── */
+    body.dv-dark .dv-founder-role  { color: var(--accent); }
+    body.dv-dark .dv-founder-name  { color: var(--ink); }
+    body.dv-dark .dv-founder-brief { color: var(--muted); }
+    body.dv-dark .dv-founder-cta   { color: var(--ink); }
+
+    /* ── BREADCRUMB ── */
+    body.dv-dark .dv-breadcrumb   { color: var(--muted); }
+    body.dv-dark .dv-breadcrumb a { color: var(--muted); }
+
+    /* ════════════════════════════════════════════════════════
+       COMMENT SYSTEM DARK MODE FIXES
+    ════════════════════════════════════════════════════════ */
+
+    /* Comments section border */
+    body.dv-dark .dv-comments-section { border-top-color: var(--border-soft); }
+
+    /* Count badge */
+    body.dv-dark .dv-comments-count {
+      background: var(--paper3);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    body.dv-dark .dv-comments-title { color: var(--ink); }
+
+    /* Sort buttons */
+    body.dv-dark .dv-sort-btn {
+      color: var(--muted);
+      border-color: var(--border);
+      background: transparent;
+    }
+    body.dv-dark .dv-sort-btn:hover { border-color: var(--ink); color: var(--ink); }
+    body.dv-dark .dv-sort-btn.dv-sort-active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* Write box */
+    body.dv-dark .dv-comment-write-box h4  { color: var(--ink); }
+    body.dv-dark .dv-comment-submit-btn {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    body.dv-dark .dv-comment-submit-btn:hover {
+      background: var(--accent);
+    }
+
+    /* Avatar — critical fix:
+       var(--ink) in dark mode = #e6edf3 (light), making the gradient start
+       almost white. Use hardcoded dark tones that work on both themes. */
+    body.dv-dark .dv-comment-avatar {
+      background: linear-gradient(135deg, #2d333b 0%, #444c56 100%);
+      border-color: var(--border);
+      color: #ffffff;
+    }
+
+    /* Comment text */
+    body.dv-dark .dv-comment-author-name { color: var(--ink); }
+    body.dv-dark .dv-comment-text        { color: var(--ink2); }
+    body.dv-dark .dv-comment-date        { color: var(--muted2); }
+
+    /* Three-dot menu */
+    body.dv-dark .dv-comment-menu-btn { color: var(--muted2); }
+    body.dv-dark .dv-comment-menu-btn:hover { background: var(--paper3); color: var(--ink); }
+    body.dv-dark .dv-comment-menu-dropdown {
+      background: var(--paper2);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-comment-menu-item         { color: var(--ink2); }
+    body.dv-dark .dv-comment-menu-item:hover   { background: var(--paper3); }
+    body.dv-dark .dv-comment-menu-item.dv-danger       { color: var(--accent); }
+    body.dv-dark .dv-comment-menu-item.dv-danger:hover { background: var(--accent-dim); }
+
+    /* Like / Reply buttons */
+    body.dv-dark .dv-action-like,
+    body.dv-dark .dv-action-reply {
+      color: var(--muted);
+      border-color: var(--border);
+      background: var(--paper3);
+    }
+    body.dv-dark .dv-action-like:hover {
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+    body.dv-dark .dv-action-like.dv-liked {
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+    body.dv-dark .dv-action-reply:hover {
+      color: var(--blue);
+      background: var(--blue-dim);
+      border-color: var(--blue);
+    }
+
+    /* Replies toggle */
+    body.dv-dark .dv-replies-toggle       { color: var(--blue); }
+    body.dv-dark .dv-replies-toggle:hover { color: var(--accent); }
+
+    /* Inline reply form */
+    body.dv-dark .dv-inline-reply-form {
+      background: var(--paper2);
+      border-color: var(--border);
+    }
+    body.dv-dark .dv-inline-submit {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    body.dv-dark .dv-inline-submit:hover { background: var(--accent); }
+    body.dv-dark .dv-inline-cancel { color: var(--muted); }
+    body.dv-dark .dv-inline-cancel:hover { color: var(--ink); }
+
+    /* ── EDITOR APPLICATION FORM ── */
+    body.dv-dark .dv-eform-header {
+      background: var(--white);
+      border-bottom-color: var(--border);
+    }
+    body.dv-dark .dv-eform-header h2 { color: var(--ink); }
+    body.dv-dark .dv-eform-header p  { color: var(--muted); }
+    body.dv-dark .dv-eform-close {
+      background: var(--paper3);
+      color: var(--muted);
+    }
+    body.dv-dark .dv-eform-close:hover {
+      background: var(--border);
+      color: var(--ink);
+    }
+    body.dv-dark .dv-form-label { color: var(--ink); }
+    body.dv-dark .dv-chip {
+      background: var(--paper3);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    body.dv-dark .dv-chip.dv-chip-on {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       END OF DARK MODE FIXES
+    ════════════════════════════════════════════════════════ */
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -1452,7 +1811,6 @@
         toggleBtn.addEventListener('click', function () {
           const expanded = nest.classList.toggle('dv-expanded');
           toggleBtn.classList.toggle('dv-expanded', expanded);
-          const txt = toggleBtn.textContent;
           toggleBtn.innerHTML = (expanded ? '▼ ' : '▶ ') + '<span class="dv-replies-toggle-arrow"></span> ' +
             (expanded ? 'Hide replies' : 'View ' + (c.replies ? c.replies.length : 0) + ' repl' + ((c.replies && c.replies.length > 1) ? 'ies' : 'y'));
         });
