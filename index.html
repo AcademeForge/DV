@@ -293,29 +293,25 @@
 
     /* ── TICKER (SLOWED MARQUEE) ────────────────────── */
     .ticker-wrap {
-      background: var(--accent2);
-      overflow: hidden;
-      padding: 12px 0;
-    }
-    .ticker-inner {
-      display: flex;
-      animation: ticker 440s linear infinite; /* Considerably slowed down speed */
-      white-space: nowrap;
-    }
-    .ticker-inner:hover { animation-play-state: paused; }
-    .ticker-item {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.5);
-      padding: 0 40px;
-    }
-    .ticker-item span { color: var(--accent); margin-right: 12px; }
-    @keyframes ticker {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
+  overflow: hidden;
+}
+
+.ticker-inner {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: ticker 300s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker {
+  from {
+    transform: translate3d(0,0,0);
+  }
+  to {
+    transform: translate3d(-50%,0,0);
+  }
+}
 
     /* ── SECTION HEADER ──────────────────────────────── */
     .section-header {
