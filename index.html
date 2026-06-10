@@ -642,7 +642,9 @@
       .footer-inner { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
-   
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body>
