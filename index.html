@@ -21,7 +21,7 @@
       --accent:     #c8392b;
       --accent2:    #1a1a2e;
       --muted:      #7a7060;
-      --border:     #d4cfc4;
+      --border:      #d4cfc4;
       --white:      #ffffff;
       --serif:      'Playfair Display', Georgia, serif;
       --sans:       'Inter', system-ui, sans-serif;
@@ -44,168 +44,24 @@
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; border: none; background: none; font: inherit; }
 
-    /* ── DOOR INTRO ─────────────────────────────────── */
-    #door-overlay {
-      position: fixed; inset: 0; z-index: 1000;
-      display: flex; align-items: center; justify-content: center;
+    /* ── MODERN CORPORATE TOP BAR ──────────────────── */
+    .corporate-top-bar {
       background: var(--accent2);
-      overflow: hidden;
-    }
-    .door-scene {
-      position: relative;
-      width: min(520px, 90vw);
-      height: min(680px, 90vh);
-    }
-    /* Door frame */
-    .door-frame {
-      position: absolute; inset: 0;
-      border: 6px solid #3a3a5c;
-      border-radius: 8px 8px 2px 2px;
-      background: #12122a;
-    }
-    /* Door arch top */
-    .door-frame::before {
-      content: '';
-      position: absolute;
-      top: -40px; left: -6px; right: -6px;
-      height: 80px;
-      background: #12122a;
-      border: 6px solid #3a3a5c;
-      border-bottom: none;
-      border-radius: 100px 100px 0 0;
-    }
-    /* Left door panel */
-    .door-left {
-      position: absolute;
-      top: 0; left: 0;
-      width: 50%; height: 100%;
-      background: linear-gradient(135deg, #2a2a4a 0%, #1e1e38 50%, #2a2a4a 100%);
-      transform-origin: left center;
-      transform: perspective(1200px) rotateY(0deg);
-      transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
-      border-right: 3px solid #3a3a5c;
-      overflow: hidden;
-    }
-    /* Right door panel */
-    .door-right {
-      position: absolute;
-      top: 0; right: 0;
-      width: 50%; height: 100%;
-      background: linear-gradient(225deg, #2a2a4a 0%, #1e1e38 50%, #2a2a4a 100%);
-      transform-origin: right center;
-      transform: perspective(1200px) rotateY(0deg);
-      transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
-      border-left: 3px solid #3a3a5c;
-      overflow: hidden;
-    }
-    /* Door panels decorative */
-    .door-left::before, .door-right::before {
-      content: '';
-      position: absolute;
-      top: 15%; left: 15%; right: 15%; bottom: 15%;
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: 2px;
-    }
-    .door-left::after, .door-right::after {
-      content: '';
-      position: absolute;
-      top: 30%; left: 20%; right: 20%; bottom: 30%;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    /* Door knobs */
-    .knob-left {
-      position: absolute; top: 50%; right: 12px;
-      transform: translateY(-50%);
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #d4af37, #8b6914);
-      box-shadow: 0 0 8px rgba(212,175,55,0.4);
-    }
-    .knob-right {
-      position: absolute; top: 50%; left: 12px;
-      transform: translateY(-50%);
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #d4af37, #8b6914);
-      box-shadow: 0 0 8px rgba(212,175,55,0.4);
-    }
-    /* Light spill behind door */
-    .door-light {
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at center, rgba(200,57,43,0.15) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.8s ease 0.8s;
-    }
-
-    /* Open state */
-    .door-scene.open .door-left {
-      transform: perspective(1200px) rotateY(-110deg);
-    }
-    .door-scene.open .door-right {
-      transform: perspective(1200px) rotateY(110deg);
-    }
-    .door-scene.open .door-light { opacity: 1; }
-
-    /* Welcome text on overlay */
-    .door-welcome {
-      position: absolute;
-      bottom: -140px; left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      white-space: nowrap;
-    }
-    .door-welcome h1 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900;
       color: var(--white);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease 1.6s, transform 0.8s ease 1.6s;
-    }
-    .door-welcome h1 span { color: var(--accent); }
-    .door-welcome p {
-      margin-top: 12px;
       font-family: var(--mono);
-      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s ease 2.2s, transform 0.6s ease 2.2s;
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 8px 24px;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .door-scene.open ~ .door-welcome h1,
-    .door-welcome.show h1 { opacity: 1; transform: translateY(0); }
-    .door-scene.open ~ .door-welcome p,
-    .door-welcome.show p { opacity: 1; transform: translateY(0); }
-
-    /* Overlay fade */
-    #door-overlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.7s ease;
-    }
-    #door-overlay.gone { display: none; }
-
-    /* Knock particles */
-    .knock-ripple {
-      position: absolute; top: 50%; left: 50%;
-      width: 0; height: 0;
-      border-radius: 50%;
-      border: 2px solid rgba(212,175,55,0.6);
-      transform: translate(-50%, -50%);
-      animation: ripple 0.8s ease-out forwards;
-    }
-    @keyframes ripple {
-      to { width: 200px; height: 200px; opacity: 0; }
+    .corporate-top-bar span {
+      color: var(--accent);
+      font-weight: 700;
     }
 
-    /* ── SITE SHELL ─────────────────────────────────── */
-    #site { opacity: 0; transition: opacity 0.6s ease; }
-    #site.visible { opacity: 1; }
+    /* ── SITE CONTAINER ────────────────────────────── */
+    #site { opacity: 1; }
 
     /* ── HEADER ─────────────────────────────────────── */
     .site-header {
@@ -299,7 +155,6 @@
       gap: 60px;
       align-items: center;
     }
-    .hero-text { }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: var(--mono);
@@ -436,15 +291,15 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ── TICKER ──────────────────────────────────────── */
+    /* ── TICKER (SLOWED MARQUEE) ────────────────────── */
     .ticker-wrap {
       background: var(--accent2);
       overflow: hidden;
-      padding: 10px 0;
+      padding: 12px 0;
     }
     .ticker-inner {
       display: flex;
-      animation: ticker 60s linear infinite;
+      animation: ticker 140s linear infinite; /* Considerably slowed down speed */
       white-space: nowrap;
     }
     .ticker-inner:hover { animation-play-state: paused; }
@@ -452,7 +307,7 @@
       font-family: var(--mono);
       font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: rgba(255,255,255,0.5);
       padding: 0 40px;
     }
@@ -519,12 +374,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 32px;
     }
-
-    /* Featured article spans 2 cols */
-    .article-card.featured {
-      grid-column: span 2;
-    }
-
+    .article-card.featured { grid-column: span 2; }
     .article-card {
       display: flex; flex-direction: column;
       background: var(--white);
@@ -537,7 +387,6 @@
       transform: translateY(-4px);
       box-shadow: 0 16px 48px rgba(0,0,0,0.1);
     }
-
     .card-image {
       position: relative;
       aspect-ratio: 16 / 9;
@@ -551,7 +400,6 @@
       transition: transform 0.6s ease;
     }
     .article-card:hover .card-image img { transform: scale(1.04); }
-
     .card-cat {
       position: absolute; top: 14px; left: 14px;
       font-family: var(--mono);
@@ -563,7 +411,6 @@
       padding: 4px 10px;
       border-radius: 2px;
     }
-
     .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
     .card-title {
       font-family: var(--serif);
@@ -583,33 +430,16 @@
       margin-bottom: 20px;
       flex: 1;
     }
-
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
       padding-top: 16px;
       border-top: 1px solid var(--paper2);
     }
-    .card-author {
-      display: flex; align-items: center; gap: 8px;
-    }
-    .card-author img {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--paper2);
-    }
-    .card-author-name {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--ink);
-    }
-    .card-meta-right {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .card-read-time {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
+    .card-author { display: flex; align-items: center; gap: 8px; }
+    .card-author img { width: 28px; height: 28px; border-radius: 50%; background: var(--paper2); }
+    .card-author-name { font-size: 0.8rem; font-weight: 500; color: var(--ink); }
+    .card-meta-right { display: flex; align-items: center; gap: 12px; }
+    .card-read-time { font-family: var(--mono); font-size: 0.7erem; color: var(--muted); }
     .card-arrow {
       width: 28px; height: 28px;
       border-radius: 50%;
@@ -619,29 +449,13 @@
       color: var(--muted);
       transition: all var(--transition);
     }
-    .article-card:hover .card-arrow {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--white);
-    }
-
-    /* ── TAGS ────────────────────────────────────────── */
-    .card-tags {
-      display: flex; flex-wrap: wrap; gap: 6px;
-      margin-bottom: 14px;
-    }
-    .card-tag {
-      font-size: 0.68rem;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 12px;
-    }
+    .article-card:hover .card-arrow { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .card-tag { font-size: 0.68rem; color: var(--muted); border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px; }
 
     /* ── FOUNDERS SECTION ────────────────────────────── */
     .founders-section {
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1200px; margin: 0 auto;
       padding: 80px 24px;
       border-top: 1px solid var(--border);
     }
@@ -692,15 +506,10 @@
       align-items: center;
       gap: 6px;
     }
-    .founder-action-text::after {
-      content: '→';
-      transition: transform var(--transition);
-    }
-    .founder-card:hover .founder-action-text::after {
-      transform: translateX(4px);
-    }
+    .founder-action-text::after { content: '→'; transition: transform var(--transition); }
+    .founder-card:hover .founder-action-text::after { transform: translateX(4px); }
 
-    /* ── LOADING / EMPTY ─────────────────────────────── */
+    /* ── LOADING / SKELETONS ─────────────────────────── */
     .articles-loading {
       max-width: 1200px; margin: 0 auto;
       padding: 0 24px 80px;
@@ -708,12 +517,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 32px;
     }
-    .skeleton {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+    .skeleton { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
     .skeleton-img {
       aspect-ratio: 16/9;
       background: linear-gradient(90deg, var(--paper2) 25%, var(--border) 50%, var(--paper2) 75%);
@@ -729,26 +533,13 @@
     }
     .skeleton-line.short { width: 60%; }
     .skeleton-line.medium { width: 80%; }
-    @keyframes shimmer {
-      to { background-position: -200% 0; }
-    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
 
-    .error-state, .empty-state {
-      max-width: 1200px; margin: 0 auto;
-      padding: 60px 24px;
-      text-align: center;
-    }
-    .error-state p, .empty-state p {
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
+    .error-state, .empty-state { max-width: 1200px; margin: 0 auto; padding: 60px 24px; text-align: center; }
+    .error-state p, .empty-state p { font-size: 1.05rem; color: var(--muted); }
 
     /* ── MANIFESTO SECTION ────────────────────────────── */
-    .manifesto {
-      background: var(--accent2);
-      padding: 80px 24px;
-      text-align: center;
-    }
+    .manifesto { background: var(--accent2); padding: 80px 24px; text-align: center; }
     .manifesto-inner { max-width: 720px; margin: 0 auto; }
     .manifesto-quote {
       font-family: var(--serif);
@@ -760,252 +551,76 @@
       margin-bottom: 28px;
     }
     .manifesto-quote span { color: var(--accent); }
-    .manifesto-text {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.8;
-      max-width: 560px;
-      margin: 0 auto 32px;
-    }
+    .manifesto-text { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.8; max-width: 560px; margin: 0 auto 32px; }
 
     /* ── NEWSLETTER ───────────────────────────────────── */
-    .newsletter {
-      background: var(--paper2);
-      border-top: 1px solid var(--border);
-      padding: 64px 24px;
-    }
-    .newsletter-inner {
-      max-width: 560px; margin: 0 auto;
-      text-align: center;
-    }
-    .newsletter-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .newsletter-title {
-      font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--ink);
-      margin-bottom: 12px;
-    }
-    .newsletter-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 28px;
-    }
-    .newsletter-form {
-      display: flex; gap: 8px;
-    }
+    .newsletter { background: var(--paper2); border-top: 1px solid var(--border); padding: 64px 24px; }
+    .newsletter-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+    .newsletter-eyebrow { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+    .newsletter-title { font-family: var(--serif); font-size: 2rem; font-weight: 900; color: var(--ink); margin-bottom: 12px; }
+    .newsletter-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 28px; }
+    .newsletter-form { display: flex; gap: 8px; }
     .newsletter-input {
-      flex: 1;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--white);
-      font-family: var(--sans);
-      font-size: 0.9rem;
-      color: var(--ink);
-      outline: none;
-      transition: border-color var(--transition);
+      flex: 1; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--radius);
+      background: var(--white); font-family: var(--sans); font-size: 0.9rem; color: var(--ink); outline: none; transition: border-color var(--transition);
     }
     .newsletter-input:focus { border-color: var(--ink); }
     .newsletter-input::placeholder { color: var(--muted); }
-    .newsletter-btn {
-      padding: 12px 20px;
-      background: var(--ink);
-      color: var(--white);
-      font-size: 0.875rem;
-      font-weight: 600;
-      border-radius: var(--radius);
-      transition: background var(--transition);
-      white-space: nowrap;
-    }
+    .newsletter-btn { padding: 12px 20px; background: var(--ink); color: var(--white); font-size: 0.875rem; font-weight: 600; border-radius: var(--radius); transition: background var(--transition); white-space: nowrap; }
     .newsletter-btn:hover { background: var(--accent); }
 
     /* ── FOOTER ───────────────────────────────────────── */
-    .site-footer {
-      background: var(--ink);
-      color: rgba(255,255,255,0.5);
-      padding: 48px 24px 32px;
-    }
+    .site-footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 48px 24px 32px; }
     .footer-inner {
       max-width: 1200px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .footer-brand .logo { color: var(--white); margin-bottom: 12px; }
     .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
-    .footer-col h4 {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 16px;
-    }
+    .footer-col h4 { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
     .footer-links { display: flex; flex-direction: column; gap: 8px; }
-    .footer-links a {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-      transition: color var(--transition);
-    }
+    .footer-links a { font-size: 0.85rem; color: rgba(255,255,255,0.4); transition: color var(--transition); }
     .footer-links a:hover { color: var(--white); }
-    .footer-bottom {
-      max-width: 1200px; margin: 0 auto;
-      padding: 28px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-    }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding: 28px 0 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .footer-bottom p { font-size: 0.8rem; }
-    .footer-credit {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.4);
-    }
-    .footer-credit span {
-      color: var(--accent);
-      font-weight: 700;
-    }
-    .footer-counter {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.3);
-    }
+    .footer-credit { font-family: var(--mono); font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); }
+    .footer-credit span { color: var(--accent); font-weight: 700; }
+    .footer-counter { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.3); }
     .footer-counter strong { color: rgba(255,255,255,0.7); }
 
-    /* ── ARTICLE MODAL / READER ───────────────────────── */
+    /* ── ARTICLE MODAL ────────────────────────────────── */
     #article-modal {
       position: fixed; inset: 0; z-index: 200;
       display: flex; align-items: flex-start; justify-content: center;
-      padding: 40px 20px;
-      background: rgba(13,13,13,0.7);
-      backdrop-filter: blur(6px);
-      overflow-y: auto;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
+      padding: 40px 20px; background: rgba(13,13,13,0.7); backdrop-filter: blur(6px);
+      overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     #article-modal.open { opacity: 1; pointer-events: all; }
-    .modal-inner {
-      background: var(--white);
-      border-radius: 12px;
-      max-width: 760px; width: 100%;
-      min-height: 200px;
-      overflow: hidden;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      position: relative;
-    }
+    .modal-inner { background: var(--white); border-radius: 12px; max-width: 760px; width: 100%; min-height: 200px; overflow: hidden; transform: translateY(20px); transition: transform 0.3s ease; position: relative; }
     #article-modal.open .modal-inner { transform: translateY(0); }
-    .modal-close {
-      position: absolute; top: 20px; right: 20px; z-index: 10;
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      color: var(--ink);
-      transition: background var(--transition);
-    }
+    .modal-close { position: absolute; top: 20px; right: 20px; z-index: 10; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--ink); transition: background var(--transition); }
     .modal-close:hover { background: rgba(0,0,0,0.2); }
-    .modal-cover {
-      width: 100%;
-      aspect-ratio: 21 / 9;
-      object-fit: cover;
-    }
+    .modal-cover { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
     .modal-body { padding: 36px 44px 52px; }
-    .modal-cat {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .modal-title {
-      font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 900;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 14px;
-    }
-    .modal-subtitle {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 24px;
-    }
-    .modal-byline {
-      display: flex; align-items: center; gap: 12px;
-      padding: 16px 0;
-      border-top: 1px solid var(--paper2);
-      border-bottom: 1px solid var(--paper2);
-      margin-bottom: 36px;
-    }
-    .modal-byline img {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-    }
-    .modal-byline-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .modal-byline-meta {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-    .modal-content {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: #2a2a2a;
-    }
+    .modal-cat { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+    .modal-title { font-family: var(--serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; line-height: 1.15; color: var(--ink); margin-bottom: 14px; }
+    .modal-subtitle { font-size: 1rem; color: var(--muted); line-height: 1.65; margin-bottom: 24px; }
+    .modal-byline { display: flex; align-items: center; gap: 12px; padding: 16px 0; border-top: 1px solid var(--paper2); border-bottom: 1px solid var(--paper2); margin-bottom: 36px; }
+    .modal-byline img { width: 38px; height: 38px; border-radius: 50%; }
+    .modal-byline-name { font-weight: 600; font-size: 0.9rem; }
+    .modal-byline-meta { font-size: 0.78rem; color: var(--muted); }
+    .modal-content { font-size: 1.05rem; line-height: 1.85; color: #2a2a2a; }
     .modal-content p { margin-bottom: 1.4em; }
-    .modal-content h2 {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin: 2em 0 0.6em;
-    }
-    .modal-content h3 {
-      font-family: var(--serif);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin: 1.6em 0 0.5em;
-    }
+    .modal-content h2 { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: var(--ink); margin: 2em 0 0.6em; }
+    .modal-content h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin: 1.6em 0 0.5em; }
     .modal-content strong { color: var(--ink); font-weight: 600; }
+    .modal-loading { padding: 60px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.8rem; }
 
-    .modal-loading {
-      padding: 60px;
-      text-align: center;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.8rem;
-    }
-
-    /* ── SCROLL TO TOP ────────────────────────────────── */
     #scroll-top {
-      position: fixed; bottom: 28px; right: 28px; z-index: 50;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--ink);
-      color: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      opacity: 0; pointer-events: none;
-      transition: all var(--transition);
+      position: fixed; bottom: 28px; right: 28px; z-index: 50; width: 44px; height: 44px; border-radius: 50%;
+      background: var(--ink); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: all var(--transition);
     }
     #scroll-top.show { opacity: 1; pointer-events: all; }
     #scroll-top:hover { background: var(--accent); transform: translateY(-2px); }
@@ -1031,7 +646,6 @@
       .footer-inner { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
@@ -1039,23 +653,8 @@
 </head>
 <body>
 
-<div id="door-overlay" role="dialog" aria-label="Welcome to DéssentVerse">
-  <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
-    <div class="door-scene" id="door-scene">
-      <div class="door-frame"></div>
-      <div class="door-left" id="door-left">
-        <div class="knob-left"></div>
-      </div>
-      <div class="door-right" id="door-right">
-        <div class="knob-right"></div>
-      </div>
-      <div class="door-light"></div>
-    </div>
-    <div class="door-welcome" id="door-welcome">
-      <h1>Welcome to <span>Dés</span>sentVerse</h1>
-      <p>Voices that refuse to be silent</p>
-    </div>
-  </div>
+<div class="corporate-top-bar">
+  <span>ANNOUNCEMENT:</span> Empowering unfiltered alternative truth systems globally since 2025.
 </div>
 
 <div id="site">
@@ -1091,8 +690,7 @@
   </div>
 
   <div class="ticker-wrap">
-    <div class="ticker-inner" id="ticker">
-      </div>
+    <div class="ticker-inner" id="ticker"></div>
   </div>
 
   <section class="hero">
@@ -1143,7 +741,7 @@
 
   <div class="filter-tabs" id="filter-tabs">
     <button class="filter-tab active" data-cat="all" onclick="filterArticles('all', this)">All</button>
-    </div>
+  </div>
 
   <div id="articles-output">
     <div class="articles-loading" id="articles-skeleton">
@@ -1184,13 +782,13 @@
       <div class="founder-card" onclick="openFounderCard('palak')">
         <div class="founder-role">Founder & Editor-in-Chief</div>
         <div class="founder-name">Palak Kumari Jha</div>
-        <div class="founder-brief">Visionary investigative writer dedicated to amplifying narratives that run parallel to mainstream structural visibility.</div>
+        <div class="founder-brief">Visionary investigative writer who originally established the groundwork of DéssentVerse in early 2025 to create a platform for alternative narratives.</div>
         <div class="founder-action-text">Read background detail</div>
       </div>
       <div class="founder-card" onclick="openFounderCard('devraj')">
         <div class="founder-role">Co-Founder & Director</div>
         <div class="founder-name">Devraj Kumar</div>
-        <div class="founder-brief">Strategist focused on building dynamic architectural frameworks for unmonetized truth-telling and independent digital media layout design.</div>
+        <div class="founder-brief">Systems strategist who saw the broader structural vision of the ecosystem in 2026, joining immediately to blueprint and deploy its entire foundational layout.</div>
         <div class="founder-action-text">Read background detail</div>
       </div>
     </div>
@@ -1246,7 +844,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 DéssentVerse. All rights reserved.</p>
+      <p>© 2026 DéssentVerse. All rights reserved.</p>
       <div class="footer-credit">Powered by <span>AcademeForge</span></div>
       <div class="footer-counter">
         Total visits: <strong id="footer-visits">loading…</strong>
@@ -1254,7 +852,9 @@
     </div>
   </footer>
 
-</div><div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
+</div>
+
+<div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
   <div class="modal-inner" id="modal-inner">
     <button class="modal-close" onclick="closeModal()" aria-label="Close modal">✕</button>
     <div id="modal-content-area">
@@ -1275,28 +875,28 @@
   let activeFilter  = 'all';
   let featuredSlug  = null;
 
-  // Demo dynamic founder content structure
+  // FOUNDER BIOS ACCORDING TO TIMELINE UPDATES
   const founderDetails = {
     palak: {
       title: "Founder & Editor-in-Chief",
       name: "Palak Kumari Jha",
       subtitle: "Journalist, Archivist, and Cultural Commentator",
       bio: `
-        <p><strong>Palak Kumari Jha</strong> launched DéssentVerse out of a deep-seated commitment to structural storytelling. With years of groundwork investigating grassroots worker rights initiatives and institutional healthcare vacuums, she envisions this portal as a platform for communities missing from premium algorithms.</p>
-        <p>Her work emphasizes rigorous fact-verification and empathy-driven reports. As Editor-in-Chief, she shapes our narrative path, ensuring every piece meets uncompromising standards of independence.</p>
-        <h2>Editorial Pillars</h2>
-        <p>Palak works closely with global network groups to protect stringers reporting under difficult field constraints across remote sectors.</p>
+        <p><strong>Palak Kumari Jha</strong> founded and launched the base operational target of DéssentVerse in early <strong>2025</strong> out of a deep-seated commitment to structural digital history and alternative social storytelling.</p>
+        <p>With years of ground-level investigation logging invisible human-interest profiles, she shaped our initial narrative path and core ethical roadmap to protect independent reporting formats.</p>
+        <h2>The 2025 Origin</h2>
+        <p>Palak created the project to safeguard alternative editorial streams, setting down values of uncompromising documentation that look beyond trend algorithms.</p>
       `
     },
     devraj: {
       title: "Co-Founder & Director",
       name: "Devraj Kumar",
-      subtitle: "Systems Engineer & Media Infrastructure Lead",
+      subtitle: "Systems Architect & Platform Infrastructure Lead",
       bio: `
-        <p><strong>Devraj Kumar</strong> co-founded DéssentVerse to handle the technical implementation of independent speech systems. Believing that journalism needs specialized structural protection, he built this clean platform layout to run without trackers or high payload dependencies.</p>
-        <p>He manages our system architectures and open structural frameworks to keep alternative journalism responsive and accessible across varying mobile network speeds.</p>
-        <h2>Technical Architecture Blueprint</h2>
-        <p>Devraj maintains zero-tracker operations to safeguard reader privacy while optimizing content pipelines across our platform ecosystems.</p>
+        <p><strong>Devraj Kumar</strong> aligned deeply with the initial foundational goals of DéssentVerse and officially joined the organization as Co-Founder in <strong>2026</strong>.</p>
+        <p>Upon stepping in, he single-handedly mapped and built out the complete platform ecosystem architecture. His architectural adjustments protected data privacy configurations and optimized rapid data delivery streams.</p>
+        <h2>The 2026 Architectural Blueprint</h2>
+        <p>Devraj's technical system design is entirely lean, crafted to shield community platforms from malicious tracing patterns while ensuring high responsiveness globally.</p>
       `
     }
   };
@@ -1316,36 +916,6 @@
     const res  = await fetch(url, opts);
     return res.json();
   }
-
-  // ── DOOR ANIMATION ──────────────────────────────────────────
-  (function initDoor() {
-    const scene   = document.getElementById('door-scene');
-    const welcome = document.getElementById('door-welcome');
-    const overlay = document.getElementById('door-overlay');
-    const site    = document.getElementById('site');
-
-    function addRipple(e) {
-      const r = document.createElement('div');
-      r.className = 'knock-ripple';
-      scene.appendChild(r);
-      r.addEventListener('animationend', () => r.remove());
-    }
-    scene.addEventListener('click', addRipple);
-
-    setTimeout(() => {
-      scene.classList.add('open');
-      welcome.classList.add('show');
-    }, 600);
-
-    setTimeout(() => {
-      overlay.classList.add('fade-out');
-      site.classList.add('visible');
-    }, 3200);
-
-    setTimeout(() => {
-      overlay.classList.add('gone');
-    }, 3900);
-  })();
 
   // ── HEADER SCROLL ───────────────────────────────────────────
   window.addEventListener('scroll', () => {
@@ -1443,13 +1013,7 @@
   }
 
   function articleCard(a, featured) {
-    const date = a.published_at
-      ? new Date(a.published_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })
-      : '';
-    const tags = (a.tags || []).slice(0,3).map(t =>
-      `<span class="card-tag">${t}</span>`
-    ).join('');
-
+    const tags = (a.tags || []).slice(0,3).map(t => `<span class="card-tag">${t}</span>`).join('');
     return `
       <article class="article-card ${featured ? 'featured' : ''}" onclick="openArticle('${a.slug}')">
         <div class="card-image">
@@ -1526,9 +1090,7 @@
   }
 
   function renderModal(a) {
-    const date = a.published_at
-      ? new Date(a.published_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
-      : '';
+    const date = a.published_at ? new Date(a.published_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'}) : '';
     document.getElementById('modal-content-area').innerHTML = `
       ${a.cover_image ? `<img class="modal-cover" src="${a.cover_image}" alt="${esc(a.title)}" />` : ''}
       <div class="modal-body">
@@ -1555,7 +1117,7 @@
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // ── TRAFFIC ANALYTICS CONTROLLER (1 VISIT / HOUR LIMIT) ──
+  // ── TRAFFIC ANALYTICS CONTROLLER ───────────────────────────
   async function handleVisits() {
     const checkKey = 'dverse_last_hit';
     const now = Date.now();
@@ -1573,7 +1135,6 @@
       } catch (e) { console.warn('Counter logging failure', e); }
     }
     
-    // Default fallback to keep frontend visual counter synced down
     try {
       const data = await callEdge('visits');
       if (data.success) updateVisitUI(data.visits);
