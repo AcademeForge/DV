@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DisséntVersé — Voices That Matter</title>
+  <meta name="description" content="DisséntVersé — honest journalism on social issues, mental health, inequality, and the stories that don't make the front page." />
+  <meta property="og:title" content="DisséntVersé — Voices That Matter" />
+  <meta property="og:description" content="Honest writing on social issues, mental health, labour rights, and the world as it actually is." />
+  <meta property="og:type" content="website" />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink:        #0d0d0d;
+      --paper:      #f5f2eb;
+      --paper2:     #ede9e0;
+      --accent:     #c8392b;
+      --accent2:    #1a1a2e;
+      --muted:      #7a7060;
+      --border:     #d4cfc4;
+      --white:      #ffffff;
+      --green:      #2d7a4f;
+      --serif:      'Playfair Display', Georgia, serif;
+      --sans:       'Inter', system-ui, sans-serif;
+      --mono:       'Space Mono', monospace;
+      --radius:     4px;
+      --t:          0.3s cubic-bezier(0.4,0,0.2,1);
+      /* Dark mode */
+      --dm-bg:      #111118;
+      --dm-surface: #1c1c28;
+      --dm-border:  #2e2e3e;
+      --dm-ink:     #e8e4da;
+      --dm-muted:   #8a8a9a;
+    }
+
+    /* ── DARK MODE ─────────────────────────────────────────── */
+    body.dark {
+      --paper:  var(--dm-bg);
+      --paper2: var(--dm-surface);
+      --white:  var(--dm-surface);
+      --ink:    var(--dm-ink);
+      --muted:  var(--dm-muted);
+      --border: var(--dm-border);
+    }
+    body.dark .site-header { background: rgba(17,17,24,0.92); }
+    body.dark .article-card,
+    body.dark .founder-card,
+    body.dark .comment-card,
+    body.dark .cat-pill { background: var(--dm-surface); }
+    body.dark .manifesto { background: #0a0a12; }
+
+    /* ── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font: inherit; }
+
+    /* ── READING PROGRESS BAR ──────────────────────────────── */
+    #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 999; width: 0%; transition: width 0.1s; }
+
+    /* ── TOP BAR ───────────────────────────────────────────── */
+    .top-bar { background: var(--accent2); color: var(--white); font-family: var(--mono); font-size: 0.72rem; text-align: center; padding: 7px 24px; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .top-bar span { color: var(--accent); font-weight: 700; }
+
+    /* ── HEADER ─────────────────────────────────────────────── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(245,242,235,0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); transition: box-shadow var(--t), background 0.3s; }
+    .site-header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.07); }
+    .header-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 66px; gap: 16px; }
+    .logo { font-family: var(--serif); font-size: 1.45rem; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); }
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; align-items: center; gap: 4px; }
+    .nav-link { font-size: 0.84rem; font-weight: 500; color: var(--muted); padding: 6px 12px; border-radius: var(--radius); transition: color var(--t), background var(--t); white-space: nowrap; }
+    .nav-link:hover { color: var(--ink); background: var(--paper2); }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .search-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; transition: all var(--t); }
+    .search-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .theme-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all var(--t); }
+    .theme-btn:hover { border-color: var(--ink); }
+    .visit-badge { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); background: var(--paper2); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+    .visit-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+    .hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: var(--t); }
+
+    /* ── SEARCH OVERLAY ────────────────────────────────────── */
+    #search-overlay { position: fixed; inset: 0; z-index: 300; background: rgba(13,13,13,0.6); backdrop-filter: blur(8px); display: flex; align-items: flex-start; justify-content: center; padding: 80px 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    #search-overlay.open { opacity: 1; pointer-events: all; }
+    .search-box { background: var(--white); border-radius: 12px; width: 100%; max-width: 640px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.25); transform: translateY(-16px); transition: transform 0.25s; }
+    #search-overlay.open .search-box { transform: translateY(0); }
+    .search-input-wrap { display: flex; align-items: center; padding: 16px 20px; gap: 12px; border-bottom: 1px solid var(--border); }
+    .search-input-wrap span { font-size: 1.1rem; color: var(--muted); }
+    #search-input { flex: 1; border: none; outline: none; font-family: var(--sans); font-size: 1rem; color: var(--ink); background: transparent; }
+    #search-input::placeholder { color: var(--muted); }
+    .search-close { font-size: 0.85rem; color: var(--muted); border: 1px solid var(--border); padding: 4px 10px; border-radius: var(--radius); transition: all var(--t); }
+    .search-close:hover { border-color: var(--ink); color: var(--ink); }
+    #search-results { max-height: 380px; overflow-y: auto; padding: 8px; }
+    .search-hint { padding: 20px; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .search-result-item { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 6px; cursor: pointer; transition: background var(--t); }
+    .search-result-item:hover { background: var(--paper2); }
+    .search-result-thumb { width: 48px; height: 36px; border-radius: 4px; object-fit: cover; flex-shrink: 0; background: var(--paper2); }
+    .search-result-text .sr-cat { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+    .search-result-text .sr-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+    /* ── MOBILE NAV ─────────────────────────────────────────── */
+    .mobile-nav { display: none; position: fixed; inset: 0; top: 66px; z-index: 99; background: var(--paper); padding: 28px 24px; flex-direction: column; gap: 6px; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav .nav-link { font-size: 1.1rem; padding: 12px 16px; }
+
+    /* ── TICKER ─────────────────────────────────────────────── */
+    .ticker-wrap { background: var(--accent2); overflow: hidden; padding: 11px 0; }
+    .ticker-inner { display: flex; animation: ticker 25s linear infinite; white-space: nowrap; }
+    .ticker-inner:hover { animation-play-state: paused; }
+    .ticker-item { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); padding: 0 36px; }
+    .ticker-item span { color: var(--accent); margin-right: 10px; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── BREADCRUMB ─────────────────────────────────────────── */
+    .breadcrumb { max-width: 1280px; margin: 0 auto; padding: 12px 24px 0; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); flex-wrap: wrap; }
+    .breadcrumb a { color: var(--muted); transition: color var(--t); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { opacity: 0.5; }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero { max-width: 1280px; margin: 0 auto; padding: 64px 24px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 20px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent); }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.6rem,5vw,4.2rem); font-weight: 900; line-height: 1.06; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 22px; }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-desc { font-size: 1rem; color: var(--muted); line-height: 1.75; max-width: 440px; margin-bottom: 32px; }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--accent); color: var(--white); font-size: 0.875rem; font-weight: 600; padding: 11px 22px; border-radius: var(--radius); transition: background var(--t), transform var(--t); }
+    .btn-primary:hover { background: #a52d21; transform: translateY(-1px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 7px; border: 1.5px solid var(--border); color: var(--ink); font-size: 0.875rem; font-weight: 500; padding: 11px 22px; border-radius: var(--radius); transition: border-color var(--t), background var(--t); }
+    .btn-ghost:hover { border-color: var(--ink); background: var(--paper2); }
+    .hero-visual { position: relative; }
+    .hero-card-stack { position: relative; height: 390px; }
+    .hero-card { position: absolute; border-radius: 8px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .hero-card:nth-child(1) { top: 0; left: 0; right: 0; bottom: 60px; background: var(--ink); }
+    .hero-card:nth-child(2) { bottom: 0; left: 20px; right: 20px; height: 88px; background: var(--white); display: flex; align-items: center; padding: 0 18px; gap: 14px; cursor: pointer; transition: transform var(--t); }
+    .hero-card:nth-child(2):hover { transform: translateY(-2px); }
+    .hero-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.72; }
+    .hero-card-meta { min-width: 0; }
+    .hero-card-cat { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+    .hero-card-title { font-family: var(--serif); font-size: 0.88rem; font-weight: 700; line-height: 1.3; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hero-card-thumb { width: 52px; height: 52px; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+    .hero-stat-bar { position: absolute; top: 18px; right: -18px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 13px 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; gap: 3px; min-width: 120px; }
+    .hero-stat-num { font-family: var(--mono); font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+    .hero-stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── DIVIDER ─────────────────────────────────────────────── */
+    .divider-wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .divider-wrap hr { border: none; border-top: 1px solid var(--border); }
+
+    /* ── SECTION HEADER ──────────────────────────────────────── */
+    .section-header { max-width: 1280px; margin: 0 auto; padding: 56px 24px 28px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 900; letter-spacing: -0.02em; color: var(--ink); }
+    .section-title span { color: var(--accent); }
+    .section-link { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: flex; align-items: center; gap: 5px; transition: color var(--t); white-space: nowrap; }
+    .section-link:hover { color: var(--accent); }
+    .section-link::after { content: '→'; }
+
+    /* ── FILTER TABS ─────────────────────────────────────────── */
+    .filter-tabs { max-width: 1280px; margin: 0 auto; padding: 0 24px 28px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-tab { font-size: 0.78rem; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--border); color: var(--muted); transition: all var(--t); background: transparent; }
+    .filter-tab:hover { border-color: var(--ink); color: var(--ink); }
+    .filter-tab.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
+
+    /* ── ARTICLES GRID ───────────────────────────────────────── */
+    .articles-grid { max-width: 1280px; margin: 0 auto; padding: 0 24px 72px; display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+    .article-card.featured { grid-column: span 2; }
+    .article-card { display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: transform var(--t), box-shadow var(--t); cursor: pointer; }
+    .article-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.09); }
+    .card-image { position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--paper2); }
+    .article-card.featured .card-image { aspect-ratio: 21/9; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+    .article-card:hover .card-image img { transform: scale(1.04); }
+    .card-cat { position: absolute; top: 12px; left: 12px; font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--white); background: var(--accent); padding: 3px 9px; border-radius: 2px; }
+    .card-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+    .card-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; line-height: 1.28; color: var(--ink); margin-bottom: 9px; transition: color var(--t); }
+    .article-card.featured .card-title { font-size: 1.45rem; }
+    .article-card:hover .card-title { color: var(--accent); }
+    .card-subtitle { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 18px; flex: 1; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--paper2); }
+    .card-author { display: flex; align-items: center; gap: 8px; }
+    .card-author img { width: 26px; height: 26px; border-radius: 50%; background: var(--paper2); }
+    .card-author-name { font-size: 0.78rem; font-weight: 500; color: var(--ink); }
+    .card-meta-right { display: flex; align-items: center; gap: 10px; }
+    .card-read-time { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+    .card-views { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+    .card-arrow { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--muted); transition: all var(--t); }
+    .article-card:hover .card-arrow { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .card-tag { font-size: 0.65rem; color: var(--muted); border: 1px solid var(--border); padding: 2px 7px; border-radius: 12px; }
+
+    /* ── TRENDING STRIP ──────────────────────────────────────── */
+    .trending-strip { background: var(--accent2); padding: 40px 24px; margin: 0 0 0; }
+    .trending-inner { max-width: 1280px; margin: 0 auto; }
+    .trending-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .trending-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--accent); }
+    .trending-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .trending-card { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: background var(--t); }
+    .trending-card:hover { background: rgba(255,255,255,0.08); }
+    .trending-num { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: rgba(255,255,255,0.12); flex-shrink: 0; line-height: 1; }
+    .trending-text .t-cat { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+    .trending-text .t-title { font-family: var(--serif); font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.85); line-height: 1.3; }
+    .trending-text .t-views { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 5px; }
+
+    /* ── CATEGORY GRID ───────────────────────────────────────── */
+    .cat-grid { max-width: 1280px; margin: 0 auto; padding: 0 24px 72px; display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .cat-pill { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; cursor: pointer; transition: all var(--t); display: flex; align-items: center; justify-content: space-between; }
+    .cat-pill:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .cat-pill-name { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .cat-pill-count { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+
+    /* ── FOUNDERS SECTION ────────────────────────────────────── */
+    .founders-section { max-width: 1280px; margin: 0 auto; padding: 72px 24px; border-top: 1px solid var(--border); }
+    .founders-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 36px; margin-top: 36px; }
+    .founder-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 28px; cursor: pointer; transition: transform var(--t), box-shadow var(--t), border-color var(--t); }
+    .founder-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); border-color: var(--accent); }
+    .founder-role { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 7px; }
+    .founder-name { font-family: var(--serif); font-size: 1.7rem; font-weight: 900; color: var(--ink); margin-bottom: 10px; }
+    .founder-brief { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+    .founder-action-text { margin-top: 18px; font-family: var(--mono); font-size: 0.72rem; color: var(--ink); display: flex; align-items: center; gap: 5px; }
+    .founder-action-text::after { content: '→'; transition: transform var(--t); }
+    .founder-card:hover .founder-action-text::after { transform: translateX(4px); }
+
+    /* ── BECOME EDITOR SECTION ───────────────────────────────── */
+    .editor-cta-section { background: linear-gradient(135deg, var(--accent2) 0%, #0f0f1e 100%); padding: 72px 24px; }
+    .editor-cta-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+    .editor-eyebrow { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 14px; }
+    .editor-cta-title { font-family: var(--serif); font-size: clamp(2rem,4vw,3rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
+    .editor-cta-title em { color: var(--accent); font-style: italic; }
+    .editor-cta-desc { font-size: 1rem; color: rgba(255,255,255,0.55); line-height: 1.75; max-width: 560px; margin: 0 auto 32px; }
+    .editor-perks { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 36px; }
+    .editor-perk { text-align: center; }
+    .editor-perk-icon { font-size: 1.4rem; margin-bottom: 6px; }
+    .editor-perk-label { font-size: 0.78rem; color: rgba(255,255,255,0.45); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; }
+    .btn-editor { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--white); font-size: 0.92rem; font-weight: 700; padding: 14px 32px; border-radius: var(--radius); transition: background var(--t), transform var(--t); letter-spacing: 0.02em; }
+    .btn-editor:hover { background: #e03e2d; transform: translateY(-2px); }
+
+    /* ── EDITOR FORM MODAL ───────────────────────────────────── */
+    #editor-modal { position: fixed; inset: 0; z-index: 250; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(13,13,13,0.75); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transition: opacity 0.3s; overflow-y: auto; }
+    #editor-modal.open { opacity: 1; pointer-events: all; }
+    .eform-inner { background: var(--white); border-radius: 14px; max-width: 680px; width: 100%; position: relative; transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; overflow-y: auto; }
+    #editor-modal.open .eform-inner { transform: translateY(0); }
+    .eform-header { padding: 32px 36px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--white); z-index: 5; }
+    .eform-header h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+    .eform-header p { font-size: 0.85rem; color: var(--muted); }
+    .eform-close { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 50%; background: var(--paper2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--muted); transition: all var(--t); }
+    .eform-close:hover { background: var(--border); color: var(--ink); }
+    .eform-body { padding: 28px 36px 36px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: span 2; }
+    .form-label { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+    .form-label .req { color: var(--accent); }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 0.88rem; color: var(--ink); background: var(--paper); outline: none; transition: border-color var(--t); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    .expertise-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .expertise-chip { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border); font-size: 0.75rem; color: var(--muted); cursor: pointer; transition: all var(--t); user-select: none; }
+    .expertise-chip input { display: none; }
+    .expertise-chip.selected { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .form-submit { width: 100%; padding: 13px; background: var(--accent); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: var(--radius); transition: background var(--t); margin-top: 8px; letter-spacing: 0.02em; }
+    .form-submit:hover { background: #a52d21; }
+    .form-submit:disabled { opacity: 0.6; pointer-events: none; }
+    #eform-msg { margin-top: 14px; font-size: 0.85rem; text-align: center; display: none; padding: 10px 14px; border-radius: var(--radius); }
+    #eform-msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    #eform-msg.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+    /* ── MANIFESTO ────────────────────────────────────────────── */
+    .manifesto { background: var(--accent2); padding: 72px 24px; text-align: center; }
+    .manifesto-inner { max-width: 680px; margin: 0 auto; }
+    .manifesto-quote { font-family: var(--serif); font-size: clamp(1.5rem,3.2vw,2.2rem); font-style: italic; font-weight: 700; color: var(--white); line-height: 1.35; margin-bottom: 24px; }
+    .manifesto-quote span { color: var(--accent); }
+    .manifesto-text { font-size: 0.92rem; color: rgba(255,255,255,0.5); line-height: 1.8; max-width: 540px; margin: 0 auto 28px; }
+
+    /* ── ARTICLE MODAL ────────────────────────────────────────── */
+    #article-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; background: rgba(13,13,13,0.7); backdrop-filter: blur(6px); overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    #article-modal.open { opacity: 1; pointer-events: all; }
+    .modal-inner { background: var(--white); border-radius: 12px; max-width: 800px; width: 100%; min-height: 200px; overflow: hidden; transform: translateY(20px); transition: transform 0.3s; position: relative; }
+    #article-modal.open .modal-inner { transform: translateY(0); }
+    .modal-close { position: absolute; top: 18px; right: 18px; z-index: 10; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: var(--ink); transition: background var(--t); }
+    .modal-close:hover { background: rgba(0,0,0,0.22); }
+    .modal-cover { width: 100%; aspect-ratio: 21/9; object-fit: cover; }
+    .modal-body { padding: 34px 42px 48px; }
+    .modal-cat { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px; }
+    .modal-title { font-family: var(--serif); font-size: clamp(1.55rem,3vw,2.1rem); font-weight: 900; line-height: 1.14; color: var(--ink); margin-bottom: 12px; }
+    .modal-subtitle { font-size: 1rem; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+    .modal-byline { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid var(--paper2); border-bottom: 1px solid var(--paper2); margin-bottom: 30px; }
+    .modal-byline img { width: 36px; height: 36px; border-radius: 50%; }
+    .modal-byline-name { font-weight: 600; font-size: 0.88rem; }
+    .modal-byline-meta { font-size: 0.75rem; color: var(--muted); }
+    .modal-content { font-size: 1.03rem; line-height: 1.85; color: #2a2a2a; }
+    .modal-content p { margin-bottom: 1.35em; }
+    .modal-content h2 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: var(--ink); margin: 2em 0 0.55em; }
+    .modal-content h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 1.5em 0 0.45em; }
+    .modal-content strong { color: var(--ink); font-weight: 600; }
+    .modal-loading { padding: 52px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.78rem; }
+
+    /* ── TABLE OF CONTENTS ───────────────────────────────────── */
+    .modal-toc { background: var(--paper2); border-radius: 6px; padding: 16px 20px; margin-bottom: 28px; }
+    .modal-toc h4 { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .toc-list a { font-size: 0.85rem; color: var(--accent); transition: opacity var(--t); }
+    .toc-list a:hover { opacity: 0.7; }
+
+    /* ── SHARE BUTTONS ───────────────────────────────────────── */
+    .share-bar { display: flex; align-items: center; gap: 10px; padding: 20px 0; border-top: 1px solid var(--paper2); margin-top: 32px; flex-wrap: wrap; }
+    .share-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-right: 4px; }
+    .share-btn { padding: 6px 14px; border-radius: 20px; border: 1.5px solid var(--border); font-size: 0.78rem; font-weight: 500; color: var(--ink); transition: all var(--t); }
+    .share-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+    /* ── RELATED ARTICLES ────────────────────────────────────── */
+    .related-section { padding: 28px 0 0; border-top: 1px solid var(--paper2); }
+    .related-title { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .related-card { cursor: pointer; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); transition: transform var(--t); }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .related-card-body { padding: 10px 12px; }
+    .related-card-cat { font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 3px; }
+    .related-card-title { font-family: var(--serif); font-size: 0.82rem; font-weight: 700; line-height: 1.3; color: var(--ink); }
+
+    /* ── COMMENTS SECTION ────────────────────────────────────── */
+    .comments-section { padding: 28px 0 0; margin-top: 28px; border-top: 1px solid var(--paper2); }
+    .comments-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .comments-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--ink); }
+    .comments-count { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+    .comments-sort { display: flex; gap: 6px; }
+    .sort-btn { font-size: 0.75rem; padding: 4px 11px; border-radius: 14px; border: 1.5px solid var(--border); color: var(--muted); transition: all var(--t); background: transparent; }
+    .sort-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .comment-form { background: var(--paper2); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; }
+    .comment-form h4 { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+    .comment-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .comment-input, .comment-textarea { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: var(--sans); font-size: 0.84rem; color: var(--ink); background: var(--white); outline: none; transition: border-color var(--t); }
+    .comment-input:focus, .comment-textarea:focus { border-color: var(--accent); }
+    .comment-textarea { width: 100%; resize: vertical; min-height: 78px; line-height: 1.5; margin-bottom: 10px; }
+    .comment-submit { background: var(--ink); color: var(--white); font-size: 0.82rem; font-weight: 600; padding: 9px 20px; border-radius: var(--radius); transition: background var(--t); }
+    .comment-submit:hover { background: var(--accent); }
+    .comment-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; }
+    .comment-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+    .comment-author { font-weight: 600; font-size: 0.86rem; color: var(--ink); }
+    .comment-date { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
+    .comment-text { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .comment-actions { display: flex; gap: 10px; margin-top: 10px; align-items: center; }
+    .comment-like { font-size: 0.75rem; color: var(--muted); display: flex; align-items: center; gap: 4px; transition: color var(--t); background: transparent; border: none; cursor: pointer; padding: 0; }
+    .comment-like:hover { color: var(--accent); }
+    .comment-reply-btn { font-size: 0.75rem; color: var(--muted); transition: color var(--t); background: transparent; border: none; cursor: pointer; }
+    .comment-reply-btn:hover { color: var(--ink); }
+    .replies-list { padding-left: 20px; border-left: 2px solid var(--border); margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .reply-card { background: var(--paper2); border-radius: 6px; padding: 12px 14px; }
+    .comment-empty { text-align: center; padding: 28px; color: var(--muted); font-size: 0.9rem; }
+    #comment-msg { font-size: 0.82rem; margin-top: 8px; }
+
+    /* ── SKELETONS ───────────────────────────────────────────── */
+    .articles-loading { max-width: 1280px; margin: 0 auto; padding: 0 24px 72px; display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+    .skeleton { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .skeleton-img { aspect-ratio: 16/9; background: linear-gradient(90deg,var(--paper2) 25%,var(--border) 50%,var(--paper2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    .skeleton-body { padding: 22px; display: flex; flex-direction: column; gap: 9px; }
+    .skeleton-line { height: 11px; border-radius: 4px; background: linear-gradient(90deg,var(--paper2) 25%,var(--border) 50%,var(--paper2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    .skeleton-line.short { width: 55%; }
+    .skeleton-line.medium { width: 78%; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .error-state, .empty-state { max-width: 1280px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+    .error-state p, .empty-state p { font-size: 1rem; color: var(--muted); }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    .site-footer { background: var(--ink); color: rgba(255,255,255,0.45); padding: 48px 24px 28px; }
+    .footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .footer-brand .logo { color: var(--white); margin-bottom: 12px; }
+    .footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.75); margin-bottom: 14px; }
+    .footer-links { display: flex; flex-direction: column; gap: 7px; }
+    .footer-links a { font-size: 0.83rem; color: rgba(255,255,255,0.38); transition: color var(--t); }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom { max-width: 1280px; margin: 0 auto; padding: 24px 0 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .footer-bottom p { font-size: 0.78rem; }
+    .footer-credit { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.35); text-decoration: none; cursor: pointer; transition: color var(--t); }
+    .footer-credit:hover { color: rgba(255,255,255,0.75); }
+    .footer-credit span { color: var(--accent); font-weight: 700; }
+    .footer-counter { font-family: var(--mono); font-size: 0.7rem; color: rgba(255,255,255,0.28); }
+    .footer-counter strong { color: rgba(255,255,255,0.65); }
+
+    /* ── SCROLL TOP ───────────────────────────────────────────── */
+    #scroll-top { position: fixed; bottom: 26px; right: 26px; z-index: 50; width: 42px; height: 42px; border-radius: 50%; background: var(--ink); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; box-shadow: 0 4px 16px rgba(0,0,0,0.18); opacity: 0; pointer-events: none; transition: all var(--t); }
+    #scroll-top.show { opacity: 1; pointer-events: all; }
+    #scroll-top:hover { background: var(--accent); transform: translateY(-2px); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 1024px) { .trending-grid { grid-template-columns: repeat(2,1fr); } .cat-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; padding: 44px 24px 36px; }
+      .hero-visual { display: none; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+      .articles-grid { grid-template-columns: 1fr 1fr; }
+      .article-card.featured { grid-column: span 2; }
+      .founders-grid { grid-template-columns: 1fr; gap: 20px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .cat-grid { grid-template-columns: repeat(2,1fr); }
+      .trending-grid { grid-template-columns: 1fr 1fr; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: span 1; }
+    }
+    @media (max-width: 640px) {
+      .articles-grid, .articles-loading { grid-template-columns: 1fr; }
+      .article-card.featured { grid-column: span 1; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+      .modal-body { padding: 22px 18px 32px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .trending-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      .comment-form-grid { grid-template-columns: 1fr; }
+      .eform-body { padding: 20px 22px 28px; }
+      .eform-header { padding: 24px 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="top-bar">
+  <span>EDITOR'S NOTE:</span> Giving voice to overlooked stories, critical ideas, and real-world issues.
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showHome(event)">Dis<span>sent</span>Verse</a>
+    <nav>
+      <a href="#" class="nav-link" onclick="showHome(event)">Home</a>
+      <a href="#categories" class="nav-link" onclick="scrollTo('categories',event)">Categories</a>
+      <a href="#trending" class="nav-link" onclick="scrollTo('trending',event)">Trending</a>
+      <a href="#about" class="nav-link" onclick="scrollTo('about',event)">About</a>
+      <a href="#founders" class="nav-link" onclick="scrollTo('founders',event)">Founders</a>
+      <a href="#become-editor" class="nav-link" onclick="scrollTo('become-editor',event)">Write for Us</a>
+    </nav>
+    <div class="header-right">
+      <button class="search-btn" onclick="openSearch()" aria-label="Search" title="Search">🔍</button>
+      <button class="theme-btn" id="theme-btn" onclick="toggleDark()" aria-label="Toggle dark mode" title="Toggle theme">🌙</button>
+      <div class="visit-badge"><div class="dot"></div><span id="header-visits">— visits</span></div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#" class="nav-link" onclick="closeMobileNav();showHome(event)">Home</a>
+  <a href="#categories" class="nav-link" onclick="closeMobileNav();scrollTo('categories',event)">Categories</a>
+  <a href="#trending" class="nav-link" onclick="closeMobileNav();scrollTo('trending',event)">Trending</a>
+  <a href="#about" class="nav-link" onclick="closeMobileNav();scrollTo('about',event)">About</a>
+  <a href="#founders" class="nav-link" onclick="closeMobileNav();scrollTo('founders',event)">Founders</a>
+  <a href="#become-editor" class="nav-link" onclick="closeMobileNav();scrollTo('become-editor',event)">Write for Us</a>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div id="search-overlay" onclick="closeSearchOnBackdrop(event)">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span>🔍</span>
+      <input type="text" id="search-input" placeholder="Search articles, topics, authors…" autocomplete="off" />
+      <button class="search-close" onclick="closeSearch()">Esc</button>
+    </div>
+    <div id="search-results"><p class="search-hint">Start typing to search across all articles.</p></div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker-inner" id="ticker"></div></div>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+  <a href="#" onclick="showHome(event)">Home</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Independent · Unfiltered · Necessary</div>
+    <h1 class="hero-title">Stories the<br /><em>world needs</em><br />to hear.</h1>
+    <p class="hero-desc">DisséntVersé is a space for honest, uncompromising journalism on social issues, mental health, labour rights, and the realities that mainstream media looks past.</p>
+    <div class="hero-actions">
+      <a href="#articles" class="btn-primary" onclick="scrollTo('articles',event)">Start Reading ↓</a>
+      <a href="#about" class="btn-ghost" onclick="scrollTo('about',event)">Our Manifesto</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hero-card" id="hero-main-card">
+        <img src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=800&q=80" alt="" id="hero-main-img" />
+      </div>
+      <div class="hero-card" id="hero-preview-card" onclick="openFeaturedArticle()">
+        <div class="hero-card-thumb"><img src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=200&q=80" alt="" id="hero-thumb" /></div>
+        <div class="hero-card-meta">
+          <div class="hero-card-cat" id="hero-cat">Loading…</div>
+          <div class="hero-card-title" id="hero-preview-title">Fetching latest article…</div>
+        </div>
+      </div>
+      <div class="hero-stat-bar">
+        <div class="hero-stat-num" id="hero-stat-count">—</div>
+        <div class="hero-stat-label">Total Visits</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<a id="articles"></a>
+<div class="section-header">
+  <h2 class="section-title">Latest <span>Voices</span></h2>
+  <a href="#articles" class="section-link">All articles</a>
+</div>
+<div class="filter-tabs" id="filter-tabs">
+  <button class="filter-tab active" data-cat="all" onclick="filterArticles('all',this)">All</button>
+</div>
+<div id="articles-output">
+  <div class="articles-loading" id="articles-skeleton">
+    <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+    <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+    <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+  </div>
+  <div class="articles-grid" id="articles-grid" style="display:none;"></div>
+  <div class="error-state" id="articles-error" style="display:none;"><p>Could not load articles. Please check your connection and refresh.</p></div>
+  <div class="empty-state" id="articles-empty" style="display:none;"><p>No articles in this category yet. Check back soon.</p></div>
+</div>
+
+<!-- TRENDING -->
+<a id="trending"></a>
+<div class="trending-strip">
+  <div class="trending-inner">
+    <div class="trending-label">Trending Now</div>
+    <div class="trending-grid" id="trending-grid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<a id="categories"></a>
+<div class="section-header">
+  <h2 class="section-title">Browse <span>Categories</span></h2>
+</div>
+<div class="cat-grid" id="cat-grid"><!-- populated by JS --></div>
+
+<!-- ABOUT / MANIFESTO -->
+<a id="about"></a>
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <p class="manifesto-quote">"The <span>truth</span> does not comfort. It does not flatter. But it is the only thing that moves the world forward."</p>
+    <p class="manifesto-text">DisséntVersé was built out of frustration — frustration at the stories that go untold, the voices that get drowned out, the issues that are too inconvenient for prime time. We write about the world as it is, not as we wish it were.</p>
+    <a href="#articles" class="btn-primary" onclick="scrollTo('articles',event)" style="display:inline-flex;">Read Our Work</a>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<a id="founders"></a>
+<section class="founders-section">
+  <div class="section-header" style="padding:0 0 16px 0;">
+    <h2 class="section-title">The <span>Minds</span> Behind the Verse</h2>
+  </div>
+  <div class="founders-grid">
+    <div class="founder-card" onclick="openFounderCard('palak')">
+      <div class="founder-role">Founder & Editor-in-Chief</div>
+      <div class="founder-name">Palak Kumari Jha</div>
+      <div class="founder-brief">Visionary investigative writer who established DisséntVersé in early 2025 to create a platform for alternative narratives.</div>
+      <div class="founder-action-text">Read background detail</div>
+    </div>
+    <div class="founder-card" onclick="openFounderCard('devraj')">
+      <div class="founder-role">Co-Founder & Director</div>
+      <div class="founder-name">Devraj Kumar</div>
+      <div class="founder-brief">Systems strategist who joined in 2026 to blueprint and deploy the entire foundational platform architecture.</div>
+      <div class="founder-action-text">Read background detail</div>
+    </div>
+  </div>
+</section>
+
+<!-- BECOME AN EDITOR CTA -->
+<a id="become-editor"></a>
+<section class="editor-cta-section">
+  <div class="editor-cta-inner">
+    <p class="editor-eyebrow">Join the Verse</p>
+    <h2 class="editor-cta-title">Become a <em>DisséntVersé</em> Editor</h2>
+    <p class="editor-cta-desc">We're looking for sharp minds with something to say. If you write with conviction, dig into uncomfortable truths, and believe journalism can still matter — we want to hear from you.</p>
+    <div class="editor-perks">
+      <div class="editor-perk"><div class="editor-perk-icon">✍️</div><div class="editor-perk-label">Editorial Freedom</div></div>
+      <div class="editor-perk"><div class="editor-perk-icon">🌐</div><div class="editor-perk-label">Wide Reach</div></div>
+      <div class="editor-perk"><div class="editor-perk-icon">🤝</div><div class="editor-perk-label">Collaborative Team</div></div>
+      <div class="editor-perk"><div class="editor-perk-icon">📣</div><div class="editor-perk-label">Your Voice, Amplified</div></div>
+    </div>
+    <button class="btn-editor" onclick="openEditorForm()">Apply to Write →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Dis<span>sent</span>Verse</div>
+      <p>Honest writing on the issues that define our time. Independent. Unsponsored. Necessary.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Read</h4>
+      <div class="footer-links">
+        <a href="#articles" onclick="scrollTo('articles',event)">All Articles</a>
+        <a href="#" onclick="filterByCategory('Mental Health')">Mental Health</a>
+        <a href="#" onclick="filterByCategory('Labour Rights')">Labour Rights</a>
+        <a href="#" onclick="filterByCategory('Environment')">Environment</a>
+        <a href="#" onclick="filterByCategory('Education')">Education</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <div class="footer-links">
+        <a href="#about" onclick="scrollTo('about',event)">Manifesto</a>
+        <a href="#founders" onclick="scrollTo('founders',event)">Our Team</a>
+        <a href="#become-editor" onclick="scrollTo('become-editor',event)">Write For Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Follow</h4>
+      <div class="footer-links">
+        <a href="#">Twitter / X</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Youtube</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 DisséntVersé. All rights reserved.</p>
+    <a href="https://academeforge.in" target="_blank" rel="noopener noreferrer" class="footer-credit">Powered by <span>AcademeForge</span></a>
+    <div class="footer-counter">Total visits: <strong id="footer-visits">loading…</strong></div>
+  </div>
+</footer>
+
+<!-- ARTICLE MODAL -->
+<div id="article-modal" onclick="closeModalOnBackdrop(event)" role="dialog" aria-modal="true" aria-label="Article reader">
+  <div class="modal-inner" id="modal-inner">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div id="modal-content-area"><div class="modal-loading">Loading article…</div></div>
+  </div>
+</div>
+
+<!-- EDITOR FORM MODAL -->
+<div id="editor-modal" onclick="closeEditorModalBackdrop(event)" role="dialog" aria-modal="true" aria-label="Become an Editor">
+  <div class="eform-inner">
+    <div class="eform-header">
+      <button class="eform-close" onclick="closeEditorForm()">✕</button>
+      <h2>Apply to Write</h2>
+      <p>Tell us about yourself. We review every application and respond within 7 days.</p>
+    </div>
+    <div class="eform-body">
+      <div class="form-grid" id="editor-form">
+        <div class="form-group">
+          <label class="form-label">Full Name <span class="req">*</span></label>
+          <input type="text" class="form-input" id="ef-name" placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="req">*</span></label>
+          <input type="email" class="form-input" id="ef-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" id="ef-phone" placeholder="+91 9XXXXXXXXX" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">City / Location</label>
+          <input type="text" class="form-input" id="ef-city" placeholder="e.g. New Delhi" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Highest Qualification</label>
+          <input type="text" class="form-input" id="ef-qual" placeholder="e.g. B.A. Journalism" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Years of Writing Experience</label>
+          <select class="form-select" id="ef-exp">
+            <option value="">Select…</option>
+            <option>Less than 1 year</option>
+            <option>1–2 years</option>
+            <option>3–5 years</option>
+            <option>5–10 years</option>
+            <option>10+ years</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Areas of Expertise</label>
+          <div class="expertise-grid" id="expertise-chips">
+            <!-- rendered by JS -->
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Portfolio or Writing Sample Link</label>
+          <input type="url" class="form-input" id="ef-sample" placeholder="https://medium.com/@you or Drive link" />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">LinkedIn Profile</label>
+          <input type="url" class="form-input" id="ef-linkedin" placeholder="https://linkedin.com/in/yourname" />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Why do you want to write for DisséntVersé? <span class="req">*</span></label>
+          <textarea class="form-textarea" id="ef-why" rows="4" placeholder="Tell us your motivation, the issues you care about, and what kind of stories you'd write…"></textarea>
+        </div>
+        <div class="form-group full">
+          <button class="form-submit" id="eform-submit" onclick="submitEditorApplication()">Submit Application →</button>
+          <div id="eform-msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<script>
+  // ── CONFIG ────────────────────────────────────────────────
+  const SUPABASE_URL = 'https://nltmolhlwgsrxadknzzq.supabase.co';
+  const ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
+  const API_BASE     = `${SUPABASE_URL}/functions/v1/api`;
+
+  let allArticles  = [];
+  let activeFilter = 'all';
+  let featuredSlug = null;
+  let currentSlug  = null;
+  let commentSort  = 'newest';
+
+  const EXPERTISE_OPTIONS = [
+    'Mental Health','Labour Rights','Environment','Education','Social Justice',
+    'Gender & Equality','Digital Rights','Healthcare','Politics','Economics',
+    'Climate Change','Rural India','LGBTQ+','Caste & Discrimination','Child Rights',
+    'Disability Rights','Media Critique','Science & Society','Law & Justice','Urban Issues'
+  ];
+
+  // ── API HELPER ────────────────────────────────────────────
+  async function api(action, method = 'GET', body = null, extra = '') {
+    const res = await fetch(`${API_BASE}?action=${action}${extra}`, {
+      method,
+      headers: { 'Content-Type':'application/json','Authorization':`Bearer ${ANON_KEY}`,'apikey':ANON_KEY },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+    return res.json();
+  }
+
+  // ── DARK MODE ─────────────────────────────────────────────
+  const prefersDark = localStorage.getItem('dv_dark') === 'true';
+  if (prefersDark) { document.body.classList.add('dark'); document.getElementById('theme-btn').textContent = '☀️'; }
+  function toggleDark() {
+    const isDark = document.body.classList.toggle('dark');
+    localStorage.setItem('dv_dark', isDark);
+    document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  }
+
+  // ── READING PROGRESS ──────────────────────────────────────
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 10);
+    document.getElementById('scroll-top').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // ── HAMBURGER ─────────────────────────────────────────────
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobile-nav').classList.toggle('open'));
+  function closeMobileNav() { document.getElementById('mobile-nav').classList.remove('open'); }
+
+  // ── SCROLL HELPER ─────────────────────────────────────────
+  function scrollTo(id, e) { e?.preventDefault(); document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+  function showHome(e) { e?.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+  // ── SEARCH ────────────────────────────────────────────────
+  function openSearch() { document.getElementById('search-overlay').classList.add('open'); document.getElementById('search-input').focus(); }
+  function closeSearch() { document.getElementById('search-overlay').classList.remove('open'); }
+  function closeSearchOnBackdrop(e) { if (e.target === document.getElementById('search-overlay')) closeSearch(); }
+
+  let searchTimer;
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    const q = e.target.value.trim();
+    if (!q) { document.getElementById('search-results').innerHTML = '<p class="search-hint">Start typing to search across all articles.</p>'; return; }
+    searchTimer = setTimeout(() => performSearch(q), 280);
+  });
+
+  function performSearch(q) {
+    const results = allArticles.filter(a =>
+      a.title?.toLowerCase().includes(q.toLowerCase()) ||
+      a.category?.toLowerCase().includes(q.toLowerCase()) ||
+      (a.tags || []).some(t => t.toLowerCase().includes(q.toLowerCase()))
+    ).slice(0, 8);
+
+    const container = document.getElementById('search-results');
+    if (!results.length) { container.innerHTML = '<p class="search-hint">No articles found for "' + esc(q) + '".</p>'; return; }
+    container.innerHTML = results.map(a => `
+      <div class="search-result-item" onclick="closeSearch();openArticle('${a.slug}')">
+        ${a.cover_image ? `<img class="search-result-thumb" src="${a.cover_image}" alt="" loading="lazy" />` : '<div class="search-result-thumb"></div>'}
+        <div class="search-result-text">
+          <div class="sr-cat">${esc(a.category||'')}</div>
+          <div class="sr-title">${esc(a.title)}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── TICKER ────────────────────────────────────────────────
+  function buildTicker(articles) {
+    const topics = articles.length
+      ? articles.flatMap(a => a.tags || [a.category])
+      : ['Mental Health','Labour Rights','Social Justice','Environment','Education','Gender Equity','Climate Change','Digital Rights'];
+    const unique = [...new Set(topics.filter(Boolean))];
+    const set    = [...unique, ...unique];
+    document.getElementById('ticker').innerHTML = set.map(t => `<span class="ticker-item"><span>◆</span>${t}</span>`).join('');
+  }
+
+  // ── LOAD ARTICLES ─────────────────────────────────────────
+  async function loadArticles() {
+    try {
+      const data = await api('articles');
+      if (!data.success) throw new Error(data.error||'API error');
+      allArticles = data.articles || [];
+      document.getElementById('articles-skeleton').style.display = 'none';
+      if (!allArticles.length) { document.getElementById('articles-empty').style.display = 'block'; return; }
+      buildTicker(allArticles);
+      buildFilterTabs(allArticles);
+      renderArticles(allArticles);
+      populateHeroPreview(allArticles);
+      buildCategoryGrid();
+    } catch(err) {
+      console.error(err);
+      document.getElementById('articles-skeleton').style.display = 'none';
+      document.getElementById('articles-error').style.display = 'block';
+      buildTicker([]);
+    }
+  }
+
+  async function loadTrending() {
+    try {
+      const data = await api('trending');
+      if (!data.success) return;
+      const grid = document.getElementById('trending-grid');
+      grid.innerHTML = (data.articles||[]).map((a,i) => `
+        <div class="trending-card" onclick="openArticle('${a.slug}')">
+          <div class="trending-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="trending-text">
+            <div class="t-cat">${esc(a.category||'')}</div>
+            <div class="t-title">${esc(a.title)}</div>
+            <div class="t-views">${(a.view_count||0).toLocaleString('en-IN')} views</div>
+          </div>
+        </div>`).join('');
+    } catch(e) {}
+  }
+
+  function buildCategoryGrid() {
+    const cats = {};
+    allArticles.forEach(a => { if (a.category) cats[a.category] = (cats[a.category]||0)+1; });
+    const sorted = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+    document.getElementById('cat-grid').innerHTML = sorted.map(([name,count]) => `
+      <div class="cat-pill" onclick="filterByCategory('${esc(name)}')">
+        <span class="cat-pill-name">${esc(name)}</span>
+        <span class="cat-pill-count">${count} article${count>1?'s':''}</span>
+      </div>`).join('');
+  }
+
+  function buildFilterTabs(articles) {
+    const cats = [...new Set(articles.map(a=>a.category).filter(Boolean))];
+    const tabs = document.getElementById('filter-tabs');
+    cats.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tab'; btn.dataset.cat = cat; btn.textContent = cat;
+      btn.onclick = () => filterArticles(cat, btn);
+      tabs.appendChild(btn);
+    });
+  }
+
+  function filterByCategory(cat) {
+    const btn = [...document.querySelectorAll('.filter-tab')].find(b => b.dataset.cat === cat);
+    if (btn) { filterArticles(cat, btn); scrollTo('articles'); }
+  }
+
+  function filterArticles(cat, btn) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat === 'all' ? allArticles : allArticles.filter(a => a.category === cat);
+    if (!filtered.length) {
+      document.getElementById('articles-grid').style.display = 'none';
+      document.getElementById('articles-empty').style.display = 'block';
+    } else {
+      document.getElementById('articles-empty').style.display = 'none';
+      renderArticles(filtered);
+    }
+  }
+
+  function renderArticles(list) {
+    const grid = document.getElementById('articles-grid');
+    grid.style.display = 'grid';
+    grid.innerHTML = list.map((a,i) => articleCard(a, i===0 && activeFilter==='all')).join('');
+  }
+
+  function articleCard(a, featured) {
+    const tags = (a.tags||[]).slice(0,3).map(t=>`<span class="card-tag">${esc(t)}</span>`).join('');
+    const views = a.view_count ? `<span class="card-views">👁 ${a.view_count.toLocaleString('en-IN')}</span>` : '';
+    return `
+      <article class="article-card${featured?' featured':''}" onclick="openArticle('${a.slug}')" itemscope itemtype="https://schema.org/BlogPosting">
+        <div class="card-image">
+          ${a.cover_image?`<img src="${a.cover_image}" alt="${esc(a.title)}" loading="lazy" itemprop="image" />`:''}
+          <span class="card-cat">${esc(a.category||'Uncategorised')}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title" itemprop="headline">${esc(a.title)}</h3>
+          <p class="card-subtitle">${esc(a.subtitle||a.meta_desc||'')}</p>
+          ${tags?`<div class="card-tags">${tags}</div>`:''}
+          <div class="card-footer">
+            <div class="card-author">
+              <img src="${a.author_avatar||''}" alt="${esc(a.author||'')}" />
+              <span class="card-author-name" itemprop="author">${esc(a.author||'Anonymous')}</span>
+            </div>
+            <div class="card-meta-right">
+              ${views}
+              <span class="card-read-time">${esc(a.read_time||'')}</span>
+              <div class="card-arrow">→</div>
+            </div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function populateHeroPreview(articles) {
+    const featured = articles.find(a=>a.is_featured)||articles[0];
+    if (!featured) return;
+    featuredSlug = featured.slug;
+    document.getElementById('hero-cat').textContent = featured.category||'';
+    document.getElementById('hero-preview-title').textContent = featured.title||'';
+    if (featured.cover_image) {
+      document.getElementById('hero-main-img').src = featured.cover_image;
+      document.getElementById('hero-thumb').src    = featured.cover_image;
+    }
+  }
+
+  function openFeaturedArticle() { if (featuredSlug) openArticle(featuredSlug); }
+
+  // ── ARTICLE MODAL ─────────────────────────────────────────
+  async function openArticle(slug) {
+    currentSlug = slug;
+    const modal = document.getElementById('article-modal');
+    const area  = document.getElementById('modal-content-area');
+    area.innerHTML = '<div class="modal-loading">Loading article…</div>';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    try {
+      const data = await api(`article&slug=${slug}`);
+      if (!data.success||!data.article) throw new Error('Not found');
+      renderModal(data.article, data.related||[]);
+      loadComments(slug);
+    } catch {
+      area.innerHTML = '<div class="modal-loading">Could not load article. Please try again.</div>';
+    }
+  }
+
+  function renderModal(a, related) {
+    const date     = a.published_at ? new Date(a.published_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : '';
+    const updated  = a.updated_at   ? new Date(a.updated_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : '';
+    const shareUrl = encodeURIComponent(window.location.href+'#'+a.slug);
+    const shareTitle = encodeURIComponent(a.title||'');
+
+    // TOC
+    const headings = [...(a.content||'').matchAll(/<h([23])[^>]*>(.*?)<\/h\1>/gi)];
+    const tocHtml = headings.length>1
+      ? `<div class="modal-toc"><h4>Table of Contents</h4><ul class="toc-list">${headings.map((m,i)=>{
+          const id = 'toc-'+i;
+          return `<li style="padding-left:${m[1]==='3'?'14px':'0'}"><a href="#${id}">${m[2].replace(/<[^>]+>/g,'')}</a></li>`;
+        }).join('')}</ul></div>`
+      : '';
+
+    // Inject IDs into headings
+    let contentWithIds = a.content||'';
+    let tocIdx = 0;
+    contentWithIds = contentWithIds.replace(/<h([23])([^>]*)>(.*?)<\/h\1>/gi, (_,l,attr,txt) => `<h${l}${attr} id="toc-${tocIdx++}">${txt}</h${l}>`);
+
+    // Related
+    const relatedHtml = related.length
+      ? `<div class="related-section"><p class="related-title">Related Articles</p><div class="related-grid">${related.map(r=>`
+          <div class="related-card" onclick="closeModal();setTimeout(()=>openArticle('${r.slug}'),150)">
+            ${r.cover_image?`<img src="${r.cover_image}" alt="${esc(r.title)}" loading="lazy" />`:''}
+            <div class="related-card-body"><div class="related-card-cat">${esc(r.category||'')}</div><div class="related-card-title">${esc(r.title)}</div></div>
+          </div>`).join('')}</div></div>` : '';
+
+    document.getElementById('modal-content-area').innerHTML = `
+      ${a.cover_image?`<img class="modal-cover" src="${a.cover_image}" alt="${esc(a.title)}" itemprop="image" />`:''}
+      <div class="modal-body" itemscope itemtype="https://schema.org/BlogPosting">
+        <meta itemprop="datePublished" content="${a.published_at||''}" />
+        <meta itemprop="dateModified" content="${a.updated_at||''}" />
+        <div class="modal-cat">${esc(a.category||'')}</div>
+        <h1 class="modal-title" itemprop="headline">${esc(a.title)}</h1>
+        <p class="modal-subtitle">${esc(a.subtitle||'')}</p>
+        <div class="modal-byline">
+          <img src="${a.author_avatar||''}" alt="${esc(a.author||'')}" />
+          <div>
+            <div class="modal-byline-name" itemprop="author">${esc(a.author||'Anonymous')}</div>
+            <div class="modal-byline-meta">${date}${updated&&updated!==date?' · Updated '+updated:''} · ${esc(a.read_time||'')} · ${(a.view_count||0).toLocaleString('en-IN')} views</div>
+          </div>
+        </div>
+        ${tocHtml}
+        <div class="modal-content" itemprop="articleBody">${contentWithIds}</div>
+        <div class="share-bar">
+          <span class="share-label">Share</span>
+          <a class="share-btn" href="https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}" target="_blank" rel="noopener">Twitter</a>
+          <a class="share-btn" href="https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="share-btn" href="https://wa.me/?text=${shareTitle}%20${shareUrl}" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="share-btn" onclick="copyLink()">Copy Link</button>
+        </div>
+        ${relatedHtml}
+        <div id="comments-area"></div>
+      </div>`;
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href+'#'+(currentSlug||'')).then(()=>alert('Link copied!')).catch(()=>{});
+  }
+
+  // ── COMMENTS ─────────────────────────────────────────────
+  async function loadComments(slug, sort='newest') {
+    commentSort = sort;
+    const area = document.getElementById('comments-area');
+    if (!area) return;
+
+    area.innerHTML = `
+      <div class="comments-section">
+        <div class="comments-header">
+          <div>
+            <span class="comments-title">Comments</span>
+            <span class="comments-count" id="comment-count-label"> · loading…</span>
+          </div>
+          <div class="comments-sort">
+            <button class="sort-btn${sort==='newest'?' active':''}" onclick="loadComments('${slug}','newest')">Newest</button>
+            <button class="sort-btn${sort==='oldest'?' active':''}" onclick="loadComments('${slug}','oldest')">Oldest</button>
+            <button class="sort-btn${sort==='popular'?' active':''}" onclick="loadComments('${slug}','popular')">Top</button>
+          </div>
+        </div>
+        <div class="comment-form">
+          <h4>Leave a Comment</h4>
+          <div class="comment-form-grid">
+            <input class="comment-input" id="cm-name" placeholder="Your name *" />
+            <input class="comment-input" id="cm-email" placeholder="Email (not published)" />
+          </div>
+          <textarea class="comment-textarea" id="cm-text" placeholder="Share your thoughts…"></textarea>
+          <button class="comment-submit" onclick="submitComment('${slug}')">Post Comment</button>
+          <div id="comment-msg"></div>
+        </div>
+        <div id="comments-list"><div style="padding:20px;text-align:center;color:var(--muted);font-size:0.85rem;">Loading comments…</div></div>
+      </div>`;
+
+    try {
+      const data = await api(`comments&slug=${slug}&sort=${sort}`);
+      if (!data.success) throw new Error('failed');
+      document.getElementById('comment-count-label').textContent = ` · ${data.total} comment${data.total!==1?'s':''}`;
+      renderComments(data.comments||[], slug);
+    } catch {
+      document.getElementById('comments-list').innerHTML = '<div class="comment-empty">Could not load comments.</div>';
+    }
+  }
+
+  function renderComments(comments, slug) {
+    const list = document.getElementById('comments-list');
+    if (!comments.length) { list.innerHTML = '<div class="comment-empty">No comments yet. Be the first to share your thoughts!</div>'; return; }
+    list.innerHTML = comments.map(c => commentHtml(c, slug, false)).join('');
+  }
+
+  function commentHtml(c, slug, isReply) {
+    const date = new Date(c.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+    const repliesHtml = c.replies?.length
+      ? `<div class="replies-list">${c.replies.map(r=>commentHtml(r,slug,true)).join('')}</div>` : '';
+    return `
+      <div class="${isReply?'reply-card':'comment-card'}">
+        <div class="comment-meta">
+          <span class="comment-author">${esc(c.author_name)}</span>
+          <span class="comment-date">${date}</span>
+        </div>
+        <p class="comment-text">${esc(c.content)}</p>
+        <div class="comment-actions">
+          <button class="comment-like" onclick="likeComment(${c.id},this)">♥ <span>${c.likes||0}</span></button>
+          ${!isReply?`<button class="comment-reply-btn" onclick="showReplyForm(${c.id},'${slug}')">↩ Reply</button>`:''}
+        </div>
+        <div id="reply-form-${c.id}"></div>
+        ${repliesHtml}
+      </div>`;
+  }
+
+  async function submitComment(slug) {
+    const name    = document.getElementById('cm-name')?.value.trim();
+    const email   = document.getElementById('cm-email')?.value.trim();
+    const content = document.getElementById('cm-text')?.value.trim();
+    const msg     = document.getElementById('comment-msg');
+    if (!name||!content) { msg.textContent='Name and comment are required.'; msg.style.color='var(--accent)'; return; }
+    msg.textContent='Posting…'; msg.style.color='var(--muted)';
+    try {
+      const data = await api('comment','POST',{slug,author_name:name,author_email:email,content});
+      if (!data.success) throw new Error(data.error);
+      msg.textContent='✓ Comment posted!'; msg.style.color='var(--green)';
+      document.getElementById('cm-name').value=''; document.getElementById('cm-email').value=''; document.getElementById('cm-text').value='';
+      setTimeout(()=>loadComments(slug,commentSort),800);
+    } catch(e) {
+      msg.textContent=e.message||'Failed to post. Try again.'; msg.style.color='var(--accent)';
+    }
+  }
+
+  function showReplyForm(parentId, slug) {
+    const container = document.getElementById(`reply-form-${parentId}`);
+    if (!container) return;
+    if (container.innerHTML) { container.innerHTML=''; return; }
+    container.innerHTML = `
+      <div style="margin-top:10px;background:var(--paper);border-radius:6px;padding:12px 14px;">
+        <input class="comment-input" id="rn-${parentId}" placeholder="Your name *" style="width:100%;margin-bottom:8px;" />
+        <textarea class="comment-textarea" id="rt-${parentId}" placeholder="Your reply…" style="min-height:60px;"></textarea>
+        <button class="comment-submit" onclick="submitReply(${parentId},'${slug}')">Post Reply</button>
+        <span id="rm-${parentId}" style="font-size:0.78rem;margin-left:8px;"></span>
+      </div>`;
+  }
+
+  async function submitReply(parentId, slug) {
+    const name    = document.getElementById(`rn-${parentId}`)?.value.trim();
+    const content = document.getElementById(`rt-${parentId}`)?.value.trim();
+    const msg     = document.getElementById(`rm-${parentId}`);
+    if (!name||!content) { msg.textContent='Required.'; msg.style.color='var(--accent)'; return; }
+    try {
+      const data = await api('comment','POST',{slug,author_name:name,content,parent_id:parentId});
+      if (!data.success) throw new Error(data.error);
+      msg.textContent='✓ Reply posted!'; msg.style.color='var(--green)';
+      setTimeout(()=>loadComments(slug,commentSort),700);
+    } catch(e) { msg.textContent=e.message; msg.style.color='var(--accent)'; }
+  }
+
+  async function likeComment(id, btn) {
+    try {
+      const data = await api('like_comment','POST',{comment_id:id});
+      if (data.success) btn.querySelector('span').textContent = data.likes;
+    } catch {}
+  }
+
+  // ── FOUNDER MODAL ─────────────────────────────────────────
+  const founderDetails = {
+    palak: {
+      title:"Founder & Editor-in-Chief", name:"Palak Kumari Jha", subtitle:"Journalist, Archivist, and Cultural Commentator",
+      bio:`<p><strong>Palak Kumari Jha</strong> founded DisséntVersé in early <strong>2025</strong> out of a deep-seated commitment to structural digital history and alternative social storytelling.</p><p>With years of ground-level investigation logging invisible human-interest profiles, she shaped our initial narrative path and core ethical roadmap to protect independent reporting formats.</p><h2>The 2025 Origin</h2><p>Palak created the project to safeguard alternative editorial streams, setting down values of uncompromising documentation that look beyond trend algorithms.</p>`
+    },
+    devraj: {
+      title:"Co-Founder & Director", name:"Devraj Kumar", subtitle:"Systems Architect & Platform Infrastructure Lead",
+      bio:`<p><strong>Devraj Kumar</strong> joined DisséntVersé as Co-Founder in <strong>2026</strong>, aligning with the foundational goals of the project.</p><p>Upon stepping in, he single-handedly mapped and built out the complete platform ecosystem architecture, protecting data privacy configurations while ensuring high responsiveness globally.</p><h2>The 2026 Architectural Blueprint</h2><p>Devraj's technical system design is entirely lean, crafted to shield community platforms from malicious tracing patterns while ensuring high responsiveness globally.</p>`
+    }
+  };
+
+  function openFounderCard(key) {
+    const data = founderDetails[key];
+    if (!data) return;
+    const modal = document.getElementById('article-modal');
+    document.getElementById('modal-content-area').innerHTML = `
+      <div class="modal-body">
+        <div class="modal-cat">${esc(data.title)}</div>
+        <h2 class="modal-title">${esc(data.name)}</h2>
+        <p class="modal-subtitle" style="margin-bottom:20px;">${esc(data.subtitle)}</p>
+        <div style="border-top:1px solid var(--border);padding-top:20px;" class="modal-content">${data.bio}</div>
+      </div>`;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() { document.getElementById('article-modal').classList.remove('open'); document.body.style.overflow=''; }
+  function closeModalOnBackdrop(e) { if (e.target===document.getElementById('article-modal')) closeModal(); }
+
+  // ── EDITOR FORM ───────────────────────────────────────────
+  function buildExpertiseChips() {
+    document.getElementById('expertise-chips').innerHTML = EXPERTISE_OPTIONS.map(opt => `
+      <label class="expertise-chip" id="chip-${esc(opt)}">
+        <input type="checkbox" value="${esc(opt)}" onchange="toggleChip(this)" />
+        ${esc(opt)}
+      </label>`).join('');
+  }
+
+  function toggleChip(el) { el.closest('.expertise-chip').classList.toggle('selected',el.checked); }
+
+  function openEditorForm() {
+    document.getElementById('editor-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (!document.getElementById('expertise-chips').children.length) buildExpertiseChips();
+  }
+
+  function closeEditorForm() { document.getElementById('editor-modal').classList.remove('open'); document.body.style.overflow=''; }
+  function closeEditorModalBackdrop(e) { if (e.target===document.getElementById('editor-modal')) closeEditorForm(); }
+
+  async function submitEditorApplication() {
+    const name    = document.getElementById('ef-name')?.value.trim();
+    const email   = document.getElementById('ef-email')?.value.trim();
+    const phone   = document.getElementById('ef-phone')?.value.trim();
+    const city    = document.getElementById('ef-city')?.value.trim();
+    const qual    = document.getElementById('ef-qual')?.value.trim();
+    const exp     = document.getElementById('ef-exp')?.value;
+    const sample  = document.getElementById('ef-sample')?.value.trim();
+    const linkedin= document.getElementById('ef-linkedin')?.value.trim();
+    const why     = document.getElementById('ef-why')?.value.trim();
+    const expertise = [...document.querySelectorAll('#expertise-chips input:checked')].map(c=>c.value);
+    const msg     = document.getElementById('eform-msg');
+    const btn     = document.getElementById('eform-submit');
+
+    if (!name||!email||!why) { showFormMsg('Please fill all required fields (marked *).','error'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { showFormMsg('Please enter a valid email address.','error'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    msg.style.display = 'none';
+
+    try {
+      const data = await api('apply_editor','POST',{ full_name:name, email, phone, city, qualification:qual, writing_exp:exp, expertise, sample_link:sample, why_join:why, linkedin });
+      if (!data.success) throw new Error(data.error||'Submission failed');
+      showFormMsg('✓ Application received! We will reach out within 7 days.','success');
+      btn.textContent = 'Application Sent ✓';
+    } catch(e) {
+      showFormMsg(e.message||'Something went wrong. Please try again.','error');
+      btn.disabled=false; btn.textContent='Submit Application →';
+    }
+  }
+
+  function showFormMsg(text, type) {
+    const msg = document.getElementById('eform-msg');
+    msg.textContent = text;
+    msg.className = type;
+    msg.style.display = 'block';
+  }
+
+  // ── VISITS ────────────────────────────────────────────────
+  async function handleVisits() {
+    const key = 'dverse_last_hit';
+    const now = Date.now();
+    const last = localStorage.getItem(key);
+    if (!last||(now-parseInt(last,10))>3600000) {
+      try {
+        const data = await api('visit','POST');
+        if (data.success) { updateVisitUI(data.visits); localStorage.setItem(key,now.toString()); return; }
+      } catch {}
+    }
+    try { const data = await api('visits'); if (data.success) updateVisitUI(data.visits); } catch {}
+  }
+
+  function updateVisitUI(n) {
+    const fmt = n?.toLocaleString('en-IN')||'—';
+    document.getElementById('header-visits').textContent  = `${fmt} visits`;
+    document.getElementById('footer-visits').textContent  = fmt;
+    document.getElementById('hero-stat-count').textContent = fmt;
+  }
+
+  // ── ESCAPE HELPER ─────────────────────────────────────────
+  function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── KEYBOARD SHORTCUTS ────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key==='Escape') { closeModal(); closeSearch(); closeEditorForm(); }
+    if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); openSearch(); }
+  });
+
+  // ── INIT ─────────────────────────────────────────────────
+  buildTicker([]);
+  setTimeout(() => { loadArticles(); loadTrending(); handleVisits(); }, 400);
+</script>
+</body>
+</html>
