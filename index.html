@@ -15,438 +15,96 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        DESIGN TOKENS — Light mode (default)
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════ */
     :root {
-      --ink:         #0d1117;
-      --ink2:        #24292f;
-      --paper:       #ffffff;
-      --paper2:      #f6f8fa;
-      --paper3:      #eef1f5;
-      --accent:      #e03045;
-      --accent-glow: rgba(224,48,69,0.22);
-      --accent-dim:  rgba(224,48,69,0.10);
-      --blue:        #0969da;
-      --blue-dim:    rgba(9,105,218,0.10);
-      --border:      #d0d7de;
-      --border-soft: #e8ecf0;
-      --muted:       #57606a;
-      --muted2:      #8b949e;
-      --white:       #ffffff;
-      --shadow-xs:   0 1px 3px rgba(13,17,23,0.06), 0 1px 2px rgba(13,17,23,0.04);
-      --shadow-sm:   0 4px 12px rgba(13,17,23,0.07), 0 1px 3px rgba(13,17,23,0.04);
-      --shadow-md:   0 8px 24px rgba(13,17,23,0.09), 0 2px 6px rgba(13,17,23,0.05);
-      --shadow-lg:   0 20px 40px rgba(13,17,23,0.12), 0 4px 12px rgba(13,17,23,0.06);
-      --serif:       'Playfair Display', Georgia, serif;
-      --sans:        'Inter', system-ui, sans-serif;
-      --mono:        'Space Mono', monospace;
-      --r-sm:        8px;
-      --r-md:        12px;
-      --r-lg:        16px;
-      --r-xl:        24px;
-      --t:           0.2s cubic-bezier(0.4,0,0.2,1);
-      --toggle-bg:   #e8ecf0;
-      --toggle-on:   #0969da;
-      --toggle-glow: rgba(9,105,218,0.35);
+      --ink:            #0d1117;
+      --ink2:           #24292f;
+      --paper:          #ffffff;
+      --paper2:         #f6f8fa;
+      --paper3:         #eef1f5;
+      --accent:         #e03045;
+      --accent-glow:    rgba(224,48,69,0.22);
+      --accent-dim:     rgba(224,48,69,0.10);
+      --blue:           #0969da;
+      --blue-dim:       rgba(9,105,218,0.10);
+      --border:         #d0d7de;
+      --border-soft:    #e8ecf0;
+      --muted:          #57606a;
+      --muted2:         #8b949e;
+      --surface:        #ffffff;      /* card / modal backgrounds */
+      --surface2:       #f6f8fa;      /* subtle inset surfaces */
+      --surface3:       #eef1f5;      /* deeper inset */
+      --on-surface:     #0d1117;      /* text ON surface */
+      --on-surface2:    #24292f;
+      --on-dark:        #ffffff;      /* text on intentionally dark sections (ticker, footer, manifesto) */
+      --on-dark-muted:  rgba(255,255,255,0.55);
+      --dark-section:   #0d1117;      /* always-dark section backgrounds */
+      --dark-section2:  #080c14;
+      --shadow-xs:      0 1px 3px rgba(13,17,23,0.06), 0 1px 2px rgba(13,17,23,0.04);
+      --shadow-sm:      0 4px 12px rgba(13,17,23,0.07), 0 1px 3px rgba(13,17,23,0.04);
+      --shadow-md:      0 8px 24px rgba(13,17,23,0.09), 0 2px 6px rgba(13,17,23,0.05);
+      --shadow-lg:      0 20px 40px rgba(13,17,23,0.12), 0 4px 12px rgba(13,17,23,0.06);
+      --serif:          'Playfair Display', Georgia, serif;
+      --sans:           'Inter', system-ui, sans-serif;
+      --mono:           'Space Mono', monospace;
+      --r-sm:           8px;
+      --r-md:           12px;
+      --r-lg:           16px;
+      --r-xl:           24px;
+      --t:              0.2s cubic-bezier(0.4,0,0.2,1);
+      --toggle-bg:      #e8ecf0;
+      --toggle-on:      #0969da;
+      --toggle-glow:    rgba(9,105,218,0.35);
+      --header-bg:      rgba(255,255,255,0.94);
+      --trending-card:  rgba(255,255,255,0.07);
+      --trending-card-hover: rgba(255,255,255,0.12);
+      --trending-num-color: rgba(255,255,255,0.12);
     }
 
-    /* ══════════════════════════════════════════════════════
-       DARK MODE TOKENS
-       Key philosophy: --white flips to a dark surface so
-       cards/modals using var(--white) get dark backgrounds.
-       All text uses --ink / --ink2 / --muted which also flip.
-    ══════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════════
+       DARK MODE — complete token override
+       Philosophy: --surface flips so every card/modal goes dark.
+       --on-surface flips so text on cards stays readable.
+       Always-dark sections (ticker, footer, manifesto) use
+       --dark-section which does NOT flip — they stay dark in
+       both modes, which is intentional brand design.
+    ═══════════════════════════════════════════════════════ */
     body.dv-dark {
-      --ink:         #e6edf3;
-      --ink2:        #c9d1d9;
-      --paper:       #0d1117;
-      --paper2:      #161b22;
-      --paper3:      #21262d;
-      --accent:      #f85149;
-      --accent-glow: rgba(248,81,73,0.25);
-      --accent-dim:  rgba(248,81,73,0.12);
-      --blue:        #58a6ff;
-      --blue-dim:    rgba(88,166,255,0.12);
-      --border:      #30363d;
-      --border-soft: #21262d;
-      --muted:       #8b949e;
-      --muted2:      #6e7681;
-      --white:       #161b22;
-      --shadow-xs:   0 1px 3px rgba(0,0,0,0.25);
-      --shadow-sm:   0 4px 12px rgba(0,0,0,0.3);
-      --shadow-md:   0 8px 24px rgba(0,0,0,0.35);
-      --shadow-lg:   0 20px 40px rgba(0,0,0,0.5);
-      --toggle-bg:   #30363d;
+      --ink:            #e6edf3;
+      --ink2:           #c9d1d9;
+      --paper:          #0d1117;
+      --paper2:         #161b22;
+      --paper3:         #21262d;
+      --accent:         #f85149;
+      --accent-glow:    rgba(248,81,73,0.25);
+      --accent-dim:     rgba(248,81,73,0.12);
+      --blue:           #58a6ff;
+      --blue-dim:       rgba(88,166,255,0.12);
+      --border:         #30363d;
+      --border-soft:    #21262d;
+      --muted:          #8b949e;
+      --muted2:         #6e7681;
+      --surface:        #161b22;
+      --surface2:       #21262d;
+      --surface3:       #2d333b;
+      --on-surface:     #e6edf3;
+      --on-surface2:    #c9d1d9;
+      --shadow-xs:      0 1px 3px rgba(0,0,0,0.4);
+      --shadow-sm:      0 4px 12px rgba(0,0,0,0.45);
+      --shadow-md:      0 8px 24px rgba(0,0,0,0.5);
+      --shadow-lg:      0 20px 40px rgba(0,0,0,0.65);
+      --toggle-bg:      #30363d;
+      --header-bg:      rgba(13,17,23,0.96);
+      --trending-card:  rgba(255,255,255,0.05);
+      --trending-card-hover: rgba(255,255,255,0.09);
+      --trending-num-color: rgba(255,255,255,0.10);
     }
 
-    /* ══════════════════════════════════════════════════════
-       DARK MODE SURFACE & TEXT OVERRIDES
-       Rule: every element that could render white text on
-       white background (or dark on dark) gets an explicit fix.
-    ══════════════════════════════════════════════════════ */
-
-    /* Header */
-    body.dv-dark .dv-header { background: rgba(13,17,23,0.94); }
-
-    /* Topbar */
-    body.dv-dark .dv-topbar {
-      color: rgba(255,255,255,0.80);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    /* Ticker */
-    body.dv-dark .dv-ticker-item { color: rgba(255,255,255,0.65); }
-
-    /* Hero stat & preview — explicit surfaces */
-    body.dv-dark .dv-hero-stat {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-hero-stat-num   { color: var(--ink); }
-    body.dv-dark .dv-hero-stat-label { color: var(--muted); }
-    body.dv-dark .dv-hero-preview {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-hero-preview-title { color: var(--ink); }
-
-    /* Trending section */
-    body.dv-dark .dv-trending-num   { color: rgba(255,255,255,0.18); }
-    body.dv-dark .dv-trending-title { color: rgba(255,255,255,0.92); }
-    body.dv-dark .dv-trending-views { color: rgba(255,255,255,0.55); }
-    body.dv-dark .dv-trending-card  {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.10);
-    }
-    body.dv-dark .dv-trending-card:hover { background: rgba(255,255,255,0.10); }
-
-    /* Manifesto */
-    body.dv-dark .dv-manifesto      { background: #080c14; }
-    body.dv-dark .dv-manifesto-copy { color: rgba(255,255,255,0.72); }
-
-    /* Editor CTA */
-    body.dv-dark .dv-editor-cta-desc  { color: rgba(255,255,255,0.72); }
-    body.dv-dark .dv-editor-perk-label { color: rgba(255,255,255,0.65); }
-
-    /* Article cards — var(--white) already flips, text uses var tokens ✓
-       BUT we still need explicit bg to avoid flash */
-    body.dv-dark .dv-article-card  { background: var(--white); }
-    body.dv-dark .dv-card-tag {
-      background: var(--paper3);
-      border-color: var(--border);
-      color: var(--muted);
-    }
-    body.dv-dark .dv-card-read-time,
-    body.dv-dark .dv-card-views     { color: var(--muted2); }
-    body.dv-dark .dv-card-arrow     { border-color: var(--border); color: var(--muted); }
-    body.dv-dark .dv-card-footer    { border-top-color: var(--border-soft); }
-
-    /* Category pills */
-    body.dv-dark .dv-cat-pill       { background: var(--paper3); border-color: var(--border); }
-    body.dv-dark .dv-cat-name       { color: var(--ink); }
-    body.dv-dark .dv-cat-count {
-      background: var(--paper2);
-      border-color: var(--border);
-      color: var(--muted);
-    }
-
-    /* Filter buttons */
-    body.dv-dark .dv-filter-btn {
-      color: var(--muted);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-filter-btn:hover {
-      border-color: var(--ink);
-      color: var(--ink);
-      background: var(--paper3);
-    }
-
-    /* Visit badge */
-    body.dv-dark .dv-visit-badge {
-      background: var(--paper3);
-      border-color: var(--border);
-      color: var(--muted);
-    }
-
-    /* Search input */
-    body.dv-dark .dv-search-input { background: var(--paper2); color: var(--ink); }
-    body.dv-dark .dv-search-input::placeholder { color: var(--muted); }
-
-    /* Search overlay */
-    body.dv-dark .dv-search-overlay-box { border-color: var(--border); background: var(--paper2); }
-    body.dv-dark #dv-search-input       { color: var(--ink); background: transparent; }
-    body.dv-dark .dv-search-result-title { color: var(--ink); }
-    body.dv-dark .dv-search-hint         { color: var(--muted); }
-    body.dv-dark .dv-search-result-item:hover { background: var(--paper3); }
-    body.dv-dark .dv-search-ovl-close {
-      color: var(--muted);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-search-ovl-close:hover {
-      color: var(--ink);
-      border-color: var(--ink);
-      background: var(--paper3);
-    }
-
-    /* Toggle knob */
-    body.dv-dark .dv-toggle { background: var(--toggle-on); border-color: var(--toggle-on); }
-    body.dv-dark .dv-toggle-knob { background: #ffffff; transform: translateX(24px); }
-
-    /* Breadcrumb */
-    body.dv-dark .dv-breadcrumb   { color: var(--muted); }
-    body.dv-dark .dv-breadcrumb a { color: var(--muted); }
-
-    /* ── ARTICLE MODAL ── */
-    body.dv-dark .dv-modal-inner {
-      background: var(--paper2);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-modal-body { background: var(--paper2); }
-    body.dv-dark .dv-modal-close-btn {
-      background: rgba(0,0,0,0.62);
-      color: #ffffff;
-    }
-    body.dv-dark .dv-modal-headline     { color: var(--ink); }
-    body.dv-dark .dv-modal-deck         { color: var(--muted); }
-    body.dv-dark .dv-modal-cat-label    { color: var(--accent); }
-    body.dv-dark .dv-modal-byline-name  { color: var(--ink); }
-    body.dv-dark .dv-modal-byline-meta  { color: var(--muted); }
-    body.dv-dark .dv-modal-byline {
-      border-top-color: var(--border-soft);
-      border-bottom-color: var(--border-soft);
-    }
-    body.dv-dark .dv-modal-prose        { color: var(--ink2); }
-    body.dv-dark .dv-modal-prose strong { color: var(--ink); }
-    body.dv-dark .dv-modal-prose h2,
-    body.dv-dark .dv-modal-prose h3     { color: var(--ink); }
-
-    /* TOC box */
-    body.dv-dark .dv-toc-box {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-toc-box h4    { color: var(--muted); }
-    body.dv-dark .dv-toc-list a    { color: var(--blue); }
-
-    /* Share bar */
-    body.dv-dark .dv-share-bar    { border-top-color: var(--border-soft); }
-    body.dv-dark .dv-share-label  { color: var(--muted); }
-    body.dv-dark .dv-share-btn {
-      color: var(--ink);
-      border-color: var(--border);
-      background: transparent;
-    }
-    body.dv-dark .dv-share-btn:hover {
-      background: var(--ink);
-      color: var(--paper);
-      border-color: var(--ink);
-    }
-
-    /* Related articles — THE KEY FIX: explicit dark surfaces */
-    body.dv-dark .dv-related-section    { border-top-color: var(--border-soft); }
-    body.dv-dark .dv-related-title      { color: var(--ink); }
-    body.dv-dark .dv-related-card {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-related-card-body { background: var(--paper3); }
-    body.dv-dark .dv-related-card-title { color: var(--ink); }
-    body.dv-dark .dv-related-card-cat   { color: var(--accent); }
-
-    /* Founders */
-    body.dv-dark .dv-founder-card {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-founder-role  { color: var(--accent); }
-    body.dv-dark .dv-founder-name  { color: var(--ink); }
-    body.dv-dark .dv-founder-brief { color: var(--muted); }
-    body.dv-dark .dv-founder-cta   { color: var(--ink); }
-
-    /* ── COMMENT SYSTEM ── */
-    body.dv-dark .dv-comments-section { border-top-color: var(--border-soft); }
-    body.dv-dark .dv-comments-title   { color: var(--ink); }
-    body.dv-dark .dv-comments-count {
-      background: var(--paper3);
-      border-color: var(--border);
-      color: var(--muted);
-    }
-
-    /* Sort buttons */
-    body.dv-dark .dv-sort-btn {
-      color: var(--muted);
-      border-color: var(--border);
-      background: transparent;
-    }
-    body.dv-dark .dv-sort-btn:hover { border-color: var(--ink); color: var(--ink); }
-    body.dv-dark .dv-sort-btn.dv-sort-active {
-      background: var(--ink);
-      color: var(--paper);
-      border-color: var(--ink);
-    }
-
-    /* Write box */
-    body.dv-dark .dv-comment-write-box {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-comment-write-box h4 { color: var(--ink); }
-    body.dv-dark .dv-write-input,
-    body.dv-dark .dv-write-textarea {
-      background: var(--paper2);
-      color: var(--ink);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-write-input::placeholder,
-    body.dv-dark .dv-write-textarea::placeholder { color: var(--muted); }
-    body.dv-dark .dv-comment-submit-btn {
-      background: var(--accent);
-      color: #ffffff;
-    }
-    body.dv-dark .dv-comment-submit-btn:hover {
-      background: var(--ink);
-    }
-
-    /* Comment card — THE KEY FIX */
-    body.dv-dark .dv-comment-card {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-comment-avatar {
-      background: linear-gradient(135deg, #2d333b 0%, #444c56 100%);
-      border-color: var(--border);
-      color: #ffffff;
-    }
-    body.dv-dark .dv-comment-author-name { color: var(--ink); }
-    body.dv-dark .dv-comment-text        { color: var(--ink2); }
-    body.dv-dark .dv-comment-date        { color: var(--muted2); }
-    body.dv-dark .dv-comment-actions     { border-top-color: var(--border-soft); }
-
-    /* Three-dot menu */
-    body.dv-dark .dv-comment-menu-btn { color: var(--muted2); }
-    body.dv-dark .dv-comment-menu-btn:hover { background: var(--paper2); color: var(--ink); }
-    body.dv-dark .dv-comment-menu-dropdown {
-      background: var(--paper2);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-comment-menu-item         { color: var(--ink2); }
-    body.dv-dark .dv-comment-menu-item:hover   { background: var(--paper3); }
-    body.dv-dark .dv-comment-menu-item.dv-danger       { color: var(--accent); }
-    body.dv-dark .dv-comment-menu-item.dv-danger:hover { background: var(--accent-dim); }
-
-    /* Like / Reply */
-    body.dv-dark .dv-action-like,
-    body.dv-dark .dv-action-reply {
-      color: var(--muted);
-      border-color: var(--border);
-      background: var(--paper2);
-    }
-    body.dv-dark .dv-action-like:hover {
-      color: var(--accent);
-      background: var(--accent-dim);
-      border-color: var(--accent);
-    }
-    body.dv-dark .dv-action-like.dv-liked {
-      color: var(--accent);
-      background: var(--accent-dim);
-      border-color: var(--accent);
-    }
-    body.dv-dark .dv-action-reply:hover {
-      color: var(--blue);
-      background: var(--blue-dim);
-      border-color: var(--blue);
-    }
-
-    /* Replies toggle */
-    body.dv-dark .dv-replies-toggle       { color: var(--blue); }
-    body.dv-dark .dv-replies-toggle:hover { color: var(--accent); }
-
-    /* Reply card */
-    body.dv-dark .dv-reply-card {
-      background: var(--paper2);
-      border-color: var(--border);
-    }
-
-    /* Inline reply form */
-    body.dv-dark .dv-inline-reply-form {
-      background: var(--paper3);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-inline-submit {
-      background: var(--accent);
-      color: #ffffff;
-    }
-    body.dv-dark .dv-inline-submit:hover { background: var(--ink); }
-    body.dv-dark .dv-inline-cancel { color: var(--muted); }
-    body.dv-dark .dv-inline-cancel:hover { color: var(--ink); }
-
-    /* ── EDITOR APPLICATION FORM ── */
-    body.dv-dark .dv-eform-inner {
-      background: var(--paper2);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-eform-header {
-      background: var(--paper2);
-      border-bottom-color: var(--border);
-    }
-    body.dv-dark .dv-eform-header h2 { color: var(--ink); }
-    body.dv-dark .dv-eform-header p  { color: var(--muted); }
-    body.dv-dark .dv-eform-close {
-      background: var(--paper3);
-      color: var(--muted);
-    }
-    body.dv-dark .dv-eform-close:hover {
-      background: var(--border);
-      color: var(--ink);
-    }
-    body.dv-dark .dv-form-label { color: var(--ink); }
-    body.dv-dark .dv-form-input,
-    body.dv-dark .dv-form-select,
-    body.dv-dark .dv-form-textarea {
-      background: var(--paper3);
-      color: var(--ink);
-      border-color: var(--border);
-    }
-    body.dv-dark .dv-form-input::placeholder,
-    body.dv-dark .dv-form-textarea::placeholder { color: var(--muted); }
-    body.dv-dark .dv-form-select option { background: var(--paper3); color: var(--ink); }
-    body.dv-dark .dv-chip {
-      background: var(--paper3);
-      border-color: var(--border);
-      color: var(--muted);
-    }
-    body.dv-dark .dv-chip.dv-chip-on {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #ffffff;
-    }
-    body.dv-dark #dv-eform-msg.dv-msg-ok {
-      background: rgba(26,127,55,0.15);
-      color: #3fb950;
-      border-color: rgba(63,185,80,0.25);
-    }
-
-    /* ── FOOTER — always dark, explicit colors ── */
-    body.dv-dark .dv-footer {
-      background: #080c14;
-      color: rgba(255,255,255,0.60);
-    }
-    body.dv-dark .dv-footer-grid    { border-bottom-color: rgba(255,255,255,0.08); }
-    body.dv-dark .dv-footer-brand p { color: rgba(255,255,255,0.60); }
-    body.dv-dark .dv-footer-brand .dv-logo-text { color: #ffffff; }
-    body.dv-dark .dv-footer-col h4  { color: rgba(255,255,255,0.85); }
-    body.dv-dark .dv-footer-links a { color: rgba(255,255,255,0.55); }
-    body.dv-dark .dv-footer-links a:hover { color: #ffffff; }
-    body.dv-dark .dv-footer-bottom p { color: rgba(255,255,255,0.55); }
-    body.dv-dark .dv-footer-visits  { color: rgba(255,255,255,0.55); }
-    body.dv-dark .dv-footer-visits strong { color: rgba(255,255,255,0.88); }
-    body.dv-dark .dv-footer-credit  { color: rgba(255,255,255,0.48); }
-    body.dv-dark .dv-footer-credit:hover { color: rgba(255,255,255,0.88); }
-
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        BASE RESET & GLOBALS
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -471,8 +129,8 @@
 
     /* ── TOP BAR ── */
     .dv-topbar {
-      background: var(--ink);
-      color: rgba(255,255,255,0.55);
+      background: var(--dark-section);
+      color: var(--on-dark-muted);
       font-family: var(--mono);
       font-size: 0.7rem;
       text-align: center;
@@ -484,7 +142,7 @@
     /* ── HEADER ── */
     .dv-header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.94);
+      background: var(--header-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-soft);
@@ -511,7 +169,7 @@
     }
     .dv-logo-wrap:hover .dv-logo-badge { box-shadow: 0 0 0 3px var(--accent-glow); }
     .dv-logo-badge img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-    .dv-logo-badge-fallback { font-family: var(--serif); font-size: 1rem; font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; }
+    .dv-logo-badge-fallback { font-family: var(--serif); font-size: 1rem; font-weight: 900; color: var(--on-dark); letter-spacing: -0.03em; line-height: 1; }
     .dv-logo-text { font-family: var(--serif); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
     .dv-logo-text em { font-style: normal; color: var(--accent); }
 
@@ -558,10 +216,12 @@
     .dv-toggle-knob {
       position: absolute; top: 2px; left: 2px;
       width: 20px; height: 20px; border-radius: 50%;
-      background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      background: var(--on-dark); box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
       display: flex; align-items: center; justify-content: center; font-size: 0.68rem;
     }
+    body.dv-dark .dv-toggle { background: var(--toggle-on); border-color: var(--toggle-on); }
+    body.dv-dark .dv-toggle-knob { transform: translateX(24px); }
 
     /* Visit badge */
     .dv-visit-badge {
@@ -601,7 +261,7 @@
     }
     #dv-search-overlay.dv-open { opacity: 1; pointer-events: all; }
     .dv-search-overlay-box {
-      background: var(--white); border-radius: var(--r-xl);
+      background: var(--surface); border-radius: var(--r-xl);
       width: 100%; max-width: 660px; overflow: hidden;
       box-shadow: var(--shadow-lg);
       transform: translateY(-16px);
@@ -646,7 +306,7 @@
 
     /* ── TICKER ── */
     .dv-ticker-wrap {
-      background: var(--ink); overflow: hidden;
+      background: var(--dark-section); overflow: hidden;
       padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
     }
     .dv-ticker-track { display: flex; animation: dv-ticker 32s linear infinite; white-space: nowrap; }
@@ -699,7 +359,7 @@
     .dv-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .dv-btn-primary {
       display: inline-flex; align-items: center; gap: 7px;
-      background: var(--accent); color: #fff;
+      background: var(--accent); color: var(--on-dark);
       font-size: 0.88rem; font-weight: 700;
       padding: 11px 22px; border-radius: var(--r-lg);
       border: none; cursor: pointer; letter-spacing: 0.01em;
@@ -728,7 +388,7 @@
     .dv-hero-stack:hover .dv-hero-main img { transform: scale(1.03); }
     .dv-hero-preview {
       position: absolute; bottom: 0; left: 16px; right: 16px; height: 86px;
-      background: var(--white); border-radius: var(--r-lg);
+      background: var(--surface); border-radius: var(--r-lg);
       box-shadow: var(--shadow-md);
       display: flex; align-items: center; padding: 0 16px; gap: 12px;
       cursor: pointer; transition: transform var(--t), box-shadow var(--t);
@@ -743,18 +403,17 @@
     .dv-hero-preview-cat { font-family: var(--mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 3px; font-weight: 700; }
     .dv-hero-preview-title {
       font-family: var(--serif); font-size: 0.9rem; font-weight: 700;
-      line-height: 1.3; color: var(--ink);
+      line-height: 1.3; color: var(--on-surface);
       overflow: hidden; display: -webkit-box;
       -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     }
-    /* Hero stat — FIXED: no negative right, contained within parent */
     .dv-hero-stat {
       position: absolute; top: 14px; right: 14px;
-      background: var(--white); border: 1px solid var(--border-soft);
+      background: var(--surface); border: 1px solid var(--border-soft);
       border-radius: var(--r-lg); padding: 12px 16px;
       box-shadow: var(--shadow-sm); min-width: 110px; text-align: center;
     }
-    .dv-hero-stat-num   { font-family: var(--mono); font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+    .dv-hero-stat-num   { font-family: var(--mono); font-size: 1.3rem; font-weight: 700; color: var(--on-surface); }
     .dv-hero-stat-label { font-size: 0.63rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; font-weight: 600; }
 
     /* ── SECTION HEADERS ── */
@@ -792,7 +451,7 @@
     }
     .dv-article-card {
       display: flex; flex-direction: column;
-      background: var(--white); border: 1px solid var(--border-soft);
+      background: var(--surface); border: 1px solid var(--border-soft);
       border-radius: var(--r-lg); overflow: hidden;
       box-shadow: var(--shadow-xs);
       transition: transform var(--t), box-shadow var(--t), border-color var(--t);
@@ -811,13 +470,13 @@
       position: absolute; top: 10px; left: 10px;
       font-family: var(--mono); font-size: 0.62rem;
       text-transform: uppercase; letter-spacing: 0.1em;
-      color: #fff; background: var(--accent);
+      color: var(--on-dark); background: var(--accent);
       padding: 3px 8px; border-radius: 4px; font-weight: 700;
     }
     .dv-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
     .dv-card-headline {
       font-family: var(--serif); font-size: 1.2rem; font-weight: 800;
-      line-height: 1.3; color: var(--ink); margin-bottom: 8px;
+      line-height: 1.3; color: var(--on-surface); margin-bottom: 8px;
       transition: color var(--t);
     }
     .dv-article-card.dv-featured .dv-card-headline { font-size: 1.55rem; }
@@ -839,7 +498,7 @@
     }
     .dv-card-author { display: flex; align-items: center; gap: 7px; }
     .dv-card-author img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--border-soft); }
-    .dv-card-author-name { font-size: 0.8rem; font-weight: 600; color: var(--ink2); }
+    .dv-card-author-name { font-size: 0.8rem; font-weight: 600; color: var(--on-surface2); }
     .dv-card-right-meta { display: flex; align-items: center; gap: 8px; }
     .dv-card-read-time, .dv-card-views { font-family: var(--mono); font-size: 0.66rem; color: var(--muted2); display: inline-flex; align-items: center; gap: 3px; }
     .dv-card-arrow {
@@ -848,11 +507,11 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 0.72rem; color: var(--muted); transition: all var(--t);
     }
-    .dv-article-card:hover .dv-card-arrow { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateX(2px); }
+    .dv-article-card:hover .dv-card-arrow { background: var(--accent); border-color: var(--accent); color: var(--on-dark); transform: translateX(2px); }
 
     /* Skeletons */
     .dv-grid-loading { max-width: 1340px; margin: 0 auto; padding: 0 16px 64px; display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-    .dv-skel-card { background: var(--white); border: 1px solid var(--border-soft); border-radius: var(--r-lg); overflow: hidden; }
+    .dv-skel-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--r-lg); overflow: hidden; }
     .dv-skel-img  { aspect-ratio: 16/10; }
     .dv-skel-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
     .dv-skel-line { height: 11px; border-radius: 6px; }
@@ -862,7 +521,7 @@
     .dv-state-msg { max-width: 1340px; margin: 0 auto; padding: 52px 16px; text-align: center; font-size: 1rem; color: var(--muted); font-family: var(--serif); }
 
     /* ── TRENDING ── */
-    .dv-trending-wrap { background: var(--ink); padding: 48px 16px; }
+    .dv-trending-wrap { background: var(--dark-section); padding: 48px 16px; }
     .dv-trending-inner { max-width: 1340px; margin: 0 auto; }
     .dv-trending-label {
       font-family: var(--mono); font-size: 0.7rem;
@@ -875,12 +534,12 @@
     .dv-trending-card {
       display: flex; gap: 12px; align-items: flex-start;
       padding: 16px; border-radius: var(--r-md);
-      background: rgba(255,255,255,0.04);
+      background: var(--trending-card);
       border: 1px solid rgba(255,255,255,0.07);
       cursor: pointer; transition: background var(--t), transform var(--t);
     }
-    .dv-trending-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
-    .dv-trending-num   { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: rgba(255,255,255,0.1); flex-shrink: 0; line-height: 1; }
+    .dv-trending-card:hover { background: var(--trending-card-hover); transform: translateY(-2px); }
+    .dv-trending-num   { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--trending-num-color); flex-shrink: 0; line-height: 1; }
     .dv-trending-cat   { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; font-weight: 700; }
     .dv-trending-title { font-family: var(--serif); font-size: 0.94rem; font-weight: 700; color: rgba(255,255,255,0.86); line-height: 1.35; }
     .dv-trending-views { font-family: var(--mono); font-size: 0.66rem; color: rgba(255,255,255,0.3); margin-top: 6px; }
@@ -888,14 +547,14 @@
     /* ── CATEGORIES ── */
     .dv-cat-grid { max-width: 1340px; margin: 0 auto; padding: 0 16px 64px; display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
     .dv-cat-pill {
-      background: var(--white); border: 1px solid var(--border-soft);
+      background: var(--surface); border: 1px solid var(--border-soft);
       border-radius: var(--r-md); padding: 16px 18px;
       cursor: pointer; transition: all var(--t);
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
       box-shadow: var(--shadow-xs);
     }
     .dv-cat-pill:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-sm); }
-    .dv-cat-name  { font-family: var(--serif); font-size: 0.95rem; font-weight: 800; color: var(--ink); }
+    .dv-cat-name  { font-family: var(--serif); font-size: 0.95rem; font-weight: 800; color: var(--on-surface); }
     .dv-cat-count {
       font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
       flex-shrink: 0; background: var(--paper2);
@@ -903,17 +562,17 @@
     }
 
     /* ── MANIFESTO ── */
-    .dv-manifesto { background: var(--ink); padding: 72px 16px; text-align: center; }
+    .dv-manifesto { background: var(--dark-section); padding: 72px 16px; text-align: center; }
     .dv-manifesto-inner { max-width: 700px; margin: 0 auto; }
     .dv-manifesto-quote {
       font-family: var(--serif);
       font-size: clamp(1.4rem, 3vw, 2rem);
       font-style: italic; font-weight: 700;
-      color: #fff; line-height: 1.45; margin-bottom: 20px; letter-spacing: -0.01em;
+      color: var(--on-dark); line-height: 1.45; margin-bottom: 20px; letter-spacing: -0.01em;
     }
     .dv-manifesto-quote em { color: var(--accent); }
     .dv-manifesto-copy {
-      font-size: 0.97rem; color: rgba(255,255,255,0.5);
+      font-size: 0.97rem; color: var(--on-dark-muted);
       line-height: 1.85; max-width: 560px; margin: 0 auto 30px; font-weight: 300;
     }
 
@@ -921,36 +580,36 @@
     .dv-founders-section { max-width: 1340px; margin: 0 auto; padding: 72px 16px; border-top: 1px solid var(--border-soft); }
     .dv-founders-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 28px; margin-top: 32px; }
     .dv-founder-card {
-      background: var(--white); border: 1px solid var(--border-soft);
+      background: var(--surface); border: 1px solid var(--border-soft);
       border-radius: var(--r-lg); padding: 28px;
       cursor: pointer; box-shadow: var(--shadow-xs); transition: all var(--t);
     }
     .dv-founder-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
     .dv-founder-role  { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 7px; font-weight: 700; }
-    .dv-founder-name  { font-family: var(--serif); font-size: 1.7rem; font-weight: 900; color: var(--ink); margin-bottom: 9px; letter-spacing: -0.01em; }
+    .dv-founder-name  { font-family: var(--serif); font-size: 1.7rem; font-weight: 900; color: var(--on-surface); margin-bottom: 9px; letter-spacing: -0.01em; }
     .dv-founder-brief { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
-    .dv-founder-cta   { margin-top: 20px; font-family: var(--mono); font-size: 0.7rem; color: var(--ink); display: flex; align-items: center; gap: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .dv-founder-cta   { margin-top: 20px; font-family: var(--mono); font-size: 0.7rem; color: var(--on-surface); display: flex; align-items: center; gap: 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
     .dv-founder-cta::after { content: '→'; transition: transform var(--t); }
     .dv-founder-card:hover .dv-founder-cta::after { transform: translateX(5px); color: var(--accent); }
 
     /* ── EDITOR CTA ── */
-    .dv-editor-cta-section { background: linear-gradient(135deg, var(--ink) 0%, #080c14 100%); padding: 72px 16px; }
+    .dv-editor-cta-section { background: var(--dark-section); padding: 72px 16px; }
     .dv-editor-cta-inner   { max-width: 800px; margin: 0 auto; text-align: center; }
     .dv-editor-eyebrow { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 12px; font-weight: 700; }
     .dv-editor-cta-title {
       font-family: var(--serif);
       font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 900; color: #fff; line-height: 1.12; margin-bottom: 12px; letter-spacing: -0.02em;
+      font-weight: 900; color: var(--on-dark); line-height: 1.12; margin-bottom: 12px; letter-spacing: -0.02em;
     }
     .dv-editor-cta-title em { color: var(--accent); font-style: italic; }
-    .dv-editor-cta-desc { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.8; max-width: 600px; margin: 0 auto 30px; font-weight: 300; }
+    .dv-editor-cta-desc { font-size: 1rem; color: var(--on-dark-muted); line-height: 1.8; max-width: 600px; margin: 0 auto 30px; font-weight: 300; }
     .dv-editor-perks { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 36px; }
     .dv-editor-perk { display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .dv-editor-perk-icon  { font-size: 1.4rem; }
-    .dv-editor-perk-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+    .dv-editor-perk-label { font-size: 0.7rem; color: var(--on-dark-muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
     .dv-btn-editor {
       display: inline-flex; align-items: center; gap: 7px;
-      background: var(--accent); color: #fff;
+      background: var(--accent); color: var(--on-dark);
       font-size: 0.9rem; font-weight: 700;
       padding: 12px 28px; border-radius: var(--r-lg);
       letter-spacing: 0.02em; border: none; cursor: pointer;
@@ -969,7 +628,7 @@
     }
     #dv-article-modal.dv-open { opacity: 1; pointer-events: all; }
     .dv-modal-inner {
-      background: var(--white); border-radius: var(--r-xl);
+      background: var(--surface); border-radius: var(--r-xl);
       max-width: 840px; width: 100%; min-height: 200px;
       overflow: hidden;
       transform: translateY(24px);
@@ -984,17 +643,17 @@
       width: 32px; height: 32px; border-radius: 50%;
       background: rgba(0,0,0,0.45);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: #fff; transition: background var(--t);
+      font-size: 0.85rem; color: var(--on-dark); transition: background var(--t);
       border: none; cursor: pointer; backdrop-filter: blur(4px);
     }
     .dv-modal-close-btn:hover { background: rgba(0,0,0,0.7); }
     .dv-modal-cover { width: 100%; aspect-ratio: 21/9; object-fit: cover; display: block; border-bottom: 1px solid var(--border-soft); }
-    .dv-modal-body { padding: 32px 36px 48px; background: var(--white); }
+    .dv-modal-body { padding: 32px 36px 48px; background: var(--surface); }
     .dv-modal-cat-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 9px; font-weight: 700; }
     .dv-modal-headline {
       font-family: var(--serif);
       font-size: clamp(1.5rem, 3.5vw, 2.1rem);
-      font-weight: 900; line-height: 1.2; color: var(--ink);
+      font-weight: 900; line-height: 1.2; color: var(--on-surface);
       margin-bottom: 10px; letter-spacing: -0.02em;
     }
     .dv-modal-deck { font-size: 1.05rem; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
@@ -1006,35 +665,35 @@
       margin-bottom: 28px;
     }
     .dv-modal-byline img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--paper2); border: 1.5px solid var(--border-soft); }
-    .dv-modal-byline-name { font-weight: 700; font-size: 0.9rem; color: var(--ink); }
+    .dv-modal-byline-name { font-weight: 700; font-size: 0.9rem; color: var(--on-surface); }
     .dv-modal-byline-meta { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
-    .dv-modal-prose { font-size: 1.05rem; line-height: 1.88; color: var(--ink2); }
+    .dv-modal-prose { font-size: 1.05rem; line-height: 1.88; color: var(--on-surface2); }
     .dv-modal-prose p { margin-bottom: 1.5em; }
-    .dv-modal-prose h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 800; color: var(--ink); margin: 2em 0 0.5em; letter-spacing: -0.01em; }
-    .dv-modal-prose h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 800; color: var(--ink); margin: 1.8em 0 0.4em; }
-    .dv-modal-prose strong { color: var(--ink); font-weight: 700; }
-    .dv-toc-box { background: var(--paper2); border-radius: var(--r-md); padding: 14px 20px; margin-bottom: 28px; border: 1px solid var(--border-soft); }
+    .dv-modal-prose h2 { font-family: var(--serif); font-size: 1.45rem; font-weight: 800; color: var(--on-surface); margin: 2em 0 0.5em; letter-spacing: -0.01em; }
+    .dv-modal-prose h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 800; color: var(--on-surface); margin: 1.8em 0 0.4em; }
+    .dv-modal-prose strong { color: var(--on-surface); font-weight: 700; }
+    .dv-toc-box { background: var(--surface2); border-radius: var(--r-md); padding: 14px 20px; margin-bottom: 28px; border: 1px solid var(--border-soft); }
     .dv-toc-box h4 { font-family: var(--mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 9px; font-weight: 700; }
     .dv-toc-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
     .dv-toc-list a { font-size: 0.86rem; color: var(--blue); transition: opacity var(--t); font-weight: 600; }
     .dv-toc-list a:hover { opacity: 0.7; }
     .dv-share-bar { display: flex; align-items: center; gap: 7px; padding: 20px 0; border-top: 1px solid var(--border-soft); margin-top: 32px; flex-wrap: wrap; }
     .dv-share-label { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-right: 4px; font-weight: 700; }
-    .dv-share-btn { padding: 5px 13px; border-radius: 99px; border: 1.5px solid var(--border); font-size: 0.78rem; font-weight: 600; color: var(--ink); transition: all var(--t); background: transparent; cursor: pointer; }
+    .dv-share-btn { padding: 5px 13px; border-radius: 99px; border: 1.5px solid var(--border); font-size: 0.78rem; font-weight: 600; color: var(--on-surface); transition: all var(--t); background: transparent; cursor: pointer; }
     .dv-share-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
     .dv-related-section { padding: 28px 0 0; border-top: 1px solid var(--border-soft); margin-top: 14px; }
-    .dv-related-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 800; color: var(--ink); margin-bottom: 16px; }
+    .dv-related-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 800; color: var(--on-surface); margin-bottom: 16px; }
     .dv-related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
     .dv-related-card {
       cursor: pointer; border-radius: var(--r-md); overflow: hidden;
-      border: 1px solid var(--border-soft); background: var(--white);
+      border: 1px solid var(--border-soft); background: var(--surface2);
       transition: transform var(--t), box-shadow var(--t);
     }
     .dv-related-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
     .dv-related-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; border-bottom: 1px solid var(--border-soft); }
-    .dv-related-card-body { padding: 10px; background: var(--white); }
+    .dv-related-card-body { padding: 10px; background: var(--surface2); }
     .dv-related-card-cat   { font-family: var(--mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 3px; font-weight: 700; }
-    .dv-related-card-title { font-family: var(--serif); font-size: 0.86rem; font-weight: 700; line-height: 1.35; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .dv-related-card-title { font-family: var(--serif); font-size: 0.86rem; font-weight: 700; line-height: 1.35; color: var(--on-surface); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .dv-modal-loading { padding: 52px; text-align: center; color: var(--muted); font-family: var(--mono); font-size: 0.82rem; }
 
     /* ── EDITOR FORM MODAL ── */
@@ -1048,7 +707,7 @@
     }
     #dv-editor-modal.dv-open { opacity: 1; pointer-events: all; }
     .dv-eform-inner {
-      background: var(--white); border-radius: var(--r-xl);
+      background: var(--surface); border-radius: var(--r-xl);
       max-width: 700px; width: 100%; position: relative;
       transform: translateY(24px);
       transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
@@ -1059,9 +718,9 @@
     .dv-eform-header {
       padding: 26px 28px 18px;
       border-bottom: 1px solid var(--border-soft);
-      position: sticky; top: 0; background: var(--white); z-index: 5;
+      position: sticky; top: 0; background: var(--surface); z-index: 5;
     }
-    .dv-eform-header h2 { font-family: var(--serif); font-size: 1.55rem; font-weight: 900; color: var(--ink); margin-bottom: 3px; letter-spacing: -0.01em; }
+    .dv-eform-header h2 { font-family: var(--serif); font-size: 1.55rem; font-weight: 900; color: var(--on-surface); margin-bottom: 3px; letter-spacing: -0.01em; }
     .dv-eform-header p  { font-size: 0.84rem; color: var(--muted); }
     .dv-eform-close {
       position: absolute; top: 20px; right: 18px;
@@ -1076,17 +735,18 @@
     .dv-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .dv-form-group { display: flex; flex-direction: column; gap: 5px; }
     .dv-form-group.dv-span2 { grid-column: span 2; }
-    .dv-form-label { font-size: 0.8rem; font-weight: 700; color: var(--ink); }
+    .dv-form-label { font-size: 0.8rem; font-weight: 700; color: var(--on-surface); }
     .dv-form-label .dv-req { color: var(--accent); }
     .dv-form-input, .dv-form-select, .dv-form-textarea {
       width: 100%; padding: 9px 12px;
       border: 1.5px solid var(--border); border-radius: var(--r-md);
       font-family: var(--sans); font-size: 0.88rem;
-      color: var(--ink); background: var(--paper2);
+      color: var(--on-surface); background: var(--surface2);
       outline: none; transition: border-color var(--t), box-shadow var(--t);
     }
-    .dv-form-input:focus, .dv-form-select:focus, .dv-form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim); background: var(--paper); }
+    .dv-form-input:focus, .dv-form-select:focus, .dv-form-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim); background: var(--surface); }
     .dv-form-textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+    .dv-form-select option { background: var(--surface2); color: var(--on-surface); }
     .dv-expertise-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .dv-chip {
       display: flex; align-items: center; gap: 5px;
@@ -1094,13 +754,13 @@
       border: 1.5px solid var(--border);
       font-size: 0.74rem; font-weight: 600; color: var(--muted);
       cursor: pointer; transition: all var(--t);
-      user-select: none; background: var(--paper2);
+      user-select: none; background: var(--surface2);
     }
     .dv-chip input { display: none; }
-    .dv-chip.dv-chip-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .dv-chip.dv-chip-on { background: var(--accent); border-color: var(--accent); color: var(--on-dark); }
     .dv-form-submit {
       width: 100%; padding: 12px;
-      background: var(--accent); color: #fff;
+      background: var(--accent); color: var(--on-dark);
       font-size: 0.9rem; font-weight: 700;
       border-radius: var(--r-md); border: none; cursor: pointer;
       margin-top: 8px; letter-spacing: 0.02em; transition: all var(--t);
@@ -1112,16 +772,17 @@
       display: none; padding: 9px 12px; border-radius: var(--r-md); font-weight: 600;
     }
     #dv-eform-msg.dv-msg-ok  { background: rgba(26,127,55,0.1); color: #1a7f37; border: 1px solid rgba(26,127,55,0.2); }
+    body.dv-dark #dv-eform-msg.dv-msg-ok { background: rgba(26,127,55,0.18); color: #3fb950; border-color: rgba(63,185,80,0.25); }
     #dv-eform-msg.dv-msg-err { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(224,48,69,0.2); }
 
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════
        COMMENT & REPLY SYSTEM
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════ */
     .dv-comments-section { padding: 36px 0 0; margin-top: 36px; border-top: 1px solid var(--border-soft); }
     .dv-comments-hd { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     .dv-comments-hd-left { display: flex; align-items: baseline; gap: 10px; }
-    .dv-comments-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 800; color: var(--ink); }
-    .dv-comments-count { font-family: var(--mono); font-size: 0.73rem; color: var(--muted); background: var(--paper2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+    .dv-comments-title { font-family: var(--serif); font-size: 1.25rem; font-weight: 800; color: var(--on-surface); }
+    .dv-comments-count { font-family: var(--mono); font-size: 0.73rem; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 99px; font-weight: 600; }
     .dv-sort-btns { display: flex; gap: 5px; }
     .dv-sort-btn { font-size: 0.74rem; font-weight: 600; padding: 4px 11px; border-radius: 99px; border: 1.5px solid var(--border); color: var(--muted); transition: all var(--t); background: transparent; cursor: pointer; }
     .dv-sort-btn:hover { border-color: var(--ink); color: var(--ink); }
@@ -1129,28 +790,30 @@
 
     /* Write box */
     .dv-comment-write-box {
-      background: var(--paper2); border: 1.5px solid var(--border-soft);
+      background: var(--surface2); border: 1.5px solid var(--border-soft);
       border-radius: var(--r-lg); padding: 20px; margin-bottom: 24px;
     }
-    .dv-comment-write-box h4 { font-family: var(--serif); font-size: 1rem; font-weight: 800; color: var(--ink); margin-bottom: 12px; }
+    .dv-comment-write-box h4 { font-family: var(--serif); font-size: 1rem; font-weight: 800; color: var(--on-surface); margin-bottom: 12px; }
     .dv-write-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 9px; }
     .dv-write-input {
       width: 100%; padding: 9px 12px;
       border: 1.5px solid var(--border); border-radius: var(--r-md);
       font-family: var(--sans); font-size: 0.84rem;
-      color: var(--ink); background: var(--paper);
+      color: var(--on-surface); background: var(--surface);
       outline: none; transition: border-color var(--t), box-shadow var(--t);
     }
+    .dv-write-input::placeholder { color: var(--muted2); }
     .dv-write-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim); }
     .dv-write-textarea {
       width: 100%; padding: 10px 12px;
       border: 1.5px solid var(--border); border-radius: var(--r-md);
       font-family: var(--sans); font-size: 0.84rem;
-      color: var(--ink); background: var(--paper);
+      color: var(--on-surface); background: var(--surface);
       outline: none; resize: vertical; min-height: 80px;
       line-height: 1.6; margin-bottom: 10px;
       transition: border-color var(--t), box-shadow var(--t);
     }
+    .dv-write-textarea::placeholder { color: var(--muted2); }
     .dv-write-textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim); }
     .dv-comment-submit-btn {
       background: var(--ink); color: var(--paper);
@@ -1163,7 +826,7 @@
 
     /* Comment card */
     .dv-comment-card {
-      background: var(--white); border: 1px solid var(--border-soft);
+      background: var(--surface); border: 1px solid var(--border-soft);
       border-radius: var(--r-lg); padding: 18px 20px 14px;
       margin-bottom: 12px; box-shadow: var(--shadow-xs);
       transition: box-shadow var(--t), border-color var(--t);
@@ -1173,13 +836,13 @@
     .dv-comment-author-row { display: flex; align-items: center; gap: 9px; }
     .dv-comment-avatar {
       width: 34px; height: 34px; border-radius: 50%;
-      background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+      background: linear-gradient(135deg, var(--surface3) 0%, var(--surface2) 100%);
       display: flex; align-items: center; justify-content: center;
       font-family: var(--sans); font-size: 0.78rem; font-weight: 700;
-      color: #fff; flex-shrink: 0; border: 2px solid var(--border-soft);
+      color: var(--on-surface); flex-shrink: 0; border: 2px solid var(--border-soft);
     }
     .dv-comment-author-info { display: flex; flex-direction: column; gap: 1px; }
-    .dv-comment-author-name { font-size: 0.88rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .dv-comment-author-name { font-size: 0.88rem; font-weight: 700; color: var(--on-surface); line-height: 1.2; }
     .dv-comment-date { font-family: var(--mono); font-size: 0.64rem; color: var(--muted2); line-height: 1.2; }
     .dv-comment-menu-wrap { position: relative; }
     .dv-comment-menu-btn {
@@ -1189,10 +852,10 @@
       color: var(--muted2); font-size: 1rem; cursor: pointer;
       transition: background var(--t), color var(--t);
     }
-    .dv-comment-menu-btn:hover { background: var(--paper2); color: var(--ink); }
+    .dv-comment-menu-btn:hover { background: var(--surface2); color: var(--on-surface); }
     .dv-comment-menu-dropdown {
       position: absolute; top: 30px; right: 0;
-      background: var(--white); border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--r-md); box-shadow: var(--shadow-md);
       min-width: 120px; z-index: 20; overflow: hidden;
       display: none; flex-direction: column;
@@ -1200,23 +863,23 @@
     .dv-comment-menu-dropdown.dv-open { display: flex; }
     .dv-comment-menu-item {
       padding: 8px 13px; font-size: 0.8rem; font-weight: 500;
-      color: var(--ink2); cursor: pointer; transition: background var(--t);
+      color: var(--on-surface2); cursor: pointer; transition: background var(--t);
       background: none; border: none; text-align: left; font-family: var(--sans);
     }
-    .dv-comment-menu-item:hover { background: var(--paper2); }
+    .dv-comment-menu-item:hover { background: var(--surface2); }
     .dv-comment-menu-item.dv-danger { color: var(--accent); }
     .dv-comment-menu-item.dv-danger:hover { background: var(--accent-dim); }
-    .dv-comment-text { font-size: 0.91rem; color: var(--ink2); line-height: 1.68; padding: 2px 0 8px; }
+    .dv-comment-text { font-size: 0.91rem; color: var(--on-surface2); line-height: 1.68; padding: 2px 0 8px; }
     .dv-comment-actions { display: flex; align-items: center; gap: 7px; padding-top: 8px; border-top: 1px solid var(--border-soft); }
     .dv-action-like, .dv-action-reply {
       display: inline-flex; align-items: center; gap: 5px;
       padding: 4px 11px; border-radius: 99px;
       font-size: 0.76rem; font-weight: 600;
       border: 1.5px solid var(--border-soft);
-      background: var(--paper2); color: var(--muted);
+      background: var(--surface2); color: var(--muted);
       cursor: pointer; transition: all var(--t); font-family: var(--sans);
     }
-    .dv-action-like:hover { border-color: #e0304580; color: var(--accent); background: var(--accent-dim); }
+    .dv-action-like:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
     .dv-action-like.dv-liked { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
     .dv-action-reply:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
     .dv-action-like svg, .dv-action-reply svg { width: 12px; height: 12px; flex-shrink: 0; }
@@ -1241,7 +904,7 @@
     }
     .dv-replies-nest.dv-expanded { max-height: 2000px; opacity: 1; }
     .dv-reply-card {
-      background: var(--paper2); border: 1px solid var(--border-soft);
+      background: var(--surface2); border: 1px solid var(--border-soft);
       border-radius: var(--r-md); padding: 13px 14px 10px;
       transition: box-shadow var(--t);
     }
@@ -1253,7 +916,7 @@
     .dv-reply-card .dv-comment-actions { padding-top: 6px; }
     .dv-inline-reply-form {
       margin-top: 9px; padding: 13px 14px;
-      background: var(--paper); border: 1.5px solid var(--border);
+      background: var(--surface); border: 1.5px solid var(--border);
       border-radius: var(--r-md); display: none;
     }
     .dv-inline-reply-form.dv-open { display: block; }
@@ -1276,16 +939,16 @@
     .dv-comments-empty { text-align: center; padding: 32px; color: var(--muted); font-size: 0.9rem; font-family: var(--serif); font-style: italic; }
 
     /* ── FOOTER ── */
-    .dv-footer { background: var(--ink); color: rgba(255,255,255,0.45); padding: 52px 16px 28px; }
+    .dv-footer { background: var(--dark-section); color: var(--on-dark-muted); padding: 52px 16px 28px; }
     .dv-footer-grid { max-width: 1340px; margin: 0 auto; display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 36px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .dv-footer-brand .dv-logo-text { color: #fff; margin-bottom: 10px; display: block; }
-    .dv-footer-brand p { font-size: 0.84rem; line-height: 1.75; max-width: 280px; color: rgba(255,255,255,0.45); }
+    .dv-footer-brand .dv-logo-text { color: var(--on-dark); margin-bottom: 10px; display: block; }
+    .dv-footer-brand p { font-size: 0.84rem; line-height: 1.75; max-width: 280px; color: var(--on-dark-muted); }
     .dv-footer-col h4 { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.78); margin-bottom: 12px; font-weight: 700; }
     .dv-footer-links { display: flex; flex-direction: column; gap: 7px; }
     .dv-footer-links a { font-size: 0.84rem; color: rgba(255,255,255,0.38); transition: color var(--t); cursor: pointer; }
-    .dv-footer-links a:hover { color: #fff; }
+    .dv-footer-links a:hover { color: var(--on-dark); }
     .dv-footer-bottom { max-width: 1340px; margin: 0 auto; padding: 20px 0 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .dv-footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+    .dv-footer-bottom p { font-size: 0.78rem; color: var(--on-dark-muted); }
     .dv-footer-credit { font-family: var(--mono); font-size: 0.7rem; color: rgba(255,255,255,0.33); transition: color var(--t); text-decoration: none; }
     .dv-footer-credit:hover { color: rgba(255,255,255,0.78); }
     .dv-footer-credit strong { color: var(--accent); font-weight: 700; }
@@ -1303,23 +966,23 @@
       border: 1px solid var(--border-soft);
     }
     #dv-scroll-top.dv-show { opacity: 1; pointer-events: all; }
-    #dv-scroll-top:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 18px var(--accent-glow); }
+    #dv-scroll-top:hover { background: var(--accent); color: var(--on-dark); border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 18px var(--accent-glow); }
 
     /* Dividers */
     .dv-divider { max-width: 1340px; margin: 0 auto; padding: 0 16px; }
     .dv-divider hr { border: none; border-top: 1px solid var(--border-soft); }
 
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        RESPONSIVE — Tablet 960px–1100px
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════ */
     @media (max-width:1100px) {
       .dv-trending-grid { grid-template-columns: repeat(2,1fr); }
       .dv-cat-grid { grid-template-columns: repeat(3,1fr); }
     }
 
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        RESPONSIVE — Mobile/Tablet ≤960px
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════ */
     @media (max-width:960px) {
       .dv-hero { grid-template-columns: 1fr; gap: 0; padding: 36px 16px 28px; }
       .dv-hero-visual { display: none; }
@@ -1335,18 +998,36 @@
       .dv-form-group.dv-span2 { grid-column: span 1; }
       .dv-grid-loading { grid-template-columns: 1fr 1fr; }
       .dv-search-input { display: none; }
-      /* Visit badge — hide label on tablet to save space */
       .dv-visit-badge { display: none; }
     }
 
-    /* ══════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        RESPONSIVE — Mobile ≤680px
-    ══════════════════════════════════════════════════════ */
+    ═══════════════════════════════════════════════════════ */
     @media (max-width:680px) {
-      /* Header */
-      .dv-header-inner { height: 58px; padding: 0 12px; gap: 8px; }
-      .dv-logo-text { font-size: 1.2rem; }
-      .dv-logo-badge { width: 32px; height: 32px; }
+      /* Header — logo left, controls right, nothing in center */
+      .dv-header-inner {
+        height: 56px;
+        padding: 0 12px;
+        gap: 0;
+        justify-content: space-between;
+      }
+      .dv-logo-text { font-size: 1.15rem; }
+      .dv-logo-badge { width: 30px; height: 30px; }
+      /* Right side controls: toggle + hamburger */
+      .dv-header-right {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        margin-left: auto;
+      }
+      /* Ensure toggle and hamburger are always visible on mobile */
+      .dv-toggle  { display: flex; flex-shrink: 0; }
+      .dv-hamburger { display: flex; flex-shrink: 0; }
+
+      /* Mobile nav top offset matches new header height */
+      .dv-mobile-nav { top: 56px; }
 
       /* Grid */
       .dv-grid, .dv-grid-loading { grid-template-columns: 1fr; gap: 16px; }
@@ -1357,7 +1038,7 @@
       /* Section headers */
       .dv-section-hd { flex-direction: column; align-items: flex-start; gap: 6px; padding: 36px 16px 18px; }
 
-      /* Article modal */
+      /* Article modal — bottom sheet on mobile */
       #dv-article-modal { padding: 0; align-items: flex-end; }
       .dv-modal-inner {
         border-radius: var(--r-xl) var(--r-xl) 0 0;
@@ -1394,13 +1075,16 @@
       .dv-founders-section { padding: 52px 16px; }
       .dv-editor-cta-section { padding: 52px 16px; }
 
-      /* Editor perks — 2 columns on mobile */
+      /* Editor perks */
       .dv-editor-perks { gap: 20px; }
       .dv-editor-perk { min-width: 80px; }
 
-      /* Share bar wraps nicely */
+      /* Share bar */
       .dv-share-bar { gap: 6px; }
       .dv-share-btn { font-size: 0.74rem; padding: 4px 10px; }
+
+      /* Topbar smaller on mobile */
+      .dv-topbar { font-size: 0.62rem; padding: 7px 12px; }
     }
   </style>
 </head>
@@ -1436,10 +1120,10 @@
       <div class="dv-search-box-wrap">
         <input class="dv-search-input" id="dv-header-search" type="search" placeholder="Search…" autocomplete="off" aria-label="Quick search" />
       </div>
+      <div class="dv-visit-badge"><div class="dv-badge-dot"></div><span id="dv-header-visits">— visits</span></div>
       <div class="dv-toggle" id="dv-theme-toggle" title="Toggle dark mode" role="switch" aria-checked="false">
         <div class="dv-toggle-knob" id="dv-toggle-knob">🌙</div>
       </div>
-      <div class="dv-visit-badge"><div class="dv-badge-dot"></div><span id="dv-header-visits">— visits</span></div>
       <button class="dv-hamburger" id="dv-hamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -1593,7 +1277,7 @@
 <footer class="dv-footer">
   <div class="dv-footer-grid">
     <div class="dv-footer-brand">
-      <span class="dv-logo-text">Dis<em>sent</em>Verse</span>
+      <span class="dv-logo-text" style="color:var(--on-dark);">Dis<em>sent</em>Verse</span>
       <p>Honest writing on the issues that define our time. Independent. Unsponsored. Necessary.</p>
     </div>
     <div class="dv-footer-col">
