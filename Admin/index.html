@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zenopulsky — Admin</title>
+  <title>Zenopulsky — Admin Portal</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -58,7 +59,7 @@ img{max-width:100%;}
 .login-note{font-size:0.72rem;color:var(--text3);text-align:center;margin-top:18px;}
 .login-demo-hint{margin-top:16px;padding:12px 14px;background:var(--blue-s);border:1px solid rgba(59,130,246,0.2);border-radius:var(--r);font-size:0.75rem;color:var(--blue);line-height:1.7;}
 
-/* ── EDITOR LOCK SCREEN ── */
+/* ── EDITOR SHELL ── */
 #editor-shell{display:none;min-height:100vh;flex-direction:column;}
 #editor-shell.active{display:flex;}
 .editor-topnav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;}
@@ -182,7 +183,7 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
 .form-card-title{font-family:var(--mono);font-size:0.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
 .fg{margin-bottom:14px;}
 .fg:last-child{margin-bottom:0;}
-.fg label{display:block;font-size:0.72rem;font-weight:600;color:var(--text2);margin-bottom:5px;letter-spacing:0.03em;}
+.fg label {display:block;font-size:0.72rem;font-weight:600;color:var(--text2);margin-bottom:5px;letter-spacing:0.03em;}
 .fg label .req{color:var(--accent);margin-left:2px;}
 .fi,.fs,.fta{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r);font-size:0.85rem;color:var(--text);outline:none;transition:border-color var(--t),box-shadow var(--t);}
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-s);}
@@ -233,7 +234,7 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
 .html-preview strong{color:var(--text);}
 .html-preview blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--text2);font-style:italic;margin:10px 0;}
 
-/* ── PENDING REVIEW BANNER ── */
+/* ── REVIEW BANNER ── */
 .review-banner{background:var(--orange-s);border:1px solid rgba(251,146,60,0.3);border-radius:var(--r-lg);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;}
 .review-banner-icon{font-size:1.6rem;flex-shrink:0;}
 .review-banner-text strong{display:block;font-size:0.9rem;color:var(--orange);margin-bottom:3px;}
@@ -317,12 +318,6 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
 .pending-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);display:inline-block;margin-right:4px;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
-/* ── ROLE INFO BOX ── */
-.role-info-box{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:14px 18px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;}
-.role-info-box .rib-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px;}
-.role-info-box .rib-text strong{display:block;font-size:0.85rem;color:var(--text);margin-bottom:2px;}
-.role-info-box .rib-text span{font-size:0.75rem;color:var(--text3);line-height:1.6;}
-
 .menu-toggle{display:none;align-items:center;justify-content:center;width:34px;height:34px;border-radius:var(--r-sm);background:var(--surface2);font-size:1rem;}
 
 @media(max-width:1100px){.editor-layout{grid-template-columns:1fr;}.editor-sidebar{position:static;}}
@@ -332,7 +327,6 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
 <div id="login-page">
   <div class="login-card">
     <div class="login-brand"><div class="wordmark">Zeno<em>pul</em>sky</div></div>
@@ -347,10 +341,9 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
   </div>
 </div>
 
-<!-- ══ EDITOR SHELL (role=editor) ══ -->
 <div id="editor-shell">
   <nav class="editor-topnav">
-    <div class="brand">Dis<em>pul</em>sky</div>
+    <div class="brand">Zeno<em>pul</em>sky</div>
     <div class="editor-topnav-right">
       <span class="editor-badge">✍️ Editor</span>
       <span id="ed-shell-name" style="font-size:0.82rem;color:var(--text2);"></span>
@@ -359,8 +352,6 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
   </nav>
   <div class="editor-main-area">
     <div class="editor-write-wrap">
-
-      <!-- Review banner -->
       <div class="review-banner">
         <div class="review-banner-icon">📤</div>
         <div class="review-banner-text">
@@ -368,33 +359,28 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
           <span>Write and submit — an admin will review, edit if needed, and publish your piece.</span>
         </div>
       </div>
-
-      <!-- Write tabs -->
       <div style="display:flex;gap:8px;margin-bottom:20px;">
         <button class="btn btn-primary" id="ed-tab-write" onclick="editorTab('write')">✍️ Write Article</button>
         <button class="btn btn-secondary" id="ed-tab-mine" onclick="editorTab('mine')">📋 My Submissions</button>
       </div>
 
-      <!-- Write panel -->
       <div id="ed-panel-write">
         <div class="editor-topbar">
           <div class="editor-topbar-left">
-            <h2>New Article</h2>
-            <p style="color:var(--text3);font-size:0.75rem;margin-top:3px;">Write your piece. It'll be submitted to admin for review before publishing.</p>
+            <h2>New Submission</h2>
+            <p style="color:var(--text3);font-size:0.75rem;margin-top:3px;">Write your piece. It will route straight to the editorial pipeline review list.</p>
           </div>
           <div class="editor-actions">
             <button class="btn btn-secondary" onclick="resetEditorShell()">↺ Reset</button>
             <button class="btn btn-orange" id="ed-submit-btn" onclick="editorSubmitArticle()">Submit for Review →</button>
           </div>
         </div>
-        <input type="hidden" id="eds-id" />
-
         <div class="editor-layout">
           <div class="editor-main">
             <div class="form-card">
               <div class="form-card-title">✏️ Content</div>
               <div class="fg"><label>Headline <span class="req">*</span></label><input type="text" class="fi" id="eds-title" placeholder="Write a compelling headline…" /></div>
-              <div class="fg"><label>Subtitle / Deck</label><input type="text" class="fi" id="eds-subtitle" placeholder="One pulence that earns the click…" /></div>
+              <div class="fg"><label>Subtitle / Deck</label><input type="text" class="fi" id="eds-subtitle" placeholder="One sentence summary hook…" /></div>
               <div class="fg">
                 <div class="preview-toggle" style="margin-bottom:8px;">
                   <button class="active" id="eds-ptog-edit" onclick="edsSwitchPreview('edit')">HTML Editor</button>
@@ -402,7 +388,7 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
                 </div>
                 <textarea class="fta tall" id="eds-content" placeholder="Write your article in HTML…"></textarea>
                 <div class="html-preview" id="eds-html-preview"></div>
-                <div class="field-hint">Supports HTML: &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;blockquote&gt;</div>
+                <div class="field-hint">Supports standard markup structures: &lt;h2&gt;, &lt;p&gt;, &lt;blockquote&gt;</div>
               </div>
             </div>
             <div class="form-card">
@@ -427,68 +413,60 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
                 </select>
                 <div class="cat-pills">
                   <span class="cat-pill" onclick="edsSetCat('Mental Health')">Mental Health</span>
-                  <span class="cat-pill" onclick="edsSetCat('Labour Rights')">Labour Rights</span>
-                  <span class="cat-pill" onclick="edsSetCat('Environment')">Environment</span>
                   <span class="cat-pill" onclick="edsSetCat('Social Justice')">Social Justice</span>
-                  <span class="cat-pill" onclick="edsSetCat('Education')">Education</span>
+                  <span class="cat-pill" onclick="edsSetCat('Politics')">Politics</span>
                 </div>
               </div>
               <div class="fg">
                 <label>Tags</label>
-                <div class="tags-wrap" id="eds-tags-wrap" onclick="document.getElementById('eds-tag-input').focus()"></div>
-                <div class="field-hint">Press Enter or comma to add. Max 8.</div>
+                <div class="tags-wrap" id="eds-tags-wrap" onclick="document.getElementById('eds-tag-input')?.focus()"></div>
+                <div class="field-hint">Press Enter or comma to insert tags.</div>
               </div>
             </div>
             <div class="form-card">
-              <div class="form-card-title">👤 Author Info</div>
-              <div class="fg"><label>Your Name</label><input type="text" class="fi" id="eds-author" placeholder="Full name" /></div>
+              <div class="form-card-title">👤 Author Data override</div>
+              <div class="fg"><label>Author Custom Name</label><input type="text" class="fi" id="eds-author" placeholder="Defaults to your display name" /></div>
               <div class="fg"><label>Avatar URL</label><input type="url" class="fi" id="eds-avatar" placeholder="https://…" /></div>
             </div>
-            <button class="btn btn-orange btn-lg" onclick="editorSubmitArticle()" style="width:100%;justify-content:center;">📤 Submit for Review</button>
           </div>
         </div>
       </div>
 
-      <!-- My submissions panel -->
       <div id="ed-panel-mine" style="display:none;">
         <div class="card">
-          <div class="card-header"><span class="card-title">My Submitted Articles</span><button class="btn btn-sm btn-orange" onclick="editorTab('write')">+ New Article</button></div>
+          <div class="card-header"><span class="card-title">My Editorial Submissions Track Record</span></div>
           <div id="eds-my-list"></div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ══ ADMIN SHELL (role=admin|superadmin) ══ -->
 <div id="admin-shell">
   <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
-      <div class="sb-brand-icon">DV</div>
-      <div class="sb-brand-text"><div class="name">Dis<em>pul</em>sky</div><div class="role">Admin Panel</div></div>
+      <div class="sb-brand-icon">ZP</div>
+      <div class="sb-brand-text"><div class="name">Zeno<em>pul</em>sky</div><div class="role">Management Panel</div></div>
     </div>
     <nav class="sb-nav">
       <div class="sb-section">Overview</div>
       <div class="nav-item active" data-page="dashboard" onclick="nav('dashboard',this)"><span class="ni-icon">📊</span><span class="ni-label">Dashboard</span></div>
+      
+      <div class="sb-section">Content Core</div>
+      <div class="nav-item" data-page="submissions" onclick="nav('submissions',this)"><span class="ni-icon">📥</span><span class="ni-label">Review Pipeline</span><span class="nav-badge orange" id="nb-pending">0</span></div>
+      <div class="nav-item" data-page="articles" onclick="nav('articles',this)"><span class="ni-icon">📰</span><span class="ni-label">Live Articles</span></div>
+      <div class="nav-item master-admin-only" data-page="new-article" onclick="nav('new-article',this)"><span class="ni-icon">✍️</span><span class="ni-label">Direct Creator</span></div>
 
-      <div class="sb-section">Content</div>
-      <div class="nav-item" data-page="articles" onclick="nav('articles',this)"><span class="ni-icon">📰</span><span class="ni-label">All Articles</span><span class="nav-badge orange" id="nb-pending" style="display:none">0</span></div>
-      <!-- Write Article shown for superadmin only -->
-      <div class="nav-item superadmin-only" data-page="new-article" onclick="nav('new-article',this)" style="display:none;"><span class="ni-icon">✍️</span><span class="ni-label">Write Article</span></div>
-
-      <div class="sb-section">Community</div>
-      <div class="nav-item" data-page="comments" onclick="nav('comments',this)"><span class="ni-icon">💬</span><span class="ni-label">Comments</span><span class="nav-badge blue" id="nb-comments" style="display:none">0</span></div>
-      <div class="nav-item" data-page="applications" onclick="nav('applications',this)"><span class="ni-icon">📋</span><span class="ni-label">Applications</span><span class="nav-badge" id="nb-apps" style="display:none">0</span></div>
-
-      <div class="sb-section superadmin-only" id="sb-section-system" style="display:none;">System</div>
-      <div class="nav-item superadmin-only" data-page="admin-users" onclick="nav('admin-users',this)" style="display:none;"><span class="ni-icon">🔐</span><span class="ni-label">Admin Users</span></div>
+      <div class="sb-section">System Management</div>
+      <div class="nav-item" data-page="comments" onclick="nav('comments',this)"><span class="ni-icon">💬</span><span class="ni-label">Comments Queue</span></div>
+      <div class="nav-item" data-page="applications" onclick="nav('applications',this)"><span class="ni-icon">📋</span><span class="ni-label">Applications</span></div>
+      <div class="nav-item superadmin-only" data-page="admin-users" onclick="nav('admin-users',this)" id="sb-system-node" style="display:none;"><span class="ni-icon">🔐</span><span class="ni-label">Staff Accounts</span></div>
     </nav>
     <div class="sb-footer">
       <div class="sb-user">
-        <div class="sb-avatar" id="user-av">S</div>
+        <div class="sb-avatar" id="user-av">A</div>
         <div class="sb-user-info"><div class="sb-user-name" id="user-nm">Admin</div><div class="sb-user-role" id="user-rl">—</div></div>
-        <button class="sb-logout" onclick="doLogout()">Sign out</button>
+        <button class="sb-logout" onclick="doLogout()">Exit</button>
       </div>
     </div>
   </aside>
@@ -497,70 +475,66 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
     <div class="admin-header">
       <div class="header-left">
         <button class="menu-toggle" id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-        <div><h1 id="page-title">Dashboard</h1><div class="header-breadcrumb" id="page-crumb">Overview</div></div>
+        <div><h1 id="page-title">Dashboard</h1><div class="header-breadcrumb" id="page-crumb">System Dashboard Monitor</div></div>
       </div>
-      <div class="header-right"><a href="index.html" target="_blank" class="site-link">↗ View Site</a></div>
+      <div class="header-right"><a href="#" target="_blank" class="site-link">↗ View Site Interface</a></div>
     </div>
 
     <div class="admin-body">
-
-      <!-- DASHBOARD -->
       <div class="page active" id="page-dashboard">
         <div class="stat-grid">
-          <div class="stat-card"><span class="stat-icon">📰</span><div class="stat-label">Articles</div><div class="stat-value" id="st-a">—</div><div class="stat-sub">Total published</div></div>
-          <div class="stat-card"><span class="stat-icon">⏳</span><div class="stat-label">Pending Review</div><div class="stat-value" id="st-pr">—</div><div class="stat-sub">Awaiting approval</div></div>
-          <div class="stat-card"><span class="stat-icon">💬</span><div class="stat-label">Comments</div><div class="stat-value" id="st-c">—</div><div class="stat-sub">Total</div></div>
-          <div class="stat-card"><span class="stat-icon">📋</span><div class="stat-label">Pending Apps</div><div class="stat-value" id="st-p">—</div><div class="stat-sub">Awaiting review</div></div>
+          <div class="stat-card"><span class="stat-icon">📰</span><div class="stat-label">Live Articles</div><div class="stat-value" id="st-a">—</div></div>
+          <div class="stat-card"><span class="stat-icon">⏳</span><div class="stat-label">Awaiting Review</div><div class="stat-value" id="st-pr">—</div></div>
+          <div class="stat-card"><span class="stat-icon">💬</span><div class="stat-label">System Comments</div><div class="stat-value" id="st-c">—</div></div>
+          <div class="stat-card"><span class="stat-icon">📋</span><div class="stat-label">Open Applications</div><div class="stat-value" id="st-p">—</div></div>
         </div>
 
         <div class="card" style="margin-bottom:16px;">
-          <div class="card-header">
-            <span class="card-title">Pending Review</span>
-            <button class="btn btn-sm btn-orange" onclick="nav('articles',null);setTimeout(()=>{ document.getElementById('art-status-f').value='pending_review'; loadArticles(1);},100)">View all pending</button>
-          </div>
+          <div class="card-header"><span class="card-title">Pending Editors Work Awaiting Clearance</span></div>
           <div class="tbl-wrap">
-            <table><thead><tr><th>Title</th><th>Category</th><th>Submitted By</th><th>Date</th><th>Actions</th></tr></thead>
-            <tbody id="dash-pending"><tr class="loading-row"><td colspan="5">Loading…</td></tr></tbody></table>
-          </div>
-        </div>
-
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-header"><span class="card-title">Recent Published</span></div>
-          <div class="tbl-wrap">
-            <table><thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead>
-            <tbody id="dash-recent"><tr class="loading-row"><td colspan="6">Loading…</td></tr></tbody></table>
+            <table>
+              <thead><tr><th>Title</th><th>Category</th><th>Sender</th><th>Date</th><th>Action Links</th></tr></thead>
+              <tbody id="dash-pending"><tr class="loading-row"><td colspan="5">Retrieving from engine…</td></tr></tbody>
+            </table>
           </div>
         </div>
 
         <div class="dash-grid">
           <div class="card" style="padding:18px;">
-            <div class="form-card-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">Articles by Category</div>
+            <div class="form-card-title">Metrics by Category Breakdown</div>
             <div id="cat-chart"></div>
           </div>
           <div class="card" style="padding:18px;">
-            <div class="form-card-title" style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">Top Trending</div>
+            <div class="form-card-title">Top Viewed Articles Matrix</div>
             <div id="trending-list"></div>
           </div>
         </div>
       </div>
 
-      <!-- ARTICLES LIST -->
+      <div class="page" id="page-submissions">
+         <div class="card">
+            <div class="card-header"><span class="card-title">Isolated Editor Submissions Pipeline Verification</span></div>
+            <div class="tbl-wrap">
+               <table>
+                  <thead><tr><th>ID</th><th>Headline Title</th><th>Category Branch</th><th>Editor Profile Name</th><th>Submitted Timestamp</th><th>State</th><th>Actions Control</th></tr></thead>
+                  <tbody id="sub-pipeline-tbody"></tbody>
+               </table>
+            </div>
+            <div class="pagination" id="sub-pagination"></div>
+         </div>
+      </div>
+
       <div class="page" id="page-articles">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">All Articles</span>
+            <span class="card-title">System Published Documents Datagrid</span>
             <div class="card-toolbar">
-              <div class="search-wrap"><span>🔍</span><input type="text" id="art-search" placeholder="Search…" oninput="debounceArtSearch()" /></div>
+              <div class="search-wrap"><span>🔍</span><input type="text" id="art-search" placeholder="Search parameters…" oninput="debounceArtSearch()" /></div>
               <select class="fs" id="art-cat-f" onchange="loadArticles(1)" style="width:auto;padding:6px 10px;">
-                <option value="">All Categories</option>
-                <option>Mental Health</option><option>Labour Rights</option><option>Social Justice</option>
-                <option>Environment</option><option>Education</option><option>Gender &amp; Equality</option>
-                <option>Digital Rights</option><option>Healthcare</option><option>Politics</option>
-                <option>Economics</option><option>Climate Change</option><option>Rural India</option>
+                <option value="">All Streams</option>
               </select>
               <select class="fs" id="art-status-f" onchange="loadArticles(1)" style="width:auto;padding:6px 10px;">
-                <option value="">All Status</option>
-                <option value="pending_review">⏳ Pending Review</option>
+                <option value="">All States</option>
                 <option value="published">Published</option>
                 <option value="draft">Draft</option>
                 <option value="hidden">Hidden</option>
@@ -568,149 +542,127 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
             </div>
           </div>
           <div id="art-tbl-wrap" class="tbl-wrap"></div>
-          <div class="pagination" id="art-pagination" style="display:none;"></div>
+          <div class="pagination" id="art-pagination"></div>
         </div>
       </div>
 
-      <!-- ARTICLE EDITOR (admin/superadmin only) -->
       <div class="page" id="page-new-article">
         <div class="editor-topbar">
           <div class="editor-topbar-left">
-            <h2 id="ed-heading">New Article</h2>
-            <p id="ed-sub" style="color:var(--text3);font-size:0.75rem;margin-top:3px;">Fill in the details and publish.</p>
+            <h2 id="ed-heading">Create Direct Document</h2>
+            <p id="ed-sub" style="color:var(--text3);font-size:0.75rem;margin-top:3px;">Overrides verification steps, running injection natively to live table arrays.</p>
           </div>
           <div class="editor-actions">
-            <button class="btn btn-secondary" onclick="resetEditor()">↺ Reset</button>
-            <button class="btn btn-yellow" onclick="saveArticle('draft')">Save Draft</button>
-            <button class="btn btn-primary" id="pub-btn" onclick="saveArticle('published')">Publish →</button>
+            <button class="btn btn-secondary" onclick="resetEditor()">↺ Clear</button>
+            <button class="btn btn-yellow" onclick="saveArticle('draft')">Keep as Draft</button>
+            <button class="btn btn-primary" id="pub-btn" onclick="saveArticle('published')">Deploy Live Now →</button>
           </div>
         </div>
         <input type="hidden" id="ed-id" />
         <div class="editor-layout">
           <div class="editor-main">
             <div class="form-card">
-              <div class="form-card-title">✏️ Content</div>
-              <div class="fg"><label>Headline <span class="req">*</span></label><input type="text" class="fi" id="ed-title" placeholder="Write a compelling headline…" oninput="autoSlug(this.value)" /></div>
-              <div class="fg"><label>Subtitle / Deck</label><input type="text" class="fi" id="ed-subtitle" placeholder="One pulence that earns the click…" /></div>
+              <div class="form-card-title">✏️ Content Elements</div>
+              <div class="fg"><label>Headline <span class="req">*</span></label><input type="text" class="fi" id="ed-title" oninput="autoSlug(this.value)" /></div>
+              <div class="fg"><label>Subtitle Hook</label><input type="text" class="fi" id="ed-subtitle" /></div>
               <div class="fg">
                 <div class="preview-toggle" style="margin-bottom:8px;">
-                  <button class="active" id="ptog-edit" onclick="switchPreview('edit')">HTML Editor</button>
-                  <button id="ptog-prev" onclick="switchPreview('prev')">Preview</button>
+                  <button class="active" id="ptog-edit" onclick="switchPreview('edit')">HTML Code Mode</button>
+                  <button id="ptog-prev" onclick="switchPreview('prev')">Engine Render Sandbox</button>
                 </div>
                 <textarea class="fta tall" id="ed-content"></textarea>
                 <div class="html-preview" id="html-preview"></div>
               </div>
             </div>
             <div class="form-card">
-              <div class="form-card-title">📸 Cover Image</div>
-              <div class="fg"><label>Image URL</label><input type="url" class="fi" id="ed-cover" placeholder="https://…" oninput="updateCoverPreview(this.value)" /></div>
-              <div class="cover-preview" id="cover-preview"><img id="cover-img" src="" alt="cover" /></div>
+              <div class="form-card-title">📸 Graphics Media Engine Asset URL</div>
+              <div class="fg"><input type="url" class="fi" id="ed-cover" oninput="updateCoverPreview(this.value)" /></div>
+              <div class="cover-preview" id="cover-preview"><img id="cover-img" src="" alt="cover preview pointer" /></div>
             </div>
             <div class="form-card">
-              <div class="form-card-title">🏷️ SEO & Meta</div>
-              <div class="fg"><label>Meta Title</label><input type="text" class="fi" id="ed-meta-title" placeholder="SEO title (max 60 chars)" maxlength="60" /></div>
-              <div class="fg"><label>Meta Description</label><textarea class="fta" id="ed-meta-desc" placeholder="150–160 chars…" rows="3" maxlength="160"></textarea></div>
+              <div class="form-card-title">🏷️ SEO Target Index Identifiers</div>
+              <div class="fg"><label>Meta Structured Title Target</label><input type="text" class="fi" id="ed-meta-title" maxlength="60" /></div>
+              <div class="fg"><label>Meta Payload Excerpt Description</label><textarea class="fta" id="ed-meta-desc" rows="3" maxlength="160"></textarea></div>
             </div>
           </div>
           <div class="editor-sidebar">
             <div class="form-card">
-              <div class="form-card-title">⚙️ Publish Settings</div>
-              <div class="fg"><label>Status</label>
+              <div class="form-card-title">⚙️ Deployment Node Config</div>
+              <div class="fg"><label>Status Key State</label>
                 <select class="fs" id="ed-status">
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
-                  <option value="scheduled">Scheduled</option>
                 </select>
               </div>
-              <div class="fg"><label>URL Slug</label><input type="text" class="fi" id="ed-slug" placeholder="url-friendly-slug" /><div class="field-hint">Auto-generated from headline</div></div>
-              <div class="fg"><label>Read Time</label><input type="text" class="fi" id="ed-readtime" placeholder="e.g. 7 min read" /></div>
-              <div class="fg superadmin-only" id="featured-field">
-                <label class="checkbox-row"><input type="checkbox" id="ed-featured" /> ⭐ Mark as Featured</label>
-              </div>
+              <div class="fg"><label>SEO Unique Permastruct Slug Identifier</label><input type="text" class="fi" id="ed-slug" /></div>
+              <div class="fg"><label>Estimated Processing Minutes Metric</label><input type="text" class="fi" id="ed-readtime" placeholder="e.g. 5 min read" /></div>
+              <div class="fg"><label class="checkbox-row"><input type="checkbox" id="ed-featured" /> Highlight Featured Carousel</label></div>
             </div>
             <div class="form-card">
-              <div class="form-card-title">📁 Category</div>
+              <div class="form-card-title">📁 Data Bucket Streams Mapping</div>
               <div class="fg">
                 <select class="fs" id="ed-category">
-                  <option value="">— Select —</option>
-                  <option>Mental Health</option><option>Labour Rights</option><option>Social Justice</option>
-                  <option>Environment</option><option>Education</option><option>Gender &amp; Equality</option>
-                  <option>Digital Rights</option><option>Healthcare</option><option>Politics</option>
-                  <option>Economics</option><option>Climate Change</option><option>Rural India</option>
-                  <option>LGBTQ+</option><option>Caste &amp; Discrimination</option><option>Child Rights</option>
-                  <option>Disability Rights</option><option>Media Critique</option><option>Science &amp; Society</option>
-                  <option>Law &amp; Justice</option><option>Urban Issues</option>
+                   <option value="">— Select Category Stream —</option>
+                   <option>Mental Health</option><option>Labour Rights</option><option>Social Justice</option>
+                   <option>Environment</option><option>Education</option><option>Gender &amp; Equality</option>
+                   <option>Digital Rights</option><option>Healthcare</option><option>Politics</option>
+                   <option>Economics</option><option>Climate Change</option><option>Rural India</option>
                 </select>
-                <div class="cat-pills" id="cat-pills">
-                  <span class="cat-pill" onclick="setCat('Mental Health')">Mental Health</span>
-                  <span class="cat-pill" onclick="setCat('Labour Rights')">Labour Rights</span>
-                  <span class="cat-pill" onclick="setCat('Environment')">Environment</span>
-                  <span class="cat-pill" onclick="setCat('Social Justice')">Social Justice</span>
-                  <span class="cat-pill" onclick="setCat('Education')">Education</span>
-                </div>
               </div>
-              <div class="fg"><label>Tags</label><div class="tags-wrap" id="tags-wrap" onclick="document.getElementById('tag-input').focus()"></div><div class="field-hint">Enter or comma to add.</div></div>
+              <div class="fg"><label>Tags Collection Collection</label><div class="tags-wrap" id="tags-wrap" onclick="document.getElementById('tag-input')?.focus()"></div></div>
             </div>
             <div class="form-card">
-              <div class="form-card-title">👤 Author</div>
-              <div class="fg"><label>Author Name</label><input type="text" class="fi" id="ed-author" placeholder="Full name" /></div>
-              <div class="fg"><label>Avatar URL</label><input type="url" class="fi" id="ed-avatar" placeholder="https://…" /></div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <button class="btn btn-yellow" onclick="saveArticle('draft')" style="flex:1;justify-content:center;">Save Draft</button>
-              <button class="btn btn-primary" onclick="saveArticle('published')" style="flex:1;justify-content:center;">Publish →</button>
+               <div class="form-card-title">👤 Identity Verification Stamp Override</div>
+               <div class="fg"><label>Author Name String</label><input type="text" class="fi" id="ed-author" /></div>
+               <div class="fg"><label>Author Thumbnail Profile URL</label><input type="url" class="fi" id="ed-avatar" /></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COMMENTS -->
       <div class="page" id="page-comments">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Comment Moderation</span>
+            <span class="card-title">Live Node Discussion Intercept Firewall Queue</span>
             <div class="card-toolbar">
-              <div class="search-wrap"><span>🔍</span><input type="text" id="cmt-search" placeholder="Search by slug…" oninput="debounceCommentSearch()" /></div>
-              <button class="btn btn-sm btn-secondary cmt-filter active-filter" data-f="all" onclick="setCommentFilter('all',this)">All</button>
-              <button class="btn btn-sm btn-secondary cmt-filter" data-f="pending" onclick="setCommentFilter('pending',this)">Pending</button>
-              <button class="btn btn-sm btn-secondary cmt-filter" data-f="approved" onclick="setCommentFilter('approved',this)">Approved</button>
-              <button class="btn btn-sm btn-secondary cmt-filter" data-f="spam" onclick="setCommentFilter('spam',this)">Spam</button>
+              <div class="search-wrap"><span>🔍</span><input type="text" id="cmt-search" placeholder="Filter Target Slug Array…" oninput="debounceCommentSearch()" /></div>
+              <button class="btn btn-sm btn-secondary cmt-filter active-filter" onclick="setCommentFilter('all',this)">All Threads</button>
+              <button class="btn btn-sm btn-secondary cmt-filter" onclick="setCommentFilter('pending',this)">Pending Verification</button>
+              <button class="btn btn-sm btn-secondary cmt-filter" onclick="setCommentFilter('approved',this)">Approved Nodes</button>
+              <button class="btn btn-sm btn-secondary cmt-filter" onclick="setCommentFilter('spam',this)">Flagged Spam</button>
             </div>
           </div>
           <div id="cmt-list"></div>
-          <div class="pagination" id="cmt-pagination" style="display:none;"></div>
+          <div class="pagination" id="cmt-pagination"></div>
         </div>
       </div>
 
-      <!-- APPLICATIONS -->
       <div class="page" id="page-applications">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Editor Applications</span>
+            <span class="card-title">Editor Inflow Registry Profiles List</span>
             <div class="card-toolbar">
-              <button class="btn btn-sm btn-secondary app-filter active-filter" onclick="setAppFilter('',this)">All</button>
-              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('pending',this)">Pending</button>
-              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('accepted',this)">Accepted</button>
-              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('rejected',this)">Rejected</button>
+              <button class="btn btn-sm btn-secondary app-filter active-filter" onclick="setAppFilter('',this)">All Slopes</button>
+              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('pending',this)">Pending Review</button>
+              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('accepted',this)">Accepted Credentials</button>
+              <button class="btn btn-sm btn-secondary app-filter" onclick="setAppFilter('rejected',this)">Rejected Entries</button>
             </div>
           </div>
           <div id="app-tbl-wrap" class="tbl-wrap"></div>
           <div id="app-detail-area"></div>
-          <div class="pagination" id="app-pagination" style="display:none;"></div>
+          <div class="pagination" id="app-pagination"></div>
         </div>
       </div>
 
-      <!-- ADMIN USERS (superadmin only) -->
       <div class="page" id="page-admin-users">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Admin Users</span>
-            <div class="card-toolbar"><button class="btn btn-sm btn-primary" onclick="openNewUserModal()">+ Add User</button></div>
+            <span class="card-title">Cryptographic Admin Identity Records Matrix</span>
+            <div class="card-toolbar"><button class="btn btn-sm btn-primary" onclick="openNewUserModal()">+ Provision User Account</button></div>
           </div>
           <div id="usr-tbl-wrap" class="tbl-wrap"></div>
         </div>
       </div>
-
     </div>
   </main>
 </div>
@@ -719,60 +671,72 @@ tbody tr:hover td{background:rgba(255,255,255,0.018);}
 <div id="modal-area"></div>
 
 <script>
-// ══════════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════════
 const SUPABASE_URL = 'https://nltmolhlwgsrxadknzzq.supabase.co';
-const ANON_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
+const ANON_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG1vbGhsd2dzcnhhZGtuenpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDMyMzksImV4cCI6MjA5NDE3OTIzOX0.HEvMlpp6XFbD9MuQhxFwsNpfvzfev3ISkJbA93SvMXc';
 const ADMIN_API    = `${SUPABASE_URL}/functions/v1/admin-api`;
 
 let TOKEN   = null;
 let ADMIN   = null;
 let artTags = [];
 let edsTags = [];
-let artPage = 1, cmtPage = 1, appPage = 1;
+let artPage = 1, subPage = 1, cmtPage = 1, appPage = 1;
 let cmtFilter = 'all', appFilter = '';
 let artSearchTimer = null, cmtSearchTimer = null;
 
-// ══════════════════════════════════════════════
-// API HELPER
-// ══════════════════════════════════════════════
+const CATEGORIES_POOL = [
+  "Mental Health", "Labour Rights", "Social Justice", "Environment", "Education", 
+  "Gender & Equality", "Digital Rights", "Healthcare", "Politics", "Economics", 
+  "Climate Change", "Rural India", "LGBTQ+", "Caste & Discrimination", "Child Rights", 
+  "Disability Rights", "Media Critique", "Science & Society", "Law & Justice", "Urban Issues"
+];
+
+// Seed category selections automatically
+document.addEventListener("DOMContentLoaded", () => {
+  const selectElements = ['art-cat-f', 'eds-category', 'ed-category'];
+  selectElements.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    CATEGORIES_POOL.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat; opt.textContent = cat;
+      el.appendChild(opt);
+    });
+  });
+});
+
 async function api(action, method='GET', body=null, extra='') {
   const res = await fetch(`${ADMIN_API}?action=${action}${extra}`, {
     method,
     headers: {
-      'Content-Type':'application/json',
+      'Content-Type':'application/json; charset=utf-8',
       'Authorization':`Bearer ${ANON_KEY}`,
       'apikey':ANON_KEY,
       'x-admin-token': TOKEN || '',
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
-  if (!res.ok && res.status===401) { doLogout(); return { success:false, error:'Session expired' }; }
-  return res.json().catch(() => ({ success:false, error:'Network error' }));
+  if (!res.ok && res.status === 401) { doLogout(); return { success:false, error:'Session data tracking failure.' }; }
+  return res.json().catch(() => ({ success:false, error:'Data transfer link dropped.' }));
 }
 
-// ══════════════════════════════════════════════
-// AUTH
-// ══════════════════════════════════════════════
 async function doLogin() {
   const user = document.getElementById('l-user').value.trim();
   const pass = document.getElementById('l-pass').value;
   const btn  = document.getElementById('login-btn');
   const err  = document.getElementById('login-err');
   err.style.display = 'none';
-  if (!user||!pass) { showErr(err,'Please enter username and password.'); return; }
-  btn.disabled=true; btn.textContent='Signing in…';
+  if (!user || !pass) { showErr(err,'Credentials string segments incomplete.'); return; }
+  btn.disabled = true; btn.textContent = 'Processing handshake matrix…';
   try {
     const data = await api('login','POST',{username:user,password:pass});
-    if (!data.success) throw new Error(data.error||'Invalid credentials');
+    if (!data.success) throw new Error(data.error || 'Identity matching authentication handshake failure.');
     TOKEN = data.token; ADMIN = data.admin;
     localStorage.setItem('dv_tok', TOKEN);
     localStorage.setItem('dv_admin', JSON.stringify(ADMIN));
     routeByRole(ADMIN);
   } catch(e) {
     showErr(err, e.message);
-    btn.disabled=false; btn.textContent='Sign In →';
+    btn.disabled = false; btn.textContent = 'Sign In →';
   }
 }
 function showErr(el, msg) { el.textContent=msg; el.style.display='block'; }
@@ -800,12 +764,9 @@ function showAdminShell(admin) {
   document.getElementById('user-nm').textContent = admin.display_name || admin.username;
   document.getElementById('user-rl').textContent = admin.role;
 
-  // Show superadmin-only elements
   if (admin.role === 'superadmin') {
-    document.querySelectorAll('.superadmin-only').forEach(el => el.style.display = '');
-    document.getElementById('sb-section-system').style.display = '';
+    document.getElementById('sb-system-node').style.display = '';
   }
-
   loadDashboard();
 }
 
@@ -818,19 +779,7 @@ function doLogout() {
   document.getElementById('l-pass').value='';
 }
 
-// Auto-login
-(function(){
-  const tok=localStorage.getItem('dv_tok');
-  const adm=localStorage.getItem('dv_admin');
-  if(tok&&adm){ try{ TOKEN=tok; ADMIN=JSON.parse(adm); routeByRole(ADMIN); }catch{} }
-})();
-
-document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('l-pass').focus();});
-
-// ══════════════════════════════════════════════
-// EDITOR SHELL LOGIC
-// ══════════════════════════════════════════════
+/* EDITOR INFLOW EXECUTION CONTROLS */
 function editorTab(tab) {
   document.getElementById('ed-panel-write').style.display = tab==='write' ? '' : 'none';
   document.getElementById('ed-panel-mine').style.display  = tab==='mine'  ? '' : 'none';
@@ -841,19 +790,20 @@ function editorTab(tab) {
 
 async function loadMySubmissions() {
   const list = document.getElementById('eds-my-list');
-  list.innerHTML = '<div class="empty-state">Loading…</div>';
-  const d = await api('my_articles');
-  if (!d.success || !d.articles?.length) {
-    list.innerHTML = '<div class="empty-state">No submissions yet. Write your first article!</div>';
+  list.innerHTML = '<div class="empty-state">Running structural check query arrays…</div>';
+  const d = await api('my_submissions');
+  if (!d.success || !d.submissions?.length) {
+    list.innerHTML = '<div class="empty-state">No track logs returned inside verification engine context maps.</div>';
     return;
   }
-  list.innerHTML = `<div class="my-submissions-list">${d.articles.map(a=>`
+  list.innerHTML = `<div class="my-submissions-list">${d.submissions.map(a=>`
     <div class="sub-item">
       <div class="sub-info">
         <div class="sub-title">${x(a.title)}</div>
-        <div class="sub-meta">${x(a.category||'—')} · ${fmtDate(a.updated_at)}</div>
+        <div class="sub-meta">${x(a.category||'—')} · Track Date: ${fmtDate(a.submitted_at)}</div>
+        ${a.reviewer_note ? `<div style="font-size:0.75rem; color:var(--orange); margin-top:4px;">Note from validation deck: ${x(a.reviewer_note)}</div>` : ''}
       </div>
-      <span class="badge badge-${a.status}">${a.status==='pending_review'?'⏳ Pending Review':a.status}</span>
+      <span class="badge badge-${a.status}">${a.status}</span>
     </div>`).join('')}</div>`;
 }
 
@@ -868,13 +818,13 @@ function resetEditorShell() {
 }
 
 async function editorSubmitArticle() {
-  const title    = document.getElementById('eds-title').value.trim();
+  const title = document.getElementById('eds-title').value.trim();
   const category = document.getElementById('eds-category').value;
-  if (!title)    { toast('Headline is required','error'); return; }
-  if (!category) { toast('Please select a category','error'); return; }
+  if (!title) { toast('A string component must populate headline parameter fields.','error'); return; }
+  if (!category) { toast('Identify target array segment routing track stream.','error'); return; }
 
   const btn = document.getElementById('ed-submit-btn');
-  btn.disabled=true; btn.textContent='Submitting…';
+  btn.disabled=true; btn.textContent='Running validation injection routing paths…';
 
   const payload = {
     title,
@@ -884,17 +834,16 @@ async function editorSubmitArticle() {
     cover_image:   document.getElementById('eds-cover').value.trim()||null,
     author:        document.getElementById('eds-author').value.trim()||null,
     author_avatar: document.getElementById('eds-avatar').value.trim()||null,
-    tags:          edsTags,
-    status:        'pending_review',
+    tags:          edsTags
   };
 
   try {
-    const d = await api('create_article','POST',payload);
-    if (!d.success) throw new Error(d.error||'Submission failed');
-    toast('✓ Submitted for review! Admin will approve it.','success');
+    const d = await api('submit_article','POST',payload);
+    if (!d.success) throw new Error(d.error || 'Submission operational path rejection.');
+    toast('✓ Structural logging array entry committed successfully to pipeline queue layers.','success');
     resetEditorShell();
     editorTab('mine');
-  } catch(e) { toast('Error: '+e.message,'error'); }
+  } catch(e) { toast('Interception Alert: '+e.message,'error'); }
   finally { btn.disabled=false; btn.textContent='Submit for Review →'; }
 }
 
@@ -909,45 +858,50 @@ function edsSwitchPreview(mode) {
   const pv=document.getElementById('eds-html-preview');
   document.getElementById('eds-ptog-edit').classList.toggle('active',mode==='edit');
   document.getElementById('eds-ptog-prev').classList.toggle('active',mode==='prev');
-  if(mode==='prev'){ pv.innerHTML=ta.value||'<p style="color:var(--text3)">Nothing to preview yet.</p>'; ta.style.display='none'; pv.style.display='block'; }
+  if(mode==='prev'){ pv.innerHTML=ta.value||'<p style="color:var(--text3)">No components rendered inside field arrays.</p>'; ta.style.display='none'; pv.style.display='block'; }
   else { ta.style.display=''; pv.style.display='none'; }
 }
 function edsRenderTags() {
   const wrap=document.getElementById('eds-tags-wrap');
+  if (!wrap) return;
   wrap.innerHTML=edsTags.map((t,i)=>`<span class="tag-chip">${x(t)}<button type="button" onclick="edsRemoveTag(${i})">×</button></span>`).join('');
   const inp=document.createElement('input');
-  inp.type='text'; inp.className='tag-text-input'; inp.id='eds-tag-input'; inp.placeholder='Add tag…';
+  inp.type='text'; inp.className='tag-text-input'; inp.id='eds-tag-input'; inp.placeholder='Add flag element…';
   inp.addEventListener('keydown',e=>{
     if((e.key==='Enter'||e.key===',')&&e.target.value.trim()){ e.preventDefault(); edsAddTag(e.target.value.trim()); e.target.value=''; }
     if(e.key==='Backspace'&&!e.target.value&&edsTags.length){ edsTags.pop(); edsRenderTags(); document.getElementById('eds-tag-input')?.focus(); }
   });
   wrap.appendChild(inp);
 }
-function edsAddTag(v){ if(!v||edsTags.length>=8||edsTags.includes(v)) return; edsTags.push(v); edsRenderTags(); }
+function edsAddTag(v){ if(!v||edsTags.length>=8||edsTags.includes(v)) return; edsTags.push(v); edsRenderTags(); document.getElementById('eds-tag-input')?.focus(); }
 function edsRemoveTag(i){ edsTags.splice(i,1); edsRenderTags(); }
 
-// ══════════════════════════════════════════════
-// ADMIN NAVIGATION
-// ══════════════════════════════════════════════
+
+/* MANAGEMENT PANEL CORE INTERFACE LOGIC */
 const PAGE_TITLES = {
-  dashboard:['Dashboard','Overview'],
-  articles:['All Articles','Content Management'],
-  'new-article':['Write Article','Content Editor'],
-  comments:['Comments','Moderation Queue'],
-  applications:['Applications','Editor Applications'],
-  'admin-users':['Admin Users','User Management'],
+  dashboard:['Dashboard Overview','Nodal Monitoring Control'],
+  submissions:['Verification Queue','Pipeline Inspection System'],
+  articles:['Live Articles Core','Repository Matrix Ledger'],
+  'new-article':['Direct Injection Interface','Deployment Studio Tools'],
+  comments:['Firewall Comments Moderation','Nodal Traffic Cleanroom'],
+  applications:['Applications Register Pool','Staff Registry Inflow Control'],
+  'admin-users':['Cryptographic Access Identity Records','Staff Accounts Provision Studio']
 };
+
 function nav(pageId, navEl) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+pageId)?.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(navEl) navEl.classList.add('active');
   else document.querySelector(`.nav-item[data-page="${pageId}"]`)?.classList.add('active');
+  
   const [title,crumb]=PAGE_TITLES[pageId]||[pageId,''];
   document.getElementById('page-title').textContent=title;
   document.getElementById('page-crumb').textContent=crumb;
   document.getElementById('sidebar').classList.remove('open');
+  
   if(pageId==='dashboard')    loadDashboard();
+  if(pageId==='submissions')  loadSubmissionsPipeline(1);
   if(pageId==='articles')     loadArticles(1);
   if(pageId==='comments')     loadComments(1);
   if(pageId==='applications') loadApplications(1);
@@ -955,9 +909,6 @@ function nav(pageId, navEl) {
   if(pageId==='new-article')  resetEditor();
 }
 
-// ══════════════════════════════════════════════
-// DASHBOARD
-// ══════════════════════════════════════════════
 async function loadDashboard() {
   try {
     const d = await api('stats');
@@ -967,146 +918,152 @@ async function loadDashboard() {
     setText('st-a',  (s.articles||0).toLocaleString('en-IN'));
     setText('st-c',  (s.comments||0).toLocaleString('en-IN'));
     setText('st-p',  (s.applications||0).toLocaleString('en-IN'));
+    setText('st-pr', (s.pending_submissions||0).toLocaleString('en-IN'));
+    setNB('nb-pending', s.pending_submissions);
 
-    // Count pending_review from recent
-    const pendingCount = (s.recent_articles||[]).filter(a=>a.status==='pending_review').length;
-    setText('st-pr', pendingCount || '—');
-    if(s.applications>0) setNB('nb-apps', s.applications);
-
-    // Pending review table
-    const pending = (s.recent_articles||[]).filter(a=>a.status==='pending_review');
     const pb = document.getElementById('dash-pending');
-    if(!pending.length) {
-      pb.innerHTML='<tr><td colspan="5" class="empty-state">No articles pending review 🎉</td></tr>';
+    if(!s.pending_submissions_list?.length) {
+      pb.innerHTML='<tr><td colspan="5" class="empty-state">Verification pipeline queue clear. No exceptions encountered. 🎉</td></tr>';
     } else {
-      pb.innerHTML = pending.map(a=>`
+      pb.innerHTML = s.pending_submissions_list.map(a=>`
         <tr>
-          <td><div class="td-title" title="${x(a.title)}">${x(a.title)}</div></td>
+          <td><div class="td-title" style="font-weight:600;">${x(a.title)}</div></td>
           <td class="td-muted">${x(a.category||'—')}</td>
           <td class="td-muted">${x(a.submitted_by_name||'—')}</td>
-          <td class="td-muted">${fmtDate(a.updated_at)}</td>
+          <td class="td-muted">${fmtDate(a.submitted_at)}</td>
           <td class="td-actions">
-            <button class="btn btn-xs btn-blue" onclick="editArticle('${a.slug}')">✏️ Review</button>
-            <button class="btn btn-xs btn-green" onclick="approveArticle(${a.id})">✓ Approve</button>
-            <button class="btn btn-xs btn-secondary" onclick="hideArticle(${a.id})">Hide</button>
-          </td>
-        </tr>`).join('');
-      setNB('nb-pending', pending.length);
-    }
-
-    // Recent published
-    const published = (s.recent_articles||[]).filter(a=>a.status==='published');
-    const tb = document.getElementById('dash-recent');
-    if(!published.length) {
-      tb.innerHTML='<tr><td colspan="6" class="empty-state">No published articles yet.</td></tr>';
-    } else {
-      tb.innerHTML = published.map(a=>`
-        <tr>
-          <td><div class="td-title" title="${x(a.title)}">${x(a.title)}</div></td>
-          <td class="td-muted">${x(a.category||'—')}</td>
-          <td><span class="badge badge-${a.status}">${a.status}</span></td>
-          <td class="td-mono">${(a.view_count||0).toLocaleString('en-IN')}</td>
-          <td class="td-muted">${fmtDate(a.updated_at)}</td>
-          <td class="td-actions">
-            <button class="btn btn-xs btn-secondary" onclick="editArticle('${a.slug}')">Edit</button>
-            <button class="btn btn-xs btn-secondary" onclick="hideArticle(${a.id})">Hide</button>
-            ${ADMIN?.role==='superadmin'?`<button class="btn btn-xs btn-danger" onclick="delArticle(${a.id},'${a.slug}')">Delete</button>`:''}
+            <button class="btn btn-xs btn-blue" onclick="nav('submissions', null)">🔎 Load To Desk</button>
           </td>
         </tr>`).join('');
     }
 
-    // Category chart
     const cats=Object.entries(s.categories||{}).sort((a,b)=>b[1]-a[1]).slice(0,8);
     const maxV=cats[0]?.[1]||1;
     document.getElementById('cat-chart').innerHTML=cats.length?cats.map(([cat,count])=>`
       <div class="cat-bar">
         <div class="cat-bar-meta"><span class="cat-bar-name">${x(cat)}</span><span class="cat-bar-count">${count}</span></div>
         <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${(count/maxV*100).toFixed(1)}%"></div></div>
-      </div>`).join(''):'<div style="color:var(--text3);font-size:0.8rem;">No data yet</div>';
+      </div>`).join(''):'<div class="empty-state">No category logs generated.</div>';
 
     document.getElementById('trending-list').innerHTML=(s.trending||[]).length?(s.trending||[]).map((a,i)=>`
       <div class="trending-item">
         <div class="trending-rank">${i+1}</div>
         <div class="trending-info"><div class="trending-title">${x(a.title)}</div><div class="trending-cat">${x(a.category||'')}</div></div>
         <div class="trending-views">${(a.view_count||0).toLocaleString('en-IN')} views</div>
-      </div>`).join(''):'<div style="color:var(--text3);font-size:0.8rem;">No data yet</div>';
+      </div>`).join(''):'<div class="empty-state">Telemetry stack matrix baseline empty.</div>';
   } catch(e) { console.error(e); }
 }
 
-// ══════════════════════════════════════════════
-// ARTICLES LIST
-// ══════════════════════════════════════════════
+/* SEPARATE PENDING REVIEWS HANDLERS */
+async function loadSubmissionsPipeline(page=1) {
+   subPage = page;
+   const tbody = document.getElementById('sub-pipeline-tbody');
+   tbody.innerHTML = '<tr class="loading-row"><td colspan="7">Polling processing stream targets…</td></tr>';
+   const d = await api('pending_submissions', 'GET', null, `&page=${page}&limit=10&status=pending_review`);
+   if (!d.success || !d.submissions?.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No isolated documents pending operational authority clearance.</td></tr>';
+      return;
+   }
+   tbody.innerHTML = d.submissions.map(s => `
+     <tr>
+        <td class="td-mono">${s.id}</td>
+        <td><div class="td-title" style="font-weight:600;">${x(s.title)}</div></td>
+        <td><span class="badge font-mono">${x(s.category)}</span></td>
+        <td>${x(s.submitted_by_name)}</td>
+        <td class="td-muted">${fmtDate(s.submitted_at)}</td>
+        <td><span class="badge badge-pending_review">Pending Review</span></td>
+        <td class="td-actions">
+           <button class="btn btn-xs btn-primary" onclick="processApproval(${s.id})">✓ Approve &amp; Deploy</button>
+           <button class="btn btn-xs btn-danger" onclick="processRejection(${s.id})">✕ Reject</button>
+        </td>
+     </tr>
+   `).join('');
+   buildPagination('sub-pagination', page, Math.ceil((d.total||0)/10), p => loadSubmissionsPipeline(p), d.total||0);
+}
+
+async function processApproval(id) {
+  if(!confirm("Deploy transaction array mapping logic directly to production nodes?")) return;
+  const d = await api(`approve_submission&id=${id}`, 'PUT');
+  if(d.success) {
+     toast("✓ Core entry built, indexed, and linked live.", "success");
+     loadSubmissionsPipeline(subPage);
+     loadDashboard();
+  } else toast("Error structural merge: " + d.error, "error");
+}
+
+async function processRejection(id) {
+  const note = prompt("Insert systemic validation logic failure reason record string:");
+  if(note === null) return;
+  const d = await api(`reject_submission&id=${id}`, 'PUT', { reviewer_note: note });
+  if(d.success) {
+     toast("Rejection state finalized and recorded inside history logs.", "info");
+     loadSubmissionsPipeline(subPage);
+     loadDashboard();
+  } else toast("Operation matrix rejection code fail: " + d.error, "error");
+}
+
+/* ARTICLES DATA MANAGEMENT FUNCTIONS */
 async function loadArticles(page=1) {
   artPage=page;
   const status=document.getElementById('art-status-f')?.value||'';
   const cat=document.getElementById('art-cat-f')?.value||'';
   const search=document.getElementById('art-search')?.value.trim()||'';
   const wrap=document.getElementById('art-tbl-wrap');
-  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="9">Loading…</td></tr></tbody></table>';
-  const extra=`&page=${page}&limit=20${status?'&status='+status:''}${cat?'&category='+encodeURIComponent(cat):''}${search?'&search='+encodeURIComponent(search):''}`;
+  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="7">Parsing active system ledger tables…</td></tr></tbody></table>';
+  
+  const extra=`&page=${page}&limit=15${status?'&status='+status:''}${cat?'&category='+encodeURIComponent(cat):''}${search?'&search='+encodeURIComponent(search):''}`;
   const d=await api('admin_articles','GET',null,extra);
-  if(!d.success){ wrap.innerHTML='<div class="empty-state">Error loading articles.</div>'; return; }
-  if(!d.articles?.length){ wrap.innerHTML='<div class="empty-state">No articles found.</div>'; document.getElementById('art-pagination').style.display='none'; return; }
-
-  const isSA = ADMIN?.role==='superadmin';
+  if(!d.success){ wrap.innerHTML='<div class="empty-state">Ledger state failed evaluation checks.</div>'; return; }
+  if(!d.articles?.length){ wrap.innerHTML='<div class="empty-state">No linked entities found matching query bounds.</div>'; document.getElementById('art-pagination').style.display='none'; return; }
 
   wrap.innerHTML=`<table><thead><tr>
-    <th>Title</th><th>Category</th><th>Status</th><th>Submitted By</th><th>Views</th><th>Updated</th><th>Actions</th>
+    <th>Headline</th><th>Category</th><th>State</th><th>Telemetry Traffic</th><th>Last Update Stamp</th><th>Control Mapping</th>
   </tr></thead><tbody>${d.articles.map(a=>`
     <tr>
-      <td><div class="td-title" title="${x(a.title)}">${a.status==='pending_review'?'<span class="pending-dot"></span>':''}${x(a.title)}</div></td>
+      <td><div class="td-title" title="${x(a.title)}">${x(a.title)}</div></td>
       <td class="td-muted">${x(a.category||'—')}</td>
-      <td><span class="badge badge-${a.status}">${a.status==='pending_review'?'⏳ Pending':a.status}</span></td>
-      <td class="td-muted">${x(a.submitted_by_name||'—')}</td>
-      <td class="td-mono">${(a.view_count||0).toLocaleString('en-IN')}</td>
+      <td><span class="badge badge-${a.status}">${a.status}</span></td>
+      <td class="td-mono">${(a.view_count||0).toLocaleString('en-IN')} hits</td>
       <td class="td-muted">${fmtDate(a.updated_at)}</td>
       <td class="td-actions">
-        <button class="btn btn-xs btn-blue" onclick="editArticle('${a.slug}')">✏️ Edit</button>
-        ${a.status==='pending_review'?`<button class="btn btn-xs btn-green" onclick="approveArticle(${a.id})">✓ Approve</button>`:''}
+        <button class="btn btn-xs btn-blue" onclick="editArticle('${a.slug}')">✏️ Modify</button>
         ${a.status==='published'?`<button class="btn btn-xs btn-secondary" onclick="hideArticle(${a.id})">Hide</button>`:''}
-        ${a.status==='hidden'?`<button class="btn btn-xs btn-green" onclick="approveArticle(${a.id})">Unhide</button>`:''}
-        ${isSA?`<button class="btn btn-xs btn-danger" onclick="delArticle(${a.id},'${a.slug}')">Delete</button>`:''}
+        ${a.status==='hidden'?`<button class="btn btn-xs btn-green" onclick="unhideArticle(${a.id})">Unhide</button>`:''}
+        ${ADMIN?.role==='superadmin'?`<button class="btn btn-xs btn-danger" onclick="delArticle(${a.id},'${a.slug}')">Purge</button>`:''}
       </td>
     </tr>`).join('')}</tbody></table>`;
 
-  buildPagination('art-pagination', page, Math.ceil((d.total||0)/20), p=>loadArticles(p), d.total||0);
+  buildPagination('art-pagination', page, Math.ceil((d.total||0)/15), p=>loadArticles(p), d.total||0);
 }
 function debounceArtSearch(){ clearTimeout(artSearchTimer); artSearchTimer=setTimeout(()=>loadArticles(1),400); }
 
-async function approveArticle(id) {
+async function unhideArticle(id) {
   const d=await api(`approve_article&id=${id}`,'PUT');
-  if(d.success){ toast('Article approved & published!','success'); loadArticles(artPage); loadDashboard(); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Document unhidden. Deployment state restored.','success'); loadArticles(artPage); }
+  else toast('Error mapping: '+d.error,'error');
 }
 async function hideArticle(id) {
   const d=await api(`hide_article&id=${id}`,'PUT');
-  if(d.success){ toast('Article hidden','info'); loadArticles(artPage); loadDashboard(); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Document routing context hidden from entrypoints.','info'); loadArticles(artPage); }
+  else toast('Error mapping: '+d.error,'error');
 }
 async function delArticle(id,slug) {
-  if(!confirm(`Delete "${slug}"? This cannot be undone.`)) return;
+  if(!confirm(`Irreversibly execute hard execution trace wipe on record block: "${slug}"?`)) return;
   const d=await api(`delete_article&id=${id}`,'DELETE');
-  if(d.success){ toast('Article deleted','success'); loadArticles(artPage); loadDashboard(); }
-  else toast('Error: '+d.error,'error');
-}
-async function toggleFeatured(id) {
-  const d=await api(`toggle_featured&id=${id}`,'PUT');
-  if(d.success){ toast(d.article?.is_featured?'Marked as featured':'Removed from featured','success'); loadArticles(artPage); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Hard record purge operations completed.','success'); loadArticles(artPage); loadDashboard(); }
+  else toast('Error mapping: '+d.error,'error');
 }
 
-// ══════════════════════════════════════════════
-// ARTICLE EDITOR (admin/superadmin)
-// ══════════════════════════════════════════════
+/* DIRECT ENTRYPOINT ENGINE LOGIC BUILDERS */
 function resetEditor() {
   document.getElementById('ed-id').value='';
-  document.getElementById('ed-heading').textContent='New Article';
+  document.getElementById('ed-heading').textContent='Inject Direct Live Element';
   ['ed-title','ed-subtitle','ed-slug','ed-readtime','ed-author','ed-avatar','ed-cover','ed-content','ed-meta-title','ed-meta-desc'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.value='';
   });
   document.getElementById('ed-category').value='';
   document.getElementById('ed-status').value='draft';
-  const ef=document.getElementById('ed-featured'); if(ef) ef.checked=false;
+  document.getElementById('ed-featured').checked=false;
   artTags=[]; renderTags();
   document.getElementById('cover-preview').style.display='none';
   switchPreview('edit');
@@ -1115,37 +1072,37 @@ function autoSlug(title) {
   if(document.getElementById('ed-id').value) return;
   document.getElementById('ed-slug').value=title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80);
 }
-function setCat(c){ document.getElementById('ed-category').value=c; }
 function updateCoverPreview(url) {
   const prev=document.getElementById('cover-preview'), img=document.getElementById('cover-img');
   if(url?.trim()){ img.src=url.trim(); prev.style.display='block'; } else prev.style.display='none';
 }
 function renderTags() {
   const wrap=document.getElementById('tags-wrap');
+  if (!wrap) return;
   wrap.innerHTML=artTags.map((t,i)=>`<span class="tag-chip">${x(t)}<button type="button" onclick="removeTag(${i})">×</button></span>`).join('');
   const inp=document.createElement('input');
-  inp.type='text'; inp.className='tag-text-input'; inp.id='tag-input'; inp.placeholder='Add tag…';
+  inp.type='text'; inp.className='tag-text-input'; inp.id='tag-input'; inp.placeholder='Flag segment…';
   inp.addEventListener('keydown',e=>{
     if((e.key==='Enter'||e.key===',')&&e.target.value.trim()){ e.preventDefault(); addTag(e.target.value.trim()); e.target.value=''; }
     if(e.key==='Backspace'&&!e.target.value&&artTags.length){ artTags.pop(); renderTags(); document.getElementById('tag-input')?.focus(); }
   });
   wrap.appendChild(inp);
 }
-function addTag(v){ if(!v||artTags.length>=8||artTags.includes(v)) return; artTags.push(v); renderTags(); }
+function addTag(v){ if(!v||artTags.length>=8||artTags.includes(v)) return; artTags.push(v); renderTags(); document.getElementById('tag-input')?.focus(); }
 function removeTag(i){ artTags.splice(i,1); renderTags(); }
 function switchPreview(mode) {
   const ta=document.getElementById('ed-content'), pv=document.getElementById('html-preview');
   document.getElementById('ptog-edit').classList.toggle('active',mode==='edit');
   document.getElementById('ptog-prev').classList.toggle('active',mode==='prev');
-  if(mode==='prev'){ pv.innerHTML=ta.value||'<p style="color:var(--text3)">Nothing to preview.</p>'; ta.style.display='none'; pv.style.display='block'; }
+  if(mode==='prev'){ pv.innerHTML=ta.value||'<p style="color:var(--text3)">Matrix execution output string clear.</p>'; ta.style.display='none'; pv.style.display='block'; }
   else { ta.style.display=''; pv.style.display='none'; }
 }
 
 async function editArticle(slug) {
   nav('new-article',null);
-  document.getElementById('ed-heading').textContent='Loading…';
+  document.getElementById('ed-heading').textContent='Retrieving specific element structures…';
   const d=await api(`admin_article&slug=${slug}`);
-  if(!d.success||!d.article){ toast('Article not found','error'); return; }
+  if(!d.success||!d.article){ toast('Record verification pointer failure.','error'); return; }
   const a=d.article;
   document.getElementById('ed-id').value=a.id||'';
   document.getElementById('ed-title').value=a.title||'';
@@ -1160,22 +1117,22 @@ async function editArticle(slug) {
   document.getElementById('ed-meta-desc').value=a.meta_desc||'';
   document.getElementById('ed-category').value=a.category||'';
   document.getElementById('ed-status').value=a.status||'draft';
-  const ef=document.getElementById('ed-featured'); if(ef) ef.checked=!!a.is_featured;
+  document.getElementById('ed-featured').checked=!!a.is_featured;
   artTags=a.tags||[]; renderTags();
   if(a.cover_image) updateCoverPreview(a.cover_image);
-  document.getElementById('ed-heading').textContent='Edit Article';
-  document.getElementById('ed-sub').textContent=`Editing: ${a.slug}`;
+  document.getElementById('ed-heading').textContent='Modify Production Document Model';
+  document.getElementById('ed-sub').textContent=`Active working record slot identifier tracking context: ${a.slug}`;
 }
 
 async function saveArticle(statusVal) {
   const id=document.getElementById('ed-id').value;
   const title=document.getElementById('ed-title').value.trim();
   const category=document.getElementById('ed-category').value;
-  if(!title){ toast('Headline is required','error'); return; }
-  if(!category){ toast('Category is required','error'); return; }
+  if(!title){ toast('Title must occupy operational identifier boundaries.','error'); return; }
+  if(!category){ toast('Map a category target stream.','error'); return; }
   const btn=document.getElementById('pub-btn');
-  btn.disabled=true; btn.textContent='Saving…';
-  const efEl=document.getElementById('ed-featured');
+  btn.disabled=true; btn.textContent='Running serialization…';
+  
   const payload={
     title, subtitle:document.getElementById('ed-subtitle').value.trim()||null, category,
     content:document.getElementById('ed-content').value||null,
@@ -1183,7 +1140,7 @@ async function saveArticle(statusVal) {
     author:document.getElementById('ed-author').value.trim()||null,
     author_avatar:document.getElementById('ed-avatar').value.trim()||null,
     read_time:document.getElementById('ed-readtime').value.trim()||null,
-    tags:artTags, is_featured:efEl?efEl.checked:false,
+    tags:artTags, is_featured:document.getElementById('ed-featured').checked,
     status:statusVal||document.getElementById('ed-status').value,
     meta_title:document.getElementById('ed-meta-title').value.trim()||null,
     meta_desc:document.getElementById('ed-meta-desc').value.trim()||null,
@@ -1192,63 +1149,58 @@ async function saveArticle(statusVal) {
     let d;
     if(id){ d=await api(`update_article&id=${id}`,'PUT',payload); }
     else { payload.slug=document.getElementById('ed-slug').value.trim()||null; d=await api('create_article','POST',payload); }
-    if(!d.success) throw new Error(d.error||'Save failed');
-    toast(id?'Article updated!':'Article saved!','success');
+    if(!d.success) throw new Error(d.error||'Operational transaction log failure handling execution steps.');
+    toast(id?'Document state modification written live.':'New entity committed cleanly to table array maps.','success');
     if(!id&&d.article?.id) document.getElementById('ed-id').value=d.article.id;
-    document.getElementById('ed-heading').textContent='Edit Article';
-    document.getElementById('ed-sub').textContent=`Editing: ${d.article?.slug||''}`;
+    document.getElementById('ed-heading').textContent='Modify Production Document Model';
+    document.getElementById('ed-sub').textContent=`Active working record slot identifier tracking context: ${d.article?.slug||''}`;
   } catch(e){ toast('Error: '+e.message,'error'); }
-  finally { btn.disabled=false; btn.textContent='Publish →'; }
+  finally { btn.disabled=false; btn.textContent='Deploy Live Now →'; }
 }
 
-// ══════════════════════════════════════════════
-// COMMENTS
-// ══════════════════════════════════════════════
+/* COMMENTS QUEUE INTERCEPT MODERATION SYSTEM */
 async function loadComments(page=1) {
   cmtPage=page;
   const slug=document.getElementById('cmt-search')?.value.trim()||'';
   const list=document.getElementById('cmt-list');
-  list.innerHTML='<div class="empty-state">Loading…</div>';
+  list.innerHTML='<div class="empty-state">Running intercept query checks…</div>';
   const extra=`&filter=${cmtFilter}&page=${page}&limit=20${slug?'&slug='+encodeURIComponent(slug):''}`;
   const d=await api('admin_comments','GET',null,extra);
-  if(!d.success){ list.innerHTML='<div class="empty-state">Error.</div>'; return; }
-  if(!d.comments?.length){ list.innerHTML='<div class="empty-state">No comments found.</div>'; document.getElementById('cmt-pagination').style.display='none'; return; }
+  if(!d.success){ list.innerHTML='<div class="empty-state">Data evaluation block fault.</div>'; return; }
+  if(!d.comments?.length){ list.innerHTML='<div class="empty-state">Verification stack empty. Clean operational environment.</div>'; document.getElementById('cmt-pagination').style.display='none'; return; }
 
-  const isSA=ADMIN?.role==='superadmin';
   list.innerHTML=d.comments.map(c=>`
     <div class="comment-row">
       <div class="comment-meta">
         <span class="comment-author">${x(c.author_name)}</span>
         <span class="comment-slug">${x(c.article_slug)}</span>
-        ${c.is_spam?'<span class="badge badge-spam">spam</span>':c.is_approved?'<span class="badge badge-approved">approved</span>':'<span class="badge badge-pending">pending</span>'}
+        ${c.is_spam?'<span class="badge badge-spam">spam block</span>':c.is_approved?'<span class="badge badge-approved">approved pass</span>':'<span class="badge badge-pending">intercept check</span>'}
         <span class="comment-date">${fmtDate(c.created_at)}</span>
       </div>
       <div class="comment-body">${x(c.content)}</div>
       <div class="comment-actions">
-        ${!c.is_approved&&!c.is_spam?`<button class="btn btn-xs btn-green" onclick="modComment(${c.id},true,false)">✓ Approve</button>`:''}
-        ${!c.is_spam?`<button class="btn btn-xs btn-yellow" onclick="modComment(${c.id},false,true)">⚠ Spam</button>`:`<button class="btn btn-xs btn-green" onclick="modComment(${c.id},true,false)">✓ Restore</button>`}
-        ${isSA?`<button class="btn btn-xs btn-danger" onclick="delComment(${c.id})">✕ Delete</button>`:''}
+        ${!c.is_approved&&!c.is_spam?`<button class="btn btn-xs btn-green" onclick="modComment(${c.id},true,false)">✓ Clear Approval</button>`:''}
+        ${!c.is_spam?`<button class="btn btn-xs btn-yellow" onclick="modComment(${c.id},false,true)">⚠ Flag Spam Block</button>`:`<button class="btn btn-xs btn-green" onclick="modComment(${c.id},true,false)">✓ Restore Context</button>`}
+        ${ADMIN?.role==='superadmin'?`<button class="btn btn-xs btn-danger" onclick="delComment(${c.id})">✕ Evict</button>`:''}
       </div>
     </div>`).join('');
   buildPagination('cmt-pagination',page,Math.ceil((d.total||0)/20),p=>loadComments(p),d.total||0);
 }
 function setCommentFilter(f,btn){ cmtFilter=f; document.querySelectorAll('.cmt-filter').forEach(b=>b.classList.remove('active-filter','btn-blue')); btn.classList.add('active-filter','btn-blue'); loadComments(1); }
 function debounceCommentSearch(){ clearTimeout(cmtSearchTimer); cmtSearchTimer=setTimeout(()=>loadComments(1),400); }
-async function modComment(id,is_approved,is_spam){ const d=await api(`moderate_comment&id=${id}`,'PUT',{is_approved,is_spam}); if(d.success){ toast('Comment updated','success'); loadComments(cmtPage); } else toast('Error: '+d.error,'error'); }
-async function delComment(id){ if(!confirm('Delete this comment permanently?')) return; const d=await api(`delete_comment&id=${id}`,'DELETE'); if(d.success){ toast('Deleted','success'); loadComments(cmtPage); } else toast('Error: '+d.error,'error'); }
+async function modComment(id,is_approved,is_spam){ const d=await api(`moderate_comment&id=${id}`,'PUT',{is_approved,is_spam}); if(d.success){ toast('Data verification properties mutated successfully.','success'); loadComments(cmtPage); } else toast('Error intercept queue: '+d.error,'error'); }
+async function delComment(id){ if(!confirm('Drop this thread payload context from cluster layers permanently?')) return; const d=await api(`delete_comment&id=${id}`,'DELETE'); if(d.success){ toast('Entity context evicted.','success'); loadComments(cmtPage); } else toast('Error operational process: '+d.error,'error'); }
 
-// ══════════════════════════════════════════════
-// APPLICATIONS
-// ══════════════════════════════════════════════
+/* APPLICANTS CREDENTIAL CONTROL FLOWS */
 async function loadApplications(page=1) {
   appPage=page;
   const wrap=document.getElementById('app-tbl-wrap');
-  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="8">Loading…</td></tr></tbody></table>';
+  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="8">Querying active applicant record nodes…</td></tr></tbody></table>';
   const extra=`&page=${page}&limit=20${appFilter?'&status='+appFilter:''}`;
   const d=await api('applications','GET',null,extra);
-  if(!d.success){ wrap.innerHTML='<div class="empty-state">Error loading.</div>'; return; }
-  if(!d.applications?.length){ wrap.innerHTML='<div class="empty-state">No applications.</div>'; document.getElementById('app-pagination').style.display='none'; return; }
-  wrap.innerHTML=`<table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>City</th><th>Experience</th><th>Status</th><th>Applied</th><th>Actions</th></tr></thead>
+  if(!d.success){ wrap.innerHTML='<div class="empty-state">Processing failure encountering node arrays.</div>'; return; }
+  if(!d.applications?.length){ wrap.innerHTML='<div class="empty-state">No matching registered applicant entity data found.</div>'; document.getElementById('app-pagination').style.display='none'; return; }
+  wrap.innerHTML=`<table><thead><tr><th>ID Reference</th><th>Full Identity</th><th>Endpoint Email</th><th>Location Node</th><th>Experience Logs</th><th>State Status</th><th>Registry Stamp</th><th>Operational Controls</th></tr></thead>
   <tbody>${d.applications.map(a=>`<tr>
     <td class="td-mono">${a.id}</td>
     <td style="font-weight:600;">${x(a.full_name)}</td>
@@ -1258,110 +1210,104 @@ async function loadApplications(page=1) {
     <td><span class="badge badge-${a.status}">${a.status}</span></td>
     <td class="td-muted">${fmtDate(a.created_at)}</td>
     <td class="td-actions">
-      <button class="btn btn-xs btn-secondary" onclick="viewApp(${a.id})">View</button>
-      ${a.status!=='accepted'?`<button class="btn btn-xs btn-green" onclick="updateApp(${a.id},'approved')">Accept</button>`:''}
-      ${a.status!=='rejected'?`<button class="btn btn-xs btn-danger" onclick="updateApp(${a.id},'rejected')">Reject</button>`:''}
+      <button class="btn btn-xs btn-secondary" onclick="viewApp(${a.id})">Inspect Payload</button>
+      ${a.status!=='accepted'?`<button class="btn btn-xs btn-green" onclick="updateApp(${a.id},'approved')">Accept Sign</button>`:''}
+      ${a.status!=='rejected'?`<button class="btn btn-xs btn-danger" onclick="updateApp(${a.id},'rejected')">Deny Allocation</button>`:''}
     </td></tr>`).join('')}</tbody></table>`;
   buildPagination('app-pagination',page,Math.ceil((d.total||0)/20),p=>loadApplications(p),d.total||0);
 }
 function setAppFilter(f,btn){ appFilter=f; document.querySelectorAll('.app-filter').forEach(b=>b.classList.remove('active-filter','btn-blue')); btn.classList.add('active-filter','btn-blue'); loadApplications(1); }
 async function viewApp(id) {
   const area=document.getElementById('app-detail-area');
-  area.innerHTML='<div class="empty-state">Loading…</div>';
+  area.innerHTML='<div class="empty-state">Parsing document structures…</div>';
   const d=await api(`applications&page=1&limit=200`);
   const app=d.applications?.find(a=>a.id===id);
   if(!app){ area.innerHTML=''; return; }
   area.innerHTML=`<div class="app-detail">
-    <div class="app-detail-header"><div><h3>${x(app.full_name)}</h3><div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">${x(app.email)}</div></div>
-    <div style="display:flex;align-items:center;gap:8px;"><span class="badge badge-${app.status}">${app.status}</span><button class="btn btn-xs btn-secondary" onclick="document.getElementById('app-detail-area').innerHTML=''">✕ Close</button></div></div>
-    <div class="detail-grid">${[['Phone',app.phone||'—'],['City',app.city||'—'],['Qualification',app.qualification||'—'],['Experience',app.writing_exp||'—'],['Expertise',(app.expertise||[]).join(', ')||'—'],['Applied',fmtDate(app.created_at)]].map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${x(v)}</div></div>`).join('')}
-    ${app.sample_link?`<div class="detail-row"><div class="detail-key">Portfolio</div><div class="detail-val"><a href="${x(app.sample_link)}" target="_blank">${x(app.sample_link)}</a></div></div>`:''}
-    ${app.why_join?`<div class="detail-row full"><div class="detail-key">Why Join</div><div class="detail-val">${x(app.why_join)}</div></div>`:''}
+    <div class="app-detail-header"><div><h3>${x(app.full_name)}</h3><div style="font-size:0.78rem;color:var(--text3);margin-top:3px;">Identity Anchor: ${x(app.email)}</div></div>
+    <div style="display:flex;align-items:center;gap:8px;"><span class="badge badge-${app.status}">${app.status}</span><button class="btn btn-xs btn-secondary" onclick="document.getElementById('app-detail-area').innerHTML=''">✕ Close Inspector</button></div></div>
+    <div class="detail-grid">${[['Contact Line',app.phone||'—'],['Node City',app.city||'—'],['Qualification String',app.qualification||'—'],['Experience Track',app.writing_exp||'—'],['Expertise Arrays',(app.expertise||[]).join(', ')||'—'],['Registry Chronology',fmtDate(app.created_at)]].map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${x(v)}</div></div>`).join('')}
+    ${app.sample_link?`<div class="detail-row"><div class="detail-key">Portfolio Asset</div><div class="detail-val"><a href="${x(app.sample_link)}" target="_blank">${x(app.sample_link)}</a></div></div>`:''}
+    ${app.why_join?`<div class="detail-row full"><div class="detail-key">Target Intent Logic Summary</div><div class="detail-val">${x(app.why_join)}</div></div>`:''}
     </div>
     <div style="margin-top:16px;display:flex;gap:8px;">
-      ${app.status!=='accepted'?`<button class="btn btn-sm btn-green" onclick="updateApp(${app.id},'approved')">✓ Accept</button>`:''}
-      ${app.status!=='rejected'?`<button class="btn btn-sm btn-danger" onclick="updateApp(${app.id},'rejected')">✕ Reject</button>`:''}
+      ${app.status!=='accepted'?`<button class="btn btn-sm btn-green" onclick="updateApp(${app.id},'approved')">✓ Authorize System Entry</button>`:''}
+      ${app.status!=='rejected'?`<button class="btn btn-sm btn-danger" onclick="updateApp(${app.id},'rejected')">✕ Dismiss Profile Entry</button>`:''}
     </div></div>`;
 }
-async function updateApp(id,status){ const d=await api(`update_application&id=${id}`,'PUT',{status}); if(d.success){ toast(`Application ${status==='approved'?'accepted':'rejected'}`,'success'); document.getElementById('app-detail-area').innerHTML=''; loadApplications(appPage); } else toast('Error: '+d.error,'error'); }
+async function updateApp(id,status){ const d=await api(`update_application&id=${id}`,'PUT',{status}); if(d.success){ toast(`Applicant status trace tracking written as: ${status==='approved'?'accepted':'rejected'}`,'success'); document.getElementById('app-detail-area').innerHTML=''; loadApplications(appPage); } else toast('Error finalizing target applicant data modifications: '+d.error,'error'); }
 
-// ══════════════════════════════════════════════
-// ADMIN USERS (superadmin only)
-// ══════════════════════════════════════════════
+/* STAFF ACCOUNTS CRYPTOGRAPHIC IDENTITY RECORDS MANAGERS */
 async function loadAdminUsers() {
   const wrap=document.getElementById('usr-tbl-wrap');
-  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="7">Loading…</td></tr></tbody></table>';
+  wrap.innerHTML='<table><tbody><tr class="loading-row"><td colspan="7">Scanning encryption identity records data buckets…</td></tr></tbody></table>';
   const d=await api('admin_users');
-  if(!d.success){ wrap.innerHTML=`<div class="empty-state">${d.error==='Forbidden'?'Only superadmin can manage users.':'Error.'}</div>`; return; }
-  if(!d.users?.length){ wrap.innerHTML='<div class="empty-state">No users.</div>'; return; }
-  wrap.innerHTML=`<table><thead><tr><th>User</th><th>Username</th><th>Role</th><th>Status</th><th>Last Login</th><th>Created</th><th>Actions</th></tr></thead>
+  if(!d.success){ wrap.innerHTML=`<div class="empty-state">${d.error==='Forbidden'?'Security Cleared Node Exception: Superadmin authority parameters absent.':'Identity query read fault encountered.'}</div>`; return; }
+  if(!d.users?.length){ wrap.innerHTML='<div class="empty-state">Identity tracking map arrays are baseline empty.</div>'; return; }
+  wrap.innerHTML=`<table><thead><tr><th>Identity Target</th><th>Internal Pointer Name</th><th>Permission Ring</th><th>State Context</th><th>Last System Handshake</th><th>Provision Chronology</th><th>Action Nodes</th></tr></thead>
   <tbody>${d.users.map(u=>`<tr>
     <td><div style="display:flex;align-items:center;gap:8px;"><div class="user-avatar-sm">${(u.display_name||u.username||'?').charAt(0).toUpperCase()}</div><span style="font-weight:500;">${x(u.display_name)}</span></div></td>
     <td class="td-mono">${x(u.username)}</td>
     <td><span class="badge badge-${u.role}">${u.role}</span></td>
-    <td><span class="badge badge-${u.is_active?'active':'inactive'}">${u.is_active?'Active':'Inactive'}</span></td>
-    <td class="td-muted">${u.last_login?fmtDate(u.last_login):'Never'}</td>
+    <td><span class="badge badge-${u.is_active?'active':'inactive'}">${u.is_active?'Active Block':'Disabled Matrix'}</span></td>
+    <td class="td-muted">${u.last_login?fmtDate(u.last_login):'No handshake logs recorded'}</td>
     <td class="td-muted">${fmtDate(u.created_at)}</td>
     <td class="td-actions">
-      <button class="btn btn-xs btn-secondary" onclick="openEditUserModal(${u.id},'${x(u.username)}','${x(u.display_name)}','${u.role}',${u.is_active})">Edit</button>
-      <button class="btn btn-xs btn-danger" onclick="delUser(${u.id},'${x(u.username)}')">Delete</button>
+      <button class="btn btn-xs btn-secondary" onclick="openEditUserModal(${u.id},'${x(u.username)}','${x(u.display_name)}','${u.role}',${u.is_active})">Modify Node</button>
+      <button class="btn btn-xs btn-danger" onclick="delUser(${u.id},'${x(u.username)}')">Revoke Access</button>
     </td></tr>`).join('')}</tbody></table>`;
 }
 function openNewUserModal() {
-  showModal(`<div class="modal-header"><h3>Add Admin User</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  showModal(`<div class="modal-header"><h3>Provision New Staff Identity Node Context</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
-      <div class="fg"><label>Username <span class="req">*</span></label><input type="text" class="fi" id="mu-user" placeholder="lowercase, no spaces" /></div>
-      <div class="fg"><label>Display Name <span class="req">*</span></label><input type="text" class="fi" id="mu-name" placeholder="Full name" /></div>
-      <div class="fg"><label>Password <span class="req">*</span></label><input type="password" class="fi" id="mu-pass" placeholder="Min 8 chars" /></div>
-      <div class="fg"><label>Role</label><select class="fs" id="mu-role"><option value="editor">Editor</option><option value="admin">Admin</option><option value="superadmin">Super Admin</option></select></div>
+      <div class="fg"><label>System Account Pointer Name <span class="req">*</span></label><input type="text" class="fi" id="mu-user" placeholder="lowercase, strict syntax rules alphanumeric" /></div>
+      <div class="fg"><label>Display Signature Identity Name <span class="req">*</span></label><input type="text" class="fi" id="mu-name" /></div>
+      <div class="fg"><label>Passkey Authentication String <span class="req">*</span></label><input type="password" class="fi" id="mu-pass" placeholder="Minimum length metric requirement >= 8" /></div>
+      <div class="fg"><label>Authority Authorization Ring Level</label><select class="fs" id="mu-role"><option value="editor">Editor Context</option><option value="admin">Admin Operator</option><option value="superadmin">Superadmin Architect</option></select></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="createUser()">Create User</button></div>`);
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Abort Context</button><button class="btn btn-primary" onclick="createUser()">Commit Cryptographic Provision Step</button></div>`);
 }
 async function createUser() {
   const username=document.getElementById('mu-user')?.value.trim();
   const display_name=document.getElementById('mu-name')?.value.trim();
   const password=document.getElementById('mu-pass')?.value;
   const role=document.getElementById('mu-role')?.value;
-  if(!username||!display_name||!password){ toast('Fill all required fields','error'); return; }
-  if(password.length<8){ toast('Password must be at least 8 chars','error'); return; }
+  if(!username||!display_name||!password){ toast('All tracking required parameters must contain payload structures.','error'); return; }
+  if(password.length<8){ toast('Security complexity threshold mismatch. Minimum string width rule: 8.','error'); return; }
   const d=await api('create_admin_user','POST',{username,display_name,password,role});
-  if(d.success){ toast('User created','success'); closeModal(); loadAdminUsers(); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Staff identity model generated, salted, and committed live into directory schemas.','success'); closeModal(); loadAdminUsers(); }
+  else toast('Error mapping identity arrays: '+d.error,'error');
 }
 function openEditUserModal(id,username,display_name,role,is_active) {
-  showModal(`<div class="modal-header"><h3>Edit: ${x(username)}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  showModal(`<div class="modal-header"><h3>Mutate Identity Node: ${x(username)}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
-      <div class="fg"><label>Display Name</label><input type="text" class="fi" id="eu-name" value="${x(display_name)}" /></div>
-      <div class="fg"><label>Role</label><select class="fs" id="eu-role"><option value="editor" ${role==='editor'?'selected':''}>Editor</option><option value="admin" ${role==='admin'?'selected':''}>Admin</option><option value="superadmin" ${role==='superadmin'?'selected':''}>Super Admin</option></select></div>
-      <div class="fg"><label class="checkbox-row"><input type="checkbox" id="eu-active" ${is_active?'checked':''} /> Account Active</label></div>
-      <div class="fg"><label>New Password <span style="font-weight:400;color:var(--text3);">(leave blank to keep)</span></label><input type="password" class="fi" id="eu-pass" placeholder="New password…" /></div>
+      <div class="fg"><label>Display Signature Identity Name</label><input type="text" class="fi" id="eu-name" value="${x(display_name)}" /></div>
+      <div class="fg"><label>Authority Authorization Ring Level</label><select class="fs" id="eu-role"><option value="editor" ${role==='editor'?'selected':''}>Editor Context</option><option value="admin" ${role==='admin'?'selected':''}>Admin Operator</option><option value="superadmin" ${role==='superadmin'?'selected':''}>Superadmin Architect</option></select></div>
+      <div class="fg"><label class="checkbox-row"><input type="checkbox" id="eu-active" ${is_active?'checked':''} /> Authorize Active Account Routing Token Flags</label></div>
+      <div class="fg"><label>Rotate Passkey Authentication String <span style="font-weight:400;color:var(--text3);">(Leave unpopulated to maintain original structure)</span></label><input type="password" class="fi" id="eu-pass" /></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="updateUser(${id})">Save</button></div>`);
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal()">Drop Modifications</button><button class="btn btn-primary" onclick="updateUser(${id})">Write Structural Property Shifts</button></div>`);
 }
 async function updateUser(id) {
   const payload={display_name:document.getElementById('eu-name')?.value.trim(),role:document.getElementById('eu-role')?.value,is_active:document.getElementById('eu-active')?.checked};
   const pass=document.getElementById('eu-pass')?.value; if(pass) payload.password=pass;
   const d=await api(`update_admin_user&id=${id}`,'PUT',payload);
-  if(d.success){ toast('User updated','success'); closeModal(); loadAdminUsers(); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Identity trace properties successfully re-profiled inside active tables.','success'); closeModal(); loadAdminUsers(); }
+  else toast('Error re-profiling execution block: '+d.error,'error');
 }
 async function delUser(id,username) {
-  if(!confirm(`Delete user "${username}"?`)) return;
+  if(!confirm(`Execute irreversible hard execution access erasure on profile: "${username}"?`)) return;
   const d=await api(`delete_admin_user&id=${id}`,'DELETE');
-  if(d.success){ toast('Deleted','success'); loadAdminUsers(); }
-  else toast('Error: '+d.error,'error');
+  if(d.success){ toast('Access tracking profile signature context drop completed.','success'); loadAdminUsers(); }
+  else toast('Error running eviction tasks: '+d.error,'error');
 }
 
-// ══════════════════════════════════════════════
-// MODAL
-// ══════════════════════════════════════════════
+/* DIALOG STRUCTURAL WINDOW CONTROLS */
 function showModal(html){ document.getElementById('modal-area').innerHTML=`<div class="modal-backdrop" onclick="closeModalOutside(event)"><div class="modal">${html}</div></div>`; }
 function closeModal(){ document.getElementById('modal-area').innerHTML=''; }
 function closeModalOutside(e){ if(e.target===e.currentTarget) closeModal(); }
 
-// ══════════════════════════════════════════════
-// PAGINATION
-// ══════════════════════════════════════════════
+/* UI COMPONENT PAGINATION ENGINE RENDER MATRIX */
 function buildPagination(cid,current,total,onClick,totalItems) {
   const el=document.getElementById(cid); if(!el) return;
   if(total<=1){ el.style.display='none'; return; }
@@ -1373,13 +1319,11 @@ function buildPagination(cid,current,total,onClick,totalItems) {
     else if(Math.abs(i-current)===2) html+=`<span style="color:var(--text3);padding:0 3px;font-size:0.75rem;">…</span>`;
   }
   if(current<total) html+=`<button class="page-btn" onclick="(${onClick.toString()})(${current+1})">›</button>`;
-  html+=`<span class="page-info">${totalItems} total</span>`;
+  html+=`<span class="page-info">${totalItems} traces monitored</span>`;
   el.innerHTML=html;
 }
 
-// ══════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════
+/* FLOATING SCREEN MESSAGING PAYLOAD NOTIFIER */
 function toast(msg,type='info') {
   const icons={success:'✓',error:'✕',info:'ℹ'};
   const el=document.createElement('div');
@@ -1390,13 +1334,21 @@ function toast(msg,type='info') {
   setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),300); },3500);
 }
 
-// ══════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════
+/* SYSTEM UTILITIES SANITIZATION WRAPPERS */
 function x(s){ if(s==null) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function setText(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
 function setNB(id,v){ const el=document.getElementById(id); if(el){ el.textContent=v; el.style.display=v>0?'inline':'none'; } }
 function fmtDate(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }catch{ return d; } }
+
+// Check persistent token initialization states on runtime boot sequences
+(function(){
+  const tok=localStorage.getItem('dv_tok');
+  const adm=localStorage.getItem('dv_admin');
+  if(tok&&adm){ try{ TOKEN=tok; ADMIN=JSON.parse(adm); routeByRole(ADMIN); }catch{} }
+})();
+
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('l-pass').focus();});
 
 renderTags(); edsRenderTags();
 </script>
