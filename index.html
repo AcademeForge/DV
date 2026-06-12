@@ -10,7 +10,7 @@
   <meta property="og:type" content="website" />
   <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="icon" type="image/jpeg" href="/IMG/zenopulsky.png">
+  <link rel="icon" type="image/jpeg" href="/IMG/zenopulsky..jpeg">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
@@ -68,6 +68,12 @@
       --trending-card:  rgba(255,255,255,0.07);
       --trending-card-hover: rgba(255,255,255,0.12);
       --trending-num-color: rgba(255,255,255,0.12);
+
+      /* FIX 2 & 3 — light mode ticker & topbar */
+      --topbar-bg:      #0d1117;
+      --topbar-text:    rgba(255,255,255,0.6);
+      --ticker-bg:      #0d1117;
+      --ticker-text:    rgba(255,255,255,0.45);
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -109,6 +115,14 @@
       --trending-card:  rgba(255,255,255,0.05);
       --trending-card-hover: rgba(255,255,255,0.09);
       --trending-num-color: rgba(255,255,255,0.10);
+
+      /* FIX 2 — dark mode: ticker bg = white, text = dark */
+      --ticker-bg:      #ffffff;
+      --ticker-text:    #0d1117;
+
+      /* FIX 3 — dark mode topbar: bg = white, text = dark */
+      --topbar-bg:      #ffffff;
+      --topbar-text:    #0d1117;
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -122,8 +136,14 @@
       color: var(--ink);
       line-height: 1.62;
       overflow-x: hidden;
+      /* FIX 4 — hide browser scrollbar */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       transition: background 0.35s, color 0.35s;
     }
+    /* FIX 4 — hide webkit scrollbar */
+    body::-webkit-scrollbar { display: none; }
+
     img { display: block; max-width: 100%; }
     a   { color: inherit; text-decoration: none; }
     button { cursor: pointer; border: none; background: none; font: inherit; outline: none; }
@@ -136,15 +156,16 @@
       pointer-events: none; border-radius: 0 2px 2px 0;
     }
 
-    /* ── TOP BAR ── */
+    /* ── TOP BAR — FIX 3 ── */
     .topbar {
-      background: var(--dark-section);
-      color: var(--on-dark-muted);
+      background: var(--topbar-bg);
+      color: var(--topbar-text);
       font-family: var(--mono);
       font-size: 0.7rem;
       text-align: center;
       padding: 8px 24px;
       letter-spacing: 0.06em;
+      transition: background 0.35s, color 0.35s;
     }
     .topbar strong { color: var(--accent); }
 
@@ -313,18 +334,23 @@
     .search-result-cat { font-family: var(--mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
     .search-result-title { font-size: 0.9rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
 
-    /* ── TICKER ── */
+    /* ── TICKER — FIX 2 ── */
     .ticker-wrap {
-      background: var(--dark-section); overflow: hidden;
-      padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+      background: var(--ticker-bg);
+      overflow: hidden;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: background 0.35s;
     }
     .ticker-track { display: flex; animation: ticker-scroll 32s linear infinite; white-space: nowrap; }
     .ticker-track:hover { animation-play-state: paused; }
     .ticker-item {
       font-family: var(--mono); font-size: 0.68rem;
       text-transform: uppercase; letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.4); padding: 0 28px;
+      color: var(--ticker-text);
+      padding: 0 28px;
       display: flex; align-items: center; gap: 7px;
+      transition: color 0.35s;
     }
     .ticker-item span { color: var(--accent); }
     @keyframes ticker-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -585,13 +611,24 @@
       line-height: 1.85; max-width: 560px; margin: 0 auto 30px; font-weight: 300;
     }
 
-    /* ── FOUNDERS ── */
-    .founders-section { max-width: 1340px; margin: 0 auto; padding: 72px 16px; border-top: 1px solid var(--border-soft); }
+    /* ── FOUNDERS — FIX 1: full width ── */
+    .founders-section {
+      max-width: 100%;
+      margin: 0;
+      padding: 72px 0;
+      border-top: 1px solid var(--border-soft);
+      background: var(--paper);
+    }
+    .founders-section-inner {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
     .founder-card {
       background: var(--surface); border: 1px solid var(--border-soft);
-      border-radius: var(--r-lg); padding: 28px;
+      border-radius: var(--r-lg); padding: 40px 48px;
       cursor: pointer; box-shadow: var(--shadow-xs); transition: all var(--t);
-      max-width: 700px;
+      width: 100%;
     }
     .founder-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
     .founder-role  { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 7px; font-weight: 700; }
@@ -1024,6 +1061,7 @@
       .grid-loading { grid-template-columns: 1fr 1fr; }
       .search-input-inline { display: none; }
       .visit-badge { display: none; }
+      .founder-card { padding: 28px 24px; }
     }
 
     /* ═══════════════════════════════════════════════════════
@@ -1067,8 +1105,9 @@
       .related-grid { grid-template-columns: 1fr; }
 
       .manifesto { padding: 52px 16px; }
-      .founders-section { padding: 52px 16px; }
+      .founders-section { padding: 52px 0; }
       .editor-cta-section { padding: 52px 16px; }
+      .founder-card { padding: 22px 16px; border-radius: var(--r-lg); }
 
       .editor-perks { gap: 20px; }
       .editor-perk { min-width: 80px; }
@@ -1084,6 +1123,7 @@
 
 <div id="progress-bar"></div>
 
+<!-- FIX 3: topbar now uses CSS vars for light/dark -->
 <div class="topbar">
   <strong>EDITOR'S NOTE:</strong> Giving voice to overlooked stories, critical ideas, and real-world issues.
 </div>
@@ -1145,6 +1185,7 @@
   </div>
 </div>
 
+<!-- FIX 2: ticker uses CSS vars -->
 <div class="ticker-wrap" aria-hidden="true">
   <div class="ticker-track" id="ticker-track"></div>
 </div>
@@ -1229,16 +1270,19 @@
   </div>
 </section>
 
+<!-- FIX 1: Founder section now full width with inner container -->
 <span id="founders"></span>
 <section class="founders-section">
-  <div class="section-hd" style="padding:0 0 24px;">
-    <h2 class="section-title">The <em>Mind</em> Behind Zenopulsky</h2>
-  </div>
-  <div class="founder-card" id="founder-devraj">
-    <div class="founder-role">Founder &amp; CEO</div>
-    <div class="founder-name">Devraj Kumar</div>
-    <div class="founder-brief">Devraj Kumar founded Zenopulsky in 2026 with a vision to build a platform for honest, independent journalism. As both the founding voice and platform architect, he designed the entire editorial and technical infrastructure from the ground up — combining strategic thinking with a deep commitment to stories that matter.</div>
-    <div class="founder-cta">Read full story</div>
+  <div class="founders-section-inner">
+    <div class="section-hd" style="padding:0 0 24px; max-width:100%; margin:0;">
+      <h2 class="section-title">The <em>Mind</em> Behind Zenopulsky</h2>
+    </div>
+    <div class="founder-card" id="founder-devraj">
+      <div class="founder-role">Founder &amp; CEO</div>
+      <div class="founder-name">Devraj Kumar</div>
+      <div class="founder-brief">Devraj Kumar founded Zenopulsky in 2026 with a vision to build a platform for honest, independent journalism. As both the founding voice and platform architect, he designed the entire editorial and technical infrastructure from the ground up — combining strategic thinking with a deep commitment to stories that matter.</div>
+      <div class="founder-cta">Read full story</div>
+    </div>
   </div>
 </section>
 
